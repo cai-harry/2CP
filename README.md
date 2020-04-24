@@ -3,7 +3,7 @@
 My MSc Individual Project for Summer 2020.
 
 ## White paper
-[Blockchains for shared ownershipand governance of FederatedLearning models](https://www.overleaf.com/project/5e7f295512360300014df284)
+[Blockchains for shared ownership and governance of Federated Learning models](https://www.overleaf.com/read/bjznxpcbxvfs)
 
 ## Dev Setup
 
