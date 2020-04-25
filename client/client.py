@@ -11,12 +11,13 @@ import mock_contract
 class Model(nn.Module):
     def __init__(self):
         super(Model, self).__init__()
-        self.fc1 = nn.Linear(2, 4)
-        self.fc2 = nn.Linear(4, 1)
+        self.fc1 = nn.Linear(2, 6)
+        self.fc2 = nn.Linear(6, 1)
 
     def forward(self, x):
         x = torch.relu(self.fc1(x))
         x = torch.sigmoid(self.fc2(x))
+        x = x.squeeze()
         return x
 
 class IPFSClient:
@@ -41,11 +42,12 @@ class IPFSClient:
         return model_hash
 
 class Client:
-    def __init__(self, data, contract):
+    def __init__(self, data, batch_size, contract):
         self._data = data
-        self._data_idx = 0
-        self._ipfs_client = IPFSClient()
+        self._batch_size = batch_size
         self._contract = contract
+        self._ipfs_client = IPFSClient()
+        self._data_loader = self._init_dataloader()
         
     def run_train(self):
         model = self._get_latest_model()
@@ -62,7 +64,7 @@ class Client:
         data, label = self._get_next_data_and_label()
         optimizer = optim.SGD(model.parameters(), lr=1e-3)
         optimizer.zero_grad()
-        pred = model(data).flatten()
+        pred = model(data)
         loss = F.mse_loss(pred, label)
         loss.backward()
         optimizer.step()
@@ -75,12 +77,23 @@ class Client:
     def _record_contribution(self, uploaded_hash):
         self._contract.recordContribution(uploaded_hash)
 
+    def _init_dataloader(self):
+        return iter(torch.utils.data.DataLoader(
+            self._data,
+            batch_size=self._batch_size,
+            shuffle=True
+        ))
+
     def _get_next_data_and_label(self):
-        data, label = self._data[self._data_idx]
-        data = torch.tensor(data).float()
-        label = torch.tensor(label).float()
-        self._data_idx = (self._data_idx + 1) % len(self._data)
-        return data, label
+        try:
+            data, labels = next(self._data_loader)
+        except StopIteration:
+            # Client has no more data, so reset iterator
+            self._data_loader = self._init_dataloader()
+            data, labels = next(self._data_loader)
+        data = data.float()
+        labels = labels.float()
+        return data, labels
             
         
 class Org:
