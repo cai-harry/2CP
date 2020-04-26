@@ -12,6 +12,19 @@ class XOR:
         self._data = np.random.uniform(-1, 1, size=(num_pts, 2))
         self._labels = (self._data[:, 0] * self._data[:, 1] < 0).astype(int)
 
+    def as_dataset(self):
+        return list(zip(self._data, self._labels))
+
+    def split(self):
+        mid = len(self._data) // 2
+        data_0 = self._data[:mid]
+        labels_0 = self._labels[:mid]
+        dataset_0 = list(zip(data_0, labels_0))
+        data_1 = self._data[mid:]
+        labels_1 = self._labels[mid:]
+        dataset_1 = list(zip(data_1, labels_1))
+        return dataset_0, dataset_1
+
     def split_by_label(self):
         data_0 = self._data[self._labels==0]
         labels_0 = self._labels[self._labels==0]
