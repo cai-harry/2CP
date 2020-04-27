@@ -1,5 +1,6 @@
 import os
 
+import base58
 import ipfshttpclient
 import matplotlib.pyplot as plt
 import torch
@@ -45,6 +46,40 @@ class IPFSClient:
         os.remove(model_filename)
         model_hash = res['Hash']
         return model_hash
+
+
+class ContractClient:
+    def __init__(self, contract):
+        self._contract = contract
+
+    def recordContribution(self, model_hash):
+        self._contract.recordContribution(
+            self._to_bytes32(model_hash)
+        ).transact()
+
+    def getContributions(self):
+        res = self._contract.getContributions.call()
+        return self._from_bytes32(res)
+
+    def getLatestHash(self):
+        res = self._contract.getLatestHash.call()
+        return self._from_bytes32(res)
+
+    def setLatestHash(self, model_hash):
+        """Sets new global model and resets list of updates"""
+        self.latestHash = model_hash
+        self.updates = []
+        print(model_hash)
+
+    def _to_bytes32(self, model_hash):
+        full_hex = hex(base58.b58decode_int(model_hash))
+        assert full_hex[:6] == "0x1220", "Model hash should begin with 0x1220"
+        return full_hex[:6]  # remove beginning "0x1220"
+
+    def _from_bytes32(self, bytes32):
+        full_hex = "0x1220"+bytes32
+        full_int = int(full_hex, 16)
+        return base58.b58encode_int(full_int)
 
 
 class Client:
