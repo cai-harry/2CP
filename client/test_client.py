@@ -4,18 +4,16 @@ import matplotlib.pyplot as plt
 
 from client import Model, Client, Org
 
-from mock_contract import MockContract
 from data import XOR
 
-mock_contract = MockContract()
-
+contract_address = input("Enter contract address:\n>")
 
 alice_data, bob_data = XOR(256).split()
 holdout_data = XOR(128).as_dataset()
 
-org = Org(holdout_data, mock_contract)
-alice = Client(alice_data, 4, mock_contract)
-bob = Client(bob_data, 4, mock_contract)
+org = Org(holdout_data, contract_address, 0)
+alice = Client(alice_data, 4, contract_address, 1)
+bob = Client(bob_data, 4, contract_address, 2)
 
 
 TRAINING_ITERATIONS = 256

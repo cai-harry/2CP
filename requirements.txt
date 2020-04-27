@@ -1,12 +1,10 @@
 # Packages needed in Python environment
 
-# torch
-# torchvision
-# pip install torch is not supported on windows
-# instead, use:
-# conda install torch torchvision
-
+base58
 jupyter
 jupyterlab
 ipfshttpclient
+matplotlib
+# torch: pip install torch is not supported on windows, use conda instead
+# torchvision
 web3

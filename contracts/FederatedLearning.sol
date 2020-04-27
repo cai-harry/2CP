@@ -3,7 +3,7 @@ pragma solidity >=0.4.21 <0.7.0;
 contract FederatedLearning {
 
     // IPFS hash of the latest global model as a bytes32.
-    // Stored in hex form without the beginning "0x1220"
+    // IPFS hashes are 34 bytes long but we discard the first two (0x1220), which indicate hash function and length.
     // https://ethereum.stackexchange.com/questions/17094/how-to-store-ipfs-hash-using-bytes
     bytes32 latestHash;
 

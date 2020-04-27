@@ -1,6 +1,8 @@
 class MockContract:
     """
     Replicates the API of the smart contract and its essential functionality.
+
+    May be useful for unit testing.
     """
 
     def __init__(self):

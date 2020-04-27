@@ -1,4 +1,5 @@
 import os
+import json
 
 import base58
 import ipfshttpclient
@@ -6,10 +7,7 @@ import matplotlib.pyplot as plt
 import torch
 from torch import nn, optim
 from torch.nn import functional as F
-import web3
-
-import mock_contract
-
+from web3 import Web3, HTTPProvider
 
 class Model(nn.Module):
     def __init__(self):
@@ -49,46 +47,62 @@ class IPFSClient:
 
 
 class ContractClient:
-    def __init__(self, contract):
-        self._contract = contract
 
-    def recordContribution(self, model_hash):
-        self._contract.recordContribution(
-            self._to_bytes32(model_hash)
-        ).transact()
+    PROVIDER_ADDRESS = "http://127.0.0.1:7545"
+    CONTRACT_JSON_PATH = "build/contracts/FederatedLearning.json"
+    IPFS_HASH_PREFIX = bytes.fromhex('1220')
+
+    def __init__(self, contract_address, account_idx):
+        self._web3 = Web3(HTTPProvider(self.PROVIDER_ADDRESS))
+        self._contract = self._instantiate_contract(contract_address)
+        self._web3.eth.defaultAccount = self._web3.eth.accounts[account_idx]
 
     def getContributions(self):
-        res = self._contract.getContributions.call()
-        return self._from_bytes32(res)
+        list_hash_bytes = self._contract.functions.getContributions().call()
+        return [self._from_bytes32(hash_bytes) for hash_bytes in list_hash_bytes]
 
     def getLatestHash(self):
-        res = self._contract.getLatestHash.call()
-        return self._from_bytes32(res)
+        hash_bytes = self._contract.functions.getLatestHash().call()
+        return self._from_bytes32(hash_bytes)
+
+    def recordContribution(self, model_hash):
+        bytes_to_store = self._to_bytes32(model_hash)
+        self._contract.functions.recordContribution(bytes_to_store).transact()
 
     def setLatestHash(self, model_hash):
         """Sets new global model and resets list of updates"""
-        self.latestHash = model_hash
-        self.updates = []
-        print(model_hash)
+        bytes_to_store = self._to_bytes32(model_hash)
+        self._contract.functions.setLatestHash(bytes_to_store).transact()
+
+    def _instantiate_contract(self, contract_address):
+        with open(self.CONTRACT_JSON_PATH) as crt_json:
+            abi = json.load(crt_json)['abi']
+        instance = self._web3.eth.contract(
+            abi=abi,
+            address=contract_address
+        )
+        return instance
 
     def _to_bytes32(self, model_hash):
-        full_hex = hex(base58.b58decode_int(model_hash))
-        assert full_hex[:6] == "0x1220", "Model hash should begin with 0x1220"
-        return full_hex[:6]  # remove beginning "0x1220"
+        bytes34 = base58.b58decode(model_hash)
+        assert bytes34[:2] == self.IPFS_HASH_PREFIX, \
+            f"IPFS hash should begin with {self.IPFS_HASH_PREFIX} but got {bytes34[:2].hex()}"
+        bytes32 = bytes34[2:]
+        return bytes32
 
     def _from_bytes32(self, bytes32):
-        full_hex = "0x1220"+bytes32
-        full_int = int(full_hex, 16)
-        return base58.b58encode_int(full_int)
+        bytes34 = self.IPFS_HASH_PREFIX + bytes32
+        model_hash = base58.b58encode(bytes34).decode()
+        return model_hash
 
 
 class Client:
-    def __init__(self, data, batch_size, contract):
+    def __init__(self, data, batch_size, contract_address, account_idx):
         self._data = data
         self._batch_size = batch_size
-        self._contract = contract
-        self._ipfs_client = IPFSClient()
         self._data_iterator = self._reset_data_iterator()
+        self._contract = ContractClient(contract_address, account_idx)
+        self._ipfs_client = IPFSClient()
 
     def run_train(self):
         model = self._get_latest_model()
@@ -138,9 +152,9 @@ class Client:
 
 
 class Org:
-    def __init__(self, data, contract):
+    def __init__(self, data, contract_address, account_idx):
         self._ipfs_client = IPFSClient()
-        self._contract = contract
+        self._contract = ContractClient(contract_address, account_idx)
         self._latest_model = None
         self._data = data
         self._data_loader = torch.utils.data.DataLoader(
@@ -175,7 +189,7 @@ class Org:
                 data, labels = data.float(), labels.float()
                 pred = self._latest_model(data)
                 plt.scatter(
-                    data[:, 0], data[:, 1], c=pred, 
+                    data[:, 0], data[:, 1], c=pred,
                     cmap='bwr')
                 plt.scatter(
                     data[:, 0], data[:, 1], c=torch.round(pred),
