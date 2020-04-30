@@ -20,12 +20,8 @@ Requirements
 - Truffle
 - Ganache
 
-### Truffle commands
-1. Compile contracts: `truffle build`
-2. Deploy contracts: `truffle migrate`
-
 ### Running `test_client.py`
-1. Compile and deploy contracts.
+1. Compile and deploy contracts: `truffle migrate --reset`
 2. Copy deployed contract address.
 3. From repo root: `python clients/test_client.py`
 4. Paste the deployed contract address when prompted.

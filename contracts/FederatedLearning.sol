@@ -14,6 +14,11 @@ contract FederatedLearning {
     // IPFS hashes of model updates in the current training round.
     mapping(address => bytes32) public currentUpdates;
 
+    modifier trainersOnly() {
+        require(isTrainer(msg.sender), "Not a registered trainer");
+        _;
+    }
+
     function getPreviousUpdates() external view returns (bytes32[] memory) {
         return previousUpdates;
     }
@@ -26,15 +31,25 @@ contract FederatedLearning {
         previousUpdates.push(_modelHash);
     }
 
-    function addTrainer() public {
+    function addTrainer() external {
         trainers.push(msg.sender);
     }
 
-    function addModelUpdate(bytes32 _modelHash) external {
+    function addModelUpdate(bytes32 _modelHash) external trainersOnly() {
         currentUpdates[msg.sender] = _modelHash;
         if (isTrainingRoundFinished()) {
             nextTrainingRound();
         }
+    }
+
+    function isTrainer(address a) internal view returns (bool) {
+        for (uint256 i = 0; i < trainers.length; i++) {
+            address trainer = trainers[i];
+            if (trainer == a) {
+                return true;
+            }
+        }
+        return false;
     }
 
     function isTrainingRoundFinished() internal view returns (bool) {
