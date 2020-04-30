@@ -20,11 +20,13 @@ contract FederatedLearning {
     }
 
     function setGenesis(bytes32 _modelHash) external {
-        require(previousUpdates.length == 0, "Training history is not empty");
+        delete contributionsPerRound;
+        delete currentUpdates;
+        delete previousUpdates;
         previousUpdates.push(_modelHash);
     }
 
-    function addClient() external {
+    function addClient() public {
         contributionsPerRound = contributionsPerRound + 1;
     }
 
@@ -36,6 +38,7 @@ contract FederatedLearning {
     }
 
     function nextTrainingRound() internal {
+        delete previousUpdates;
         previousUpdates = currentUpdates;
         delete currentUpdates;
     }

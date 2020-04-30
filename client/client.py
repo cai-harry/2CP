@@ -18,9 +18,8 @@ class Model(nn.Module):
 
     def forward(self, x):
         x = torch.relu(self.fc1(x))
-        x = torch.sigmoid(self.fc2(x))
-        x = x.squeeze()
-        return x
+        x = torch.relu(self.fc2(x))
+        return x.squeeze()
 
 
 class IPFSClient:
@@ -96,15 +95,14 @@ class ContractClient:
 
 
 class Client:
-    def __init__(self, data, batch_size, contract_address, account_idx):
+    def __init__(self, name, data, contract_address, account_idx):
+        self._name = name
         self._data = data
-        self._batch_size = batch_size
         self._data_loader = torch.utils.data.DataLoader(
             self._data,
-            batch_size=self._batch_size,
+            batch_size=len(self._data),
             shuffle=True
         )
-        self._data_iterator = self._reset_data_iterator()
         self._contract = ContractClient(contract_address, account_idx)
         self._ipfs_client = IPFSClient()
         self._registered_trainer = False
@@ -142,10 +140,10 @@ class Client:
             for data, labels in self._data_loader:
                 data, labels = data.float(), labels.float()
                 pred = model(data)
-            plt.scatter(
-                data[:, 0], data[:, 1], c=pred,
-                cmap='bwr')
-            plt.scatter(
+                plt.scatter(
+                    data[:, 0], data[:, 1], c=pred,
+                    cmap='bwr')
+                plt.scatter(
                 data[:, 0], data[:, 1], c=torch.round(pred),
                 cmap='bwr', marker='+')
         plt.show()
@@ -164,13 +162,14 @@ class Client:
         return avg_model
 
     def _train_model(self, model):
-        data, label = self._get_next_data_and_label()
         optimizer = optim.SGD(model.parameters(), lr=0.3)
-        optimizer.zero_grad()
-        pred = model(data)
-        loss = F.mse_loss(pred, label)
-        loss.backward()
-        optimizer.step()
+        for data, labels in self._data_loader:
+            data, labels = data.float(), labels.float()
+            optimizer.zero_grad()
+            pred = model(data)
+            loss = F.mse_loss(pred, labels)
+            loss.backward()
+            optimizer.step()
         return model
 
     def _upload_model(self, model):
@@ -181,20 +180,6 @@ class Client:
     def _record_model(self, uploaded_hash):
         """Records the given model IPFS hash on the smart contract."""
         self._contract.addModelUpdate(uploaded_hash)
-
-    def _reset_data_iterator(self):
-        return iter(self._data_loader)
-
-    def _get_next_data_and_label(self):
-        try:
-            data, labels = next(self._data_iterator)
-        except StopIteration:
-            # Client has no more data, so reset iterator
-            self._data_iterator = self._reset_data_iterator()
-            data, labels = next(self._data_iterator)
-        data = data.float()
-        labels = labels.float()
-        return data, labels
 
     def _get_model_hashes(self):
         return self._contract.getPreviousUpdates()

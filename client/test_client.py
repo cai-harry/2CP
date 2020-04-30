@@ -8,20 +8,20 @@ from data import XOR
 
 contract_address = input("Enter contract address:\n>")
 
-alice_data, bob_data = XOR(256).split()
-charlie_data = XOR(128).as_dataset()
+alice_data, bob_data = XOR(1000).split()
+charlie_data = XOR(100).as_dataset()
 
 # These clients will train
-alice = Client(alice_data, 4, contract_address, 0)
-bob = Client(bob_data, 4, contract_address, 1)
+alice = Client("Alice", alice_data, contract_address, 0)
+bob = Client("Bob", bob_data, contract_address, 1)
 
 # These clients will evaluate
-charlie = Client(charlie_data, 4, contract_address, 2)
+charlie = Client("Charlie", charlie_data, contract_address, 2)
 
-TRAINING_ITERATIONS = 256
-EVALUATE_EVERY = 8
+TRAINING_ITERATIONS = 64
+EVALUATE_EVERY = 4
 
-# alice.set_genesis_model()
+alice.set_genesis_model()
 losses = []
 losses.append(charlie.evaluate())
 for i in range(TRAINING_ITERATIONS):

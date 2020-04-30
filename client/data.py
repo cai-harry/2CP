@@ -10,7 +10,7 @@ class XOR:
     """
     def __init__(self, num_pts):
         self._data = np.random.uniform(-1, 1, size=(num_pts, 2))
-        self._labels = (self._data[:, 0] * self._data[:, 1] < 0).astype(int)
+        self._labels = (self._data[:, 0] * self._data[:, 1] < 0).astype(float)
 
     def as_dataset(self):
         return list(zip(self._data, self._labels))
