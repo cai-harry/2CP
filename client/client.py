@@ -65,8 +65,8 @@ class ContractClient:
         bytes_to_store = self._to_bytes32(model_hash)
         self._contract.functions.setGenesis(bytes_to_store).transact()
 
-    def addClient(self):
-        self._contract.functions.addClient().transact()
+    def addTrainer(self):
+        self._contract.functions.addTrainer().transact()
 
     def addModelUpdate(self, model_hash):
         bytes_to_store = self._to_bytes32(model_hash)
@@ -149,7 +149,7 @@ class Client:
         plt.show()
 
     def _register_as_trainer(self):
-        self._contract.addClient()
+        self._contract.addTrainer()
         self._registered_trainer = True
 
     def _get_global_model(self):
