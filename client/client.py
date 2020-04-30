@@ -9,6 +9,7 @@ from torch import nn, optim
 from torch.nn import functional as F
 from web3 import Web3, HTTPProvider
 
+
 class Model(nn.Module):
     def __init__(self):
         super(Model, self).__init__()
@@ -57,22 +58,20 @@ class ContractClient:
         self._contract = self._instantiate_contract(contract_address)
         self._web3.eth.defaultAccount = self._web3.eth.accounts[account_idx]
 
-    def getContributions(self):
-        list_hash_bytes = self._contract.functions.getContributions().call()
+    def getPreviousUpdates(self):
+        list_hash_bytes = self._contract.functions.getPreviousUpdates().call()
         return [self._from_bytes32(hash_bytes) for hash_bytes in list_hash_bytes]
 
-    def getLatestHash(self):
-        hash_bytes = self._contract.functions.getLatestHash().call()
-        return self._from_bytes32(hash_bytes)
-
-    def recordContribution(self, model_hash):
+    def setGenesis(self, model_hash):
         bytes_to_store = self._to_bytes32(model_hash)
-        self._contract.functions.recordContribution(bytes_to_store).transact()
+        self._contract.functions.setGenesis(bytes_to_store).transact()
 
-    def setLatestHash(self, model_hash):
-        """Sets new global model and resets list of updates"""
+    def addClient(self):
+        self._contract.functions.addClient().transact()
+
+    def addModelUpdate(self, model_hash):
         bytes_to_store = self._to_bytes32(model_hash)
-        self._contract.functions.setLatestHash(bytes_to_store).transact()
+        self._contract.functions.addModelUpdate(bytes_to_store).transact()
 
     def _instantiate_contract(self, contract_address):
         with open(self.CONTRACT_JSON_PATH) as crt_json:
@@ -100,20 +99,69 @@ class Client:
     def __init__(self, data, batch_size, contract_address, account_idx):
         self._data = data
         self._batch_size = batch_size
+        self._data_loader = torch.utils.data.DataLoader(
+            self._data,
+            batch_size=self._batch_size,
+            shuffle=True
+        )
         self._data_iterator = self._reset_data_iterator()
         self._contract = ContractClient(contract_address, account_idx)
         self._ipfs_client = IPFSClient()
+        self._registered_trainer = False
 
-    def run_train(self):
-        model = self._get_latest_model()
+    def set_genesis_model(self):
+        genesis_model = Model()
+        genesis_hash = self._ipfs_client.add_model(genesis_model)
+        self._contract.setGenesis(genesis_hash)
+
+    def run_training_round(self):
+        if not self._registered_trainer:
+            self._register_as_trainer()
+        model = self._get_global_model()
         model = self._train_model(model)
         uploaded_hash = self._upload_model(model)
-        self._record_contribution(uploaded_hash)
+        self._record_model(uploaded_hash)
 
-    def _get_latest_model(self):
-        latest_hash = self._contract.getLatestHash()
-        model = self._ipfs_client.get_model(latest_hash)
-        return model
+    def evaluate(self):
+        model = self._get_global_model()
+        with torch.no_grad():
+            total_loss = 0
+            total_correct = 0
+            for data, labels in self._data_loader:
+                data, labels = data.float(), labels.float()
+                pred = model(data)
+                total_loss += F.mse_loss(pred, labels)
+                total_correct += (torch.round(pred) == labels).float().sum()
+        avg_loss = total_loss / len(self._data)
+        accuracy = total_correct / len(self._data)
+        return avg_loss.item(), accuracy
+
+    def predict_and_plot(self):
+        model = self._get_global_model()
+        with torch.no_grad():
+            for data, labels in self._data_loader:
+                data, labels = data.float(), labels.float()
+                pred = model(data)
+            plt.scatter(
+                data[:, 0], data[:, 1], c=pred,
+                cmap='bwr')
+            plt.scatter(
+                data[:, 0], data[:, 1], c=torch.round(pred),
+                cmap='bwr', marker='+')
+        plt.show()
+
+    def _register_as_trainer(self):
+        self._contract.addClient()
+        self._registered_trainer = True
+
+    def _get_global_model(self):
+        """
+        Calculate current global model by aggregating all updates from previous round.
+        """
+        model_hashes = self._get_model_hashes()
+        models = self._get_models(model_hashes)
+        avg_model = self._avg_model(models)
+        return avg_model
 
     def _train_model(self, model):
         data, label = self._get_next_data_and_label()
@@ -126,18 +174,16 @@ class Client:
         return model
 
     def _upload_model(self, model):
+        """Uploads the given model to IPFS."""
         uploaded_hash = self._ipfs_client.add_model(model)
         return uploaded_hash
 
-    def _record_contribution(self, uploaded_hash):
-        self._contract.recordContribution(uploaded_hash)
+    def _record_model(self, uploaded_hash):
+        """Records the given model IPFS hash on the smart contract."""
+        self._contract.addModelUpdate(uploaded_hash)
 
     def _reset_data_iterator(self):
-        return iter(torch.utils.data.DataLoader(
-            self._data,
-            batch_size=self._batch_size,
-            shuffle=True
-        ))
+        return iter(self._data_loader)
 
     def _get_next_data_and_label(self):
         try:
@@ -150,60 +196,8 @@ class Client:
         labels = labels.float()
         return data, labels
 
-
-class Org:
-    def __init__(self, data, contract_address, account_idx):
-        self._ipfs_client = IPFSClient()
-        self._contract = ContractClient(contract_address, account_idx)
-        self._latest_model = None
-        self._data = data
-        self._data_loader = torch.utils.data.DataLoader(
-            self._data,
-            batch_size=len(self._data)
-        )
-        self._set_genesis_model()
-
-    def run_aggregation(self):
-        model_hashes = self._get_model_hashes()
-        models = self._get_models(model_hashes)
-        avg_model = self._avg_model(models)
-        self._set_latest_model(avg_model)
-        self._latest_model = avg_model
-
-    def evaluate(self):
-        with torch.no_grad():
-            total_loss = 0
-            total_correct = 0
-            for data, labels in self._data_loader:
-                data, labels = data.float(), labels.float()
-                pred = self._latest_model(data)
-                total_loss += F.mse_loss(pred, labels)
-                total_correct += (torch.round(pred) == labels).float().sum()
-        avg_loss = total_loss / len(self._data)
-        accuracy = total_correct / len(self._data)
-        return avg_loss.item(), accuracy
-
-    def predict_and_plot(self):
-        with torch.no_grad():
-            for data, labels in self._data_loader:
-                data, labels = data.float(), labels.float()
-                pred = self._latest_model(data)
-                plt.scatter(
-                    data[:, 0], data[:, 1], c=pred,
-                    cmap='bwr')
-                plt.scatter(
-                    data[:, 0], data[:, 1], c=torch.round(pred),
-                    cmap='bwr', marker='+')
-                plt.show()
-
-    def _set_genesis_model(self):
-        genesis_model = Model()
-        genesis_hash = self._ipfs_client.add_model(genesis_model)
-        self._contract.setLatestHash(genesis_hash)
-        self._latest_model = genesis_model
-
     def _get_model_hashes(self):
-        return self._contract.getContributions()
+        return self._contract.getPreviousUpdates()
 
     def _get_models(self, model_hashes):
         models = []
@@ -220,7 +214,3 @@ class Org:
                 for avg_param, client_param in zip(avg_model.parameters(), client_model.parameters()):
                     avg_param += client_param / len(models)
         return avg_model
-
-    def _set_latest_model(self, avg_model):
-        latest_hash = self._ipfs_client.add_model(avg_model)
-        self._contract.setLatestHash(latest_hash)

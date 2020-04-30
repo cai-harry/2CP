@@ -2,29 +2,41 @@ pragma solidity >=0.4.21 <0.7.0;
 
 contract FederatedLearning {
 
-    // IPFS hash of the latest global model as a bytes32.
-    // IPFS hashes are 34 bytes long but we discard the first two (0x1220), which indicate hash function and length.
-    // https://ethereum.stackexchange.com/questions/17094/how-to-store-ipfs-hash-using-bytes
-    bytes32 latestHash;
+    // Number of contributions per round
+    // TODO: time is probably a better thing to use
+    uint public contributionsPerRound;
 
     // IPFS hashes of model updates in the current training round.
-    bytes32[] updates;
+    // IPFS hashes are 34 bytes long but we discard the first two (0x1220), which indicate hash function and length.
+    // https://ethereum.stackexchange.com/questions/17094/how-to-store-ipfs-hash-using-bytes
+    bytes32[] public currentUpdates;
 
-    function recordContribution(bytes32 _hash) public {
-        updates.push(_hash);
+    // IPFS hashes of model updates in the previous training round.
+    // Clients will need to download all of these and train from their aggregate.
+    bytes32[] public previousUpdates;
+
+    function getPreviousUpdates() external view returns (bytes32[] memory) {
+        return previousUpdates;
     }
 
-    // TODO: do we need these getters?
-    function getContributions() public view returns (bytes32[] memory) {
-        return updates;
+    function setGenesis(bytes32 _modelHash) external {
+        require(previousUpdates.length == 0, "Training history is not empty");
+        previousUpdates.push(_modelHash);
     }
 
-    function getLatestHash() public view returns (bytes32) {
-        return latestHash;
+    function addClient() external {
+        contributionsPerRound = contributionsPerRound + 1;
     }
 
-    function setLatestHash(bytes32 _hash) public {
-        latestHash = _hash;
-        delete updates;
+    function addModelUpdate(bytes32 _modelHash) external {
+        currentUpdates.push(_modelHash);
+        if (currentUpdates.length >= contributionsPerRound) {
+            nextTrainingRound();
+        }
+    }
+
+    function nextTrainingRound() internal {
+        previousUpdates = currentUpdates;
+        delete currentUpdates;
     }
 }

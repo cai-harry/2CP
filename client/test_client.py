@@ -2,30 +2,33 @@ import pytest
 
 import matplotlib.pyplot as plt
 
-from client import Model, Client, Org
+from client import Client
 
 from data import XOR
 
 contract_address = input("Enter contract address:\n>")
 
 alice_data, bob_data = XOR(256).split()
-holdout_data = XOR(128).as_dataset()
+charlie_data = XOR(128).as_dataset()
 
-org = Org(holdout_data, contract_address, 0)
-alice = Client(alice_data, 4, contract_address, 1)
-bob = Client(bob_data, 4, contract_address, 2)
+# These clients will train
+alice = Client(alice_data, 4, contract_address, 0)
+bob = Client(bob_data, 4, contract_address, 1)
 
+# These clients will evaluate
+charlie = Client(charlie_data, 4, contract_address, 2)
 
 TRAINING_ITERATIONS = 256
 EVALUATE_EVERY = 8
+
+# alice.set_genesis_model()
 losses = []
-losses.append(org.evaluate())
+losses.append(charlie.evaluate())
 for i in range(TRAINING_ITERATIONS):
-    alice.run_train()
-    bob.run_train()
-    org.run_aggregation()
+    alice.run_training_round()
+    bob.run_training_round()
     if i % EVALUATE_EVERY == EVALUATE_EVERY - 1:
-        loss, accuracy = org.evaluate()
+        loss, accuracy = charlie.evaluate()
         print(f"Iteration {i}\tLoss {loss}\tAccuracy {accuracy}")
         losses.append(loss)
-org.predict_and_plot()
+charlie.predict_and_plot()
