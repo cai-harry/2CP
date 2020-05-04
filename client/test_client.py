@@ -21,6 +21,10 @@ charlie = Client("Charlie", charlie_data, contract_address, 2)
 TRAINING_ITERATIONS = 64
 EVALUATE_EVERY = 4
 
+def print_token_count(client):
+    tokens, total_tokens = client.get_token_count()
+    print(f"\t{client._name} has {tokens} of {total_tokens} tokens")
+
 alice.set_genesis_model()
 losses = []
 losses.append(charlie.evaluate())
@@ -30,5 +34,7 @@ for i in range(TRAINING_ITERATIONS):
     if i % EVALUATE_EVERY == EVALUATE_EVERY - 1:
         loss, accuracy = charlie.evaluate()
         print(f"Iteration {i}\tLoss {loss}\tAccuracy {accuracy}")
+        print_token_count(alice)
+        print_token_count(bob)
         losses.append(loss)
 charlie.predict_and_plot()

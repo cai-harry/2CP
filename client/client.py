@@ -57,6 +57,12 @@ class ContractClient:
         self._contract = self._instantiate_contract(contract_address)
         self._web3.eth.defaultAccount = self._web3.eth.accounts[account_idx]
 
+    def getTokens(self):
+        return self._contract.functions.getTokens().call()
+
+    def getTotalTokens(self):
+        return self._contract.functions.totalTokens().call()
+
     def getPreviousUpdates(self):
         list_hash_bytes = self._contract.functions.getPreviousUpdates().call()
         return [self._from_bytes32(hash_bytes) for hash_bytes in list_hash_bytes]
@@ -147,6 +153,9 @@ class Client:
                 data[:, 0], data[:, 1], c=torch.round(pred),
                 cmap='bwr', marker='+')
         plt.show()
+
+    def get_token_count(self):
+        return self._contract.getTokens(), self._contract.getTotalTokens()
 
     def _register_as_trainer(self):
         self._contract.addTrainer()

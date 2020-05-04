@@ -14,9 +14,19 @@ contract FederatedLearning {
     // IPFS hashes of model updates in the current training round.
     mapping(address => bytes32) public currentUpdates;
 
+    // Number of contributions each trainer has made
+    mapping(address => uint) public tokens;
+
+    // Number of tokens issued and owned by trainers.
+    uint public totalTokens;
+
     modifier trainersOnly() {
         require(isTrainer(msg.sender), "Not a registered trainer");
         _;
+    }
+
+    function getTokens() external view returns (uint) {
+        return tokens[msg.sender];
     }
 
     function getPreviousUpdates() external view returns (bytes32[] memory) {
@@ -25,21 +35,29 @@ contract FederatedLearning {
 
     function setGenesis(bytes32 _modelHash) external {
         delete previousUpdates;
-        for (uint256 i = 0; i < trainers.length; i++) {
-            currentUpdates[trainers[i]] = 0;
-        }
         previousUpdates.push(_modelHash);
+        for (uint256 i = 0; i < trainers.length; i++) {
+            address trainer = trainers[i];
+            currentUpdates[trainer] = 0;
+            tokens[trainer] = 0;
+        }
+        delete trainers;
+        totalTokens = 0;
     }
 
     function addTrainer() external {
+        require(!isTrainer(msg.sender), "Trainer already added");
         trainers.push(msg.sender);
     }
 
     function addModelUpdate(bytes32 _modelHash) external trainersOnly() {
+        require(currentUpdates[msg.sender] == 0, "Already submitted model update this round");
         currentUpdates[msg.sender] = _modelHash;
         if (isTrainingRoundFinished()) {
             nextTrainingRound();
         }
+        tokens[msg.sender] = tokens[msg.sender] + 1;
+        totalTokens = totalTokens + 1;
     }
 
     function isTrainer(address a) internal view returns (bool) {
