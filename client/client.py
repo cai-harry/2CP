@@ -121,27 +121,30 @@ class Client:
     def run_training_round(self):
         if not self._registered_trainer:
             self._register_as_trainer()
-        model = self._get_global_model()
+        model = self.get_global_model()
         model = self._train_model(model)
         uploaded_hash = self._upload_model(model)
         self._record_model(uploaded_hash)
 
-    def evaluate(self):
-        model = self._get_global_model()
-        with torch.no_grad():
-            total_loss = 0
-            total_correct = 0
-            for data, labels in self._data_loader:
-                data, labels = data.float(), labels.float()
-                pred = model(data)
-                total_loss += F.mse_loss(pred, labels)
-                total_correct += (torch.round(pred) == labels).float().sum()
-        avg_loss = total_loss / len(self._data)
-        accuracy = total_correct / len(self._data)
-        return avg_loss.item(), accuracy
+    def evaluate_global(self):
+        model = self.get_global_model()
+        return self._evaluate_model(model)
+
+    def evaluate_trainers(self, start_model):
+        """
+        Evaluate each trainer
+        By comparing the performance of the global model with and without each trainer's update
+        @param start_model: the global model that the trainers started from this round.
+        """
+        model_hashes = self._get_model_hashes()
+        models = self._get_models(model_hashes)
+        start_loss, _ = self._evaluate_model(start_model)
+        model_losses = [self._evaluate_model(model)[0] for model in models]
+        scores = [start_loss-loss for loss in model_losses]
+        return scores
 
     def predict_and_plot(self):
-        model = self._get_global_model()
+        model = self.get_global_model()
         with torch.no_grad():
             for data, labels in self._data_loader:
                 data, labels = data.float(), labels.float()
@@ -161,7 +164,7 @@ class Client:
         self._contract.addTrainer()
         self._registered_trainer = True
 
-    def _get_global_model(self):
+    def get_global_model(self):
         """
         Calculate current global model by aggregating all updates from previous round.
         """
@@ -180,6 +183,19 @@ class Client:
             loss.backward()
             optimizer.step()
         return model
+
+    def _evaluate_model(self, model):
+        with torch.no_grad():
+            total_loss = 0
+            total_correct = 0
+            for data, labels in self._data_loader:
+                data, labels = data.float(), labels.float()
+                pred = model(data)
+                total_loss += F.mse_loss(pred, labels)
+                total_correct += (torch.round(pred) == labels).float().sum()
+        avg_loss = total_loss / len(self._data)
+        accuracy = total_correct / len(self._data)
+        return avg_loss.item(), accuracy.item()
 
     def _upload_model(self, model):
         """Uploads the given model to IPFS."""
