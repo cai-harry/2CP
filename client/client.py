@@ -47,6 +47,11 @@ class IPFSClient:
 
 
 class ContractClient:
+    """
+    Wrapper over the Smart Contract ABI, to gracefully bridge Python data to Solidity.
+
+    The API of this class should match that of the smart contract.
+    """
 
     PROVIDER_ADDRESS = "http://127.0.0.1:7545"
     CONTRACT_JSON_PATH = "build/contracts/FederatedLearning.json"
@@ -55,17 +60,50 @@ class ContractClient:
     def __init__(self, contract_address, account_idx):
         self._web3 = Web3(HTTPProvider(self.PROVIDER_ADDRESS))
         self._contract = self._instantiate_contract(contract_address)
-        self._web3.eth.defaultAccount = self._web3.eth.accounts[account_idx]
+        self._address = self._web3.eth.accounts[account_idx]
+
+        self._web3.eth.defaultAccount = self._address
+
+    def evaluator(self):
+        return self._contract.functions.evaluator().call()
+
+    def trainer(self, idx):
+        return self._contract.functions.trainers(idx).call()
+
+    def genesis(self):
+        hash_bytes = self._contract.functions.genesis().call()
+        return self._from_bytes32(hash_bytes)
+
+    def previousUpdates(self, trainer_address):
+        hash_bytes = self._contract.functions.previousUpdates(
+            trainer_address).call()
+        return self._from_bytes32(hash_bytes)
+
+    def currentUpdates(self, trainer_address):
+        hash_bytes = self._contract.functions.currentUpdates(
+            trainer_address).call()
+        return self._from_bytes32(hash_bytes)
+
+    def trainingRound(self):
+        return self._contract.functions.trainingRound().call()
+
+    def tokens(self, trainer_address):
+        return self._contract.functions.tokens(trainer_address).call()
 
     def getTokens(self):
         return self._contract.functions.getTokens().call()
 
-    def getTotalTokens(self):
-        return self._contract.functions.totalTokens().call()
+    def totalTokens(self):
+        return self._contract.functions.totalTokens.call()
 
-    def getPreviousUpdates(self):
-        list_hash_bytes = self._contract.functions.getPreviousUpdates().call()
-        return [self._from_bytes32(hash_bytes) for hash_bytes in list_hash_bytes]
+    def getTrainers(self):
+        return self._contract.functions.getTrainers().call()
+
+    def isTrainer(self):
+        return self._contract.functions.isTrainer().call()
+
+    def isTrainingRoundFinished(self):
+        return self._contract.functions.isTrainingRoundFinished().call()
 
     def setGenesis(self, model_hash):
         bytes_to_store = self._to_bytes32(model_hash)
@@ -77,6 +115,13 @@ class ContractClient:
     def addModelUpdate(self, model_hash):
         bytes_to_store = self._to_bytes32(model_hash)
         self._contract.functions.addModelUpdate(bytes_to_store).transact()
+
+    def giveTokens(self, trainer_address, num_tokens):
+        self._contract.functions.rewardModelUpdate(
+            trainer_address, num_tokens).transact()
+
+    def nextTrainingRound(self):
+        self._contract.functions.nextTrainingRound().transact()
 
     def _instantiate_contract(self, contract_address):
         with open(self.CONTRACT_JSON_PATH) as crt_json:
@@ -111,7 +156,6 @@ class Client:
         )
         self._contract = ContractClient(contract_address, account_idx)
         self._ipfs_client = IPFSClient()
-        self._registered_trainer = False
 
     def set_genesis_model(self):
         genesis_model = Model()
@@ -119,32 +163,39 @@ class Client:
         self._contract.setGenesis(genesis_hash)
 
     def run_training_round(self):
-        if not self._registered_trainer:
-            self._register_as_trainer()
-        model = self.get_global_model()
+        if not self._contract.isTrainer():
+            self._contract.addTrainer()
+        model = self._get_global_model()
         model = self._train_model(model)
         uploaded_hash = self._upload_model(model)
         self._record_model(uploaded_hash)
 
     def evaluate_global(self):
-        model = self.get_global_model()
+        model = self._get_global_model()
         return self._evaluate_model(model)
 
-    def evaluate_trainers(self, start_model):
+    def evaluate_trainers(self):
         """
         Evaluate each trainer
         By comparing the performance of the global model with and without each trainer's update
         @param start_model: the global model that the trainers started from this round.
         """
-        model_hashes = self._get_model_hashes()
-        models = self._get_models(model_hashes)
+        start_model = self._get_global_model()
         start_loss, _ = self._evaluate_model(start_model)
-        model_losses = [self._evaluate_model(model)[0] for model in models]
-        scores = [start_loss-loss for loss in model_losses]
+        model_hashes = self._get_current_update_hashes()
+        models = self._get_models(model_hashes)
+        scores = dict()
+        for trainer, model in models.items():
+            loss = self._evaluate_model(model)[0]
+            scores[trainer] = start_loss - loss
         return scores
 
+    def finish_training_round(self):
+        # TODO: distribute tokens
+        self._contract.nextTrainingRound()
+
     def predict_and_plot(self):
-        model = self.get_global_model()
+        model = self._get_global_model()
         with torch.no_grad():
             for data, labels in self._data_loader:
                 data, labels = data.float(), labels.float()
@@ -153,23 +204,21 @@ class Client:
                     data[:, 0], data[:, 1], c=pred,
                     cmap='bwr')
                 plt.scatter(
-                data[:, 0], data[:, 1], c=torch.round(pred),
-                cmap='bwr', marker='+')
+                    data[:, 0], data[:, 1], c=torch.round(pred),
+                    cmap='bwr', marker='+')
         plt.show()
 
     def get_token_count(self):
-        return self._contract.getTokens(), self._contract.getTotalTokens()
+        return self._contract.getTokens(), self._contract.totalTokens()
 
-    def _register_as_trainer(self):
-        self._contract.addTrainer()
-        self._registered_trainer = True
-
-    def get_global_model(self):
+    def _get_global_model(self):
         """
         Calculate current global model by aggregating all updates from previous round.
         """
-        model_hashes = self._get_model_hashes()
-        models = self._get_models(model_hashes)
+        if self._contract.trainingRound() == 0:
+            return self._get_genesis_model()
+        model_hashes = self._get_previous_update_hashes()
+        models = self._get_models(model_hashes).values()
         avg_model = self._avg_model(models)
         return avg_model
 
@@ -206,14 +255,32 @@ class Client:
         """Records the given model IPFS hash on the smart contract."""
         self._contract.addModelUpdate(uploaded_hash)
 
-    def _get_model_hashes(self):
-        return self._contract.getPreviousUpdates()
+    def _get_previous_update_hashes(self):
+        trainers = self._contract.getTrainers()
+        updates = dict()
+        for trainer in trainers:
+            model_hash = self._contract.previousUpdates(trainer)
+            if model_hash != 0:
+                updates[trainer] = model_hash
+        return updates
+
+    def _get_current_update_hashes(self):
+        trainers = self._contract.getTrainers()
+        updates = dict()
+        for trainer in trainers:
+            model_hash = self._contract.currentUpdates(trainer)
+            updates[trainer] = model_hash
+        return updates
 
     def _get_models(self, model_hashes):
-        models = []
-        for model_hash in model_hashes:
-            models.append(self._ipfs_client.get_model(model_hash))
+        models = dict()
+        for trainer, model_hash in model_hashes.items():
+            models[trainer] = self._ipfs_client.get_model(model_hash)
         return models
+
+    def _get_genesis_model(self):
+        gen_hash = self._contract.genesis()
+        return self._ipfs_client.get_model(gen_hash)
 
     def _avg_model(self, models):
         avg_model = Model()
