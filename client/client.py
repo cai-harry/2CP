@@ -94,7 +94,7 @@ class ContractClient:
         return self._contract.functions.getTokens().call()
 
     def totalTokens(self):
-        return self._contract.functions.totalTokens.call()
+        return self._contract.functions.totalTokens().call()
 
     def getTrainers(self):
         return self._contract.functions.getTrainers().call()
@@ -117,7 +117,7 @@ class ContractClient:
         self._contract.functions.addModelUpdate(bytes_to_store).transact()
 
     def giveTokens(self, trainer_address, num_tokens):
-        self._contract.functions.rewardModelUpdate(
+        self._contract.functions.giveTokens(
             trainer_address, num_tokens).transact()
 
     def nextTrainingRound(self):
@@ -146,6 +146,9 @@ class ContractClient:
 
 
 class Client:
+
+    TOKENS_PER_UNIT_LOSS = 1e18 # number of wei per ether
+
     def __init__(self, name, data, contract_address, account_idx):
         self._name = name
         self._data = data
@@ -191,7 +194,15 @@ class Client:
         return scores
 
     def finish_training_round(self):
-        # TODO: distribute tokens
+        """
+        Wraps up the current training round and starts a new one
+
+        Evaluates contributions in the current round and distributes tokens
+        """
+        scores = self.evaluate_trainers()
+        for trainer, score in scores.items():
+            num_tokens = int(self.TOKENS_PER_UNIT_LOSS * score)
+            self._contract.giveTokens(trainer, num_tokens)
         self._contract.nextTrainingRound()
 
     def predict_and_plot(self):

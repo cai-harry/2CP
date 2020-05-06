@@ -44,4 +44,7 @@ for i in range(1, TRAINING_ITERATIONS+1):
     _print_global_performance(alice)
     _print_trainer_performances(alice)
     alice.finish_training_round()
+    _print_token_count(alice)
+    _print_token_count(bob)
+    _print_token_count(charlie)
 alice.predict_and_plot()
