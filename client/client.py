@@ -9,6 +9,7 @@ from torch import nn, optim
 from torch.nn import functional as F
 from web3 import Web3, HTTPProvider
 
+import shapley
 
 class Model(nn.Module):
     def __init__(self):
@@ -179,19 +180,11 @@ class Client:
 
     def evaluate_trainers(self):
         """
-        Evaluate each trainer
-        By comparing the performance of the global model with and without each trainer's update
-        @param start_model: the global model that the trainers started from this round.
+        Provide Shaply Value score for each trainer in the training round.
         """
-        start_model = self._get_global_model()
-        start_loss, _ = self._evaluate_model(start_model)
-        model_hashes = self._get_current_update_hashes()
-        models = self._get_models(model_hashes)
-        scores = dict()
-        for trainer, model in models.items():
-            loss = self._evaluate_model(model)[0]
-            scores[trainer] = start_loss - loss
-        return scores
+        trainers = self._contract.getTrainers()
+        return shapley.values(
+                self._characteristic_function, trainers)
 
     def finish_training_round(self):
         """
@@ -201,7 +194,7 @@ class Client:
         """
         scores = self.evaluate_trainers()
         for trainer, score in scores.items():
-            num_tokens = int(self.TOKENS_PER_UNIT_LOSS * score)
+            num_tokens = max(0, int(self.TOKENS_PER_UNIT_LOSS * score))
             self._contract.giveTokens(trainer, num_tokens)
         self._contract.nextTrainingRound()
 
@@ -266,8 +259,9 @@ class Client:
         """Records the given model IPFS hash on the smart contract."""
         self._contract.addModelUpdate(uploaded_hash)
 
-    def _get_previous_update_hashes(self):
-        trainers = self._contract.getTrainers()
+    def _get_previous_update_hashes(self, trainers=None):
+        if trainers is None:
+            trainers = self._contract.getTrainers()
         updates = dict()
         for trainer in trainers:
             model_hash = self._contract.previousUpdates(trainer)
@@ -275,8 +269,9 @@ class Client:
                 updates[trainer] = model_hash
         return updates
 
-    def _get_current_update_hashes(self):
-        trainers = self._contract.getTrainers()
+    def _get_current_update_hashes(self, trainers=None):
+        if trainers is None:
+            trainers = self._contract.getTrainers()
         updates = dict()
         for trainer in trainers:
             model_hash = self._contract.currentUpdates(trainer)
@@ -302,3 +297,18 @@ class Client:
                 for avg_param, client_param in zip(avg_model.parameters(), client_model.parameters()):
                     avg_param += client_param / len(models)
         return avg_model
+
+    def _characteristic_function(self, *players):
+        """
+        The characteristic function used to calculate Shapley Value.
+        The Shapley Value of a coalition of trainers is the marginal loss reduction
+        of the average of their models
+        """
+        start_model = self._get_global_model()
+        start_loss, _ = self._evaluate_model(start_model)
+        hashes = self._get_current_update_hashes(players)
+        models = self._get_models(hashes).values()
+        avg_model = self._avg_model(models)
+        loss, _ = self._evaluate_model(avg_model)
+        return start_loss - loss
+        

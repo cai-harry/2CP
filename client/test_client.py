@@ -33,18 +33,21 @@ def _print_trainer_performances(client):
 
 def _print_token_count(client):
     tokens, total_tokens = client.get_token_count()
-    print(f"\t{client._name} has {tokens} of {total_tokens} tokens")
+    percent = int(100*tokens/total_tokens)
+    print(f"\t{client._name} has {tokens} of {total_tokens} tokens ({percent}%)")
 
 alice.set_genesis_model()
 for i in range(1, TRAINING_ITERATIONS+1):
     bob.run_training_round()
     charlie.run_training_round()
-    # david.run_training_round()
-    # eve.run_training_round()
+    david.run_training_round()
+    eve.run_training_round()
     _print_global_performance(alice)
     _print_trainer_performances(alice)
     alice.finish_training_round()
     _print_token_count(alice)
     _print_token_count(bob)
     _print_token_count(charlie)
+    _print_token_count(david)
+    _print_token_count(eve)
 alice.predict_and_plot()

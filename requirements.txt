@@ -5,6 +5,7 @@ jupyter
 jupyterlab
 ipfshttpclient
 matplotlib
+scipy
 # torch: pip install torch is not supported on windows, use conda instead
 # torchvision
 web3
