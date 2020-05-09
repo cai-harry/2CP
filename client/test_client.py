@@ -33,7 +33,7 @@ def _print_trainer_performances(client):
 
 def _print_token_count(client):
     tokens, total_tokens = client.get_token_count()
-    percent = int(100*tokens/total_tokens)
+    percent = int(100*tokens/total_tokens) if tokens > 0 else 0
     print(f"\t{client._name} has {tokens} of {total_tokens} tokens ({percent}%)")
 
 alice.set_genesis_model()
