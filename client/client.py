@@ -11,25 +11,14 @@ from web3 import Web3, HTTPProvider
 
 import shapley
 
-class Model(nn.Module):
-    def __init__(self):
-        super(Model, self).__init__()
-        self.fc1 = nn.Linear(2, 8)
-        self.fc2 = nn.Linear(8, 1)
-
-    def forward(self, x):
-        x = torch.relu(self.fc1(x))
-        x = torch.relu(self.fc2(x))
-        return x.squeeze()
-
 
 class IPFSClient:
     def __init__(self):
         self._ipfs_client = ipfshttpclient.connect(
             '/ip4/127.0.0.1/tcp/5001/http')
 
-    def get_model(self, model_hash):
-        model = Model()
+    def get_model(self, model_hash, model_constructor):
+        model = model_constructor()
         with self._ipfs_client as ipfs:
             # saves to current directory, filename is model_hash
             ipfs.get(model_hash)
@@ -150,19 +139,21 @@ class Client:
 
     TOKENS_PER_UNIT_LOSS = 1e18 # number of wei per ether
 
-    def __init__(self, name, data, contract_address, account_idx):
-        self._name = name
+    def __init__(self, name, data, model_constructor, contract_address, account_idx):
+        self.name = name
+        
         self._data = data
         self._data_loader = torch.utils.data.DataLoader(
             self._data,
             batch_size=len(self._data),
             shuffle=True
         )
+        self._model_constructor = model_constructor
         self._contract = ContractClient(contract_address, account_idx)
         self._ipfs_client = IPFSClient()
 
     def set_genesis_model(self):
-        genesis_model = Model()
+        genesis_model = self._model_constructor()
         genesis_hash = self._ipfs_client.add_model(genesis_model)
         self._contract.setGenesis(genesis_hash)
 
@@ -281,15 +272,15 @@ class Client:
     def _get_models(self, model_hashes):
         models = dict()
         for trainer, model_hash in model_hashes.items():
-            models[trainer] = self._ipfs_client.get_model(model_hash)
+            models[trainer] = self._ipfs_client.get_model(model_hash, self._model_constructor)
         return models
 
     def _get_genesis_model(self):
         gen_hash = self._contract.genesis()
-        return self._ipfs_client.get_model(gen_hash)
+        return self._ipfs_client.get_model(gen_hash, self._model_constructor)
 
     def _avg_model(self, models):
-        avg_model = Model()
+        avg_model = self._model_constructor()
         with torch.no_grad():
             for params in avg_model.parameters():
                 params *= 0

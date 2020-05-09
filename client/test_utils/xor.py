@@ -1,8 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
+import torch.nn as nn
 
-class XOR:
+class XORData:
     """
     A dataset of uniformly scattered 2d points.
     Points with xy >= 0 are class A
@@ -35,8 +36,20 @@ class XOR:
         return dataset_0, dataset_1
 
 def test_XOR():
-    alice_data, bob_data = XOR(100).split_by_label()
+    alice_data, bob_data = XORData(100).split_by_label()
     plt.scatter(alice_data[0][:,0], alice_data[0][:,1], label='Alice')
     plt.scatter(bob_data[0][:,0], bob_data[0][:,1], label='Bob')
     plt.legend()
     plt.show()
+
+class XORModel(nn.Module):
+    def __init__(self):
+        super(XORModel, self).__init__()
+        self.fc1 = nn.Linear(2, 8)
+        self.fc2 = nn.Linear(8, 1)
+
+    def forward(self, x):
+        x = torch.relu(self.fc1(x))
+        x = torch.relu(self.fc2(x))
+        return x.squeeze()
+        
