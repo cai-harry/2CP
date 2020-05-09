@@ -157,11 +157,11 @@ class Client:
         genesis_hash = self._ipfs_client.add_model(genesis_model)
         self._contract.setGenesis(genesis_hash)
 
-    def run_training_round(self):
+    def run_training_round(self, learning_rate):
         if not self._contract.isTrainer():
             self._contract.addTrainer()
         model = self._get_global_model()
-        model = self._train_model(model)
+        model = self._train_model(model, learning_rate)
         uploaded_hash = self._upload_model(model)
         self._record_model(uploaded_hash)
 
@@ -189,19 +189,15 @@ class Client:
             self._contract.giveTokens(trainer, num_tokens)
         self._contract.nextTrainingRound()
 
-    def predict_and_plot(self):
+    def predict(self):
         model = self._get_global_model()
+        predictions = []
         with torch.no_grad():
             for data, labels in self._data_loader:
                 data, labels = data.float(), labels.float()
                 pred = model(data)
-                plt.scatter(
-                    data[:, 0], data[:, 1], c=pred,
-                    cmap='bwr')
-                plt.scatter(
-                    data[:, 0], data[:, 1], c=torch.round(pred),
-                    cmap='bwr', marker='+')
-        plt.show()
+                predictions.append(pred)
+        return torch.stack(predictions)
 
     def get_token_count(self):
         return self._contract.getTokens(), self._contract.totalTokens()
@@ -217,8 +213,8 @@ class Client:
         avg_model = self._avg_model(models)
         return avg_model
 
-    def _train_model(self, model):
-        optimizer = optim.SGD(model.parameters(), lr=0.3)
+    def _train_model(self, model, lr):
+        optimizer = optim.SGD(model.parameters(), lr=lr)
         for data, labels in self._data_loader:
             data, labels = data.float(), labels.float()
             optimizer.zero_grad()
