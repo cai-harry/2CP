@@ -1,6 +1,7 @@
 # Packages needed in Python environment
 
 base58
+joblib
 jupyter
 jupyterlab
 ipfshttpclient
