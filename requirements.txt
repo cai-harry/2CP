@@ -8,6 +8,7 @@ ipfshttpclient
 matplotlib
 more_itertools
 numpy
+pandas  # required to read covid hackathon data
 pytest
 scipy
 syft

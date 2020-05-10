@@ -19,22 +19,20 @@ class CovidData:
             data=self._df.drop(['ICU'], 1),
             labels=self._df['ICU']
         )
-        self._data = self._convert_to_tensors(X)
-        self._labels = y
+        self.data = self._convert_to_tensor(X)
+        self.targets = self._convert_to_tensor(y).unsqueeze(dim=-1)
 
     def split_3(self):
-        left = len(self._data) // 3
-        right = 2 * len(self._data) // 3
-        data_0 = self._data[:left]
-        labels_0 = self._labels[:left]
-        dataset_0 = list(zip(data_0, labels_0))
-        data_1 = self._data[left:right]
-        labels_1 = self._labels[left:right]
-        dataset_1 = list(zip(data_1, labels_1))
-        data_2 = self._data[right:]
-        labels_2 = self._labels[right:]
-        dataset_2 = list(zip(data_2, labels_2))
-        return dataset_0, dataset_1, dataset_2
+        left = len(self.data) // 3
+        right = 2 * len(self.data) // 3
+        return (
+            self.data[:left],
+            self.targets[:left],
+            self.data[left:right],
+            self.targets[left:right],
+            self.data[right:],
+            self.targets[right:]
+        )
 
     def _split_into_lists(self, data, labels):
         record_list = list()
@@ -46,11 +44,11 @@ class CovidData:
             result_list.append(converted_label)
         return record_list, result_list
 
-    def _convert_to_tensors(self, data):
-        tensors = list()
+    def _convert_to_tensor(self, data):
+        tensors = []
         for record in data:
             tensors.append(torch.tensor(record))
-        return tensors
+        return torch.stack(tensors)
 
 
 class CovidModel(nn.Module):
@@ -67,19 +65,24 @@ class CovidModel(nn.Module):
         x = torch.relu(self.fc2(x))
         x = self.dropout(x)
         x = torch.sigmoid(self.fc3(x))
-        return x.squeeze()
+        return x
 
+
+
+alice_data, alice_targets, bob_data, bob_targets, \
+     charlie_data, charlie_targets = CovidData().split_3()
+
+print(alice_data.shape)
+print(alice_targets.shape)
 
 contract_address = input("Enter contract address:\n>")
 
-alice_data, bob_data, charlie_data = CovidData().split_3()
-
 # These clients will evaluate
-alice = Client("Alice", alice_data, CovidModel, contract_address, 0)
+alice = Client("Alice", alice_data, alice_targets, CovidModel, contract_address, 0)
 
 # These clients will train
-bob = Client("Bob", bob_data, CovidModel, contract_address, 1)
-charlie = Client("Charlie", charlie_data, CovidModel, contract_address, 2)
+bob = Client("Bob", bob_data, bob_targets, CovidModel, contract_address, 1)
+charlie = Client("Charlie", charlie_data, charlie_targets, CovidModel, contract_address, 2)
 
 TRAINING_ITERATIONS = 16
 LEARNING_RATE = 1e-2

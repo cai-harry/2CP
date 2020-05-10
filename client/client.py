@@ -5,6 +5,7 @@ import base58
 import ipfshttpclient
 import matplotlib.pyplot as plt
 import syft as sy
+from syft.federated.floptimizer import Optims
 import torch
 from torch import nn, optim
 from torch.nn import functional as F
@@ -12,6 +13,7 @@ from web3 import Web3, HTTPProvider
 
 import shapley
 
+_hook = sy.TorchHook(torch)
 
 class IPFSClient:
     def __init__(self):
@@ -140,13 +142,16 @@ class Client:
 
     TOKENS_PER_UNIT_LOSS = 1e18 # number of wei per ether
 
-    def __init__(self, name, data, model_constructor, contract_address, account_idx):
+    def __init__(self, name, data, targets, model_constructor, contract_address, account_idx):
         self.name = name
-        
-        self._data = data
+        self.data_length = min(len(data), len(targets))
+
+        self._worker = sy.VirtualWorker(_hook, id=name)
+        self._data = data.send(self._worker)
+        self._targets = targets.send(self._worker)
         self._data_loader = torch.utils.data.DataLoader(
-            self._data,
-            batch_size=len(self._data),
+            sy.BaseDataset(self._data, self._targets),
+            batch_size=len(data),
             shuffle=True
         )
         self._model_constructor = model_constructor
@@ -191,12 +196,12 @@ class Client:
         self._contract.nextTrainingRound()
 
     def predict(self):
-        model = self._get_global_model()
+        model = self._get_global_model().send(self._worker)
         predictions = []
         with torch.no_grad():
             for data, labels in self._data_loader:
                 data, labels = data.float(), labels.float()
-                pred = model(data)
+                pred = model(data).get()
                 predictions.append(pred)
         return torch.stack(predictions)
 
@@ -215,6 +220,7 @@ class Client:
         return avg_model
 
     def _train_model(self, model, lr):
+        model = model.send(self._worker)
         optimizer = optim.SGD(model.parameters(), lr=lr)
         for data, labels in self._data_loader:
             data, labels = data.float(), labels.float()
@@ -223,9 +229,10 @@ class Client:
             loss = F.mse_loss(pred, labels)
             loss.backward()
             optimizer.step()
-        return model
+        return model.get()
 
     def _evaluate_model(self, model):
+        model = model.send(self._worker)
         with torch.no_grad():
             total_loss = 0
             total_correct = 0
@@ -234,9 +241,9 @@ class Client:
                 pred = model(data)
                 total_loss += F.mse_loss(pred, labels)
                 total_correct += (torch.round(pred) == labels).float().sum()
-        avg_loss = total_loss / len(self._data)
-        accuracy = total_correct / len(self._data)
-        return avg_loss.item(), accuracy.item()
+        avg_loss = total_loss / len(self._data_loader)
+        accuracy = total_correct / self.data_length
+        return avg_loss.get().item(), accuracy.get().item()
 
     def _upload_model(self, model):
         """Uploads the given model to IPFS."""
