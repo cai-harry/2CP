@@ -6,7 +6,11 @@ jupyter
 jupyterlab
 ipfshttpclient
 matplotlib
+more_itertools
+numpy
+pytest
 scipy
+syft
 # torch: pip install torch is not supported on windows, use conda instead
 # torchvision
 web3

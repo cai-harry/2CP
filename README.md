@@ -8,12 +8,32 @@ My MSc Individual Project for Summer 2020.
 ## Development
 
 ### Setting up python environment
-Requirements
-- Conda
+
+Recommended:
+- Anaconda (install for user)
+- Visual Studio Code
+
+It is easiest to create and use a fresh conda environment.
 ```
-conda install pytorch torchvision -c pytorch
+conda create -n proj
+activate proj
+```
+VSCode should already be set up to use this `proj` conda environment.
+
+Next, use conda to install pytorch as pip is not supported.
+We need exactly version 1.4.0 for compatibility with PySyft.
+```
+conda install pytorch==1.4.0 torchvision -c pytorch
+```
+
+Use pip to install everything else.
+```
 pip install -r requirements.txt
 ```
+
+### Setting up IPFS client
+Requirements
+- IPFS Desktop
 
 ### Setting up solidity frameworks
 Requirements
@@ -21,7 +41,9 @@ Requirements
 - Ganache
 
 ### Running `test_client.py`
-1. Compile and deploy contracts: `truffle migrate --reset`
-2. Copy deployed contract address.
-3. From repo root: `python clients/test_client.py`
-4. Paste the deployed contract address when prompted.
+1. Spin up a blockchain by opening the Ganache app.
+2. Start up an IPFS node by opening the IPFS desktop app.
+2. Compile and deploy contracts: `truffle migrate --reset`
+3. Copy deployed contract address.
+4. From repo root: `python clients/test_client.py`
+5. Paste the deployed contract address when prompted.
