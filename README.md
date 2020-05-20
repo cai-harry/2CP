@@ -33,17 +33,15 @@ pip install -r requirements.txt
 
 ### Setting up IPFS client
 Requirements
-- IPFS Desktop
+- [IPFS Desktop](https://github.com/ipfs-shipyard/ipfs-desktop)
 
 ### Setting up solidity frameworks
 Requirements
-- Truffle
-- Ganache
+- [Truffle](https://www.trufflesuite.com/truffle)
+- [Ganache](https://www.trufflesuite.com/ganache)
 
 ### Running `test_client.py`
-1. Spin up a blockchain by opening the Ganache app.
+1. Spin up a blockchain by opening the Ganache app. Default settings should work.
 2. Start up an IPFS node by opening the IPFS desktop app.
-2. Compile and deploy contracts: `truffle migrate --reset`
-3. Copy deployed contract address.
+3. Compile and deploy contracts: `truffle migrate --reset`
 4. From repo root: `python clients/test_client.py`
-5. Paste the deployed contract address when prompted.

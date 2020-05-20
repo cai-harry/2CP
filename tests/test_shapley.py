@@ -1,6 +1,6 @@
 import pytest
 
-import shapley
+from context import shapley
 
 def v2(*args):
     if args == ():

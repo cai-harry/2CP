@@ -47,12 +47,13 @@ class ContractClient:
     """
 
     PROVIDER_ADDRESS = "http://127.0.0.1:7545"
+    NETWORK_ID = "5777"
     CONTRACT_JSON_PATH = "build/contracts/FederatedLearning.json"
     IPFS_HASH_PREFIX = bytes.fromhex('1220')
 
-    def __init__(self, contract_address, account_idx):
+    def __init__(self, account_idx):
         self._web3 = Web3(HTTPProvider(self.PROVIDER_ADDRESS))
-        self._contract = self._instantiate_contract(contract_address)
+        self._contract = self._instantiate_contract()
         self._address = self._web3.eth.accounts[account_idx]
 
         self._web3.eth.defaultAccount = self._address
@@ -116,12 +117,14 @@ class ContractClient:
     def nextTrainingRound(self):
         self._contract.functions.nextTrainingRound().transact()
 
-    def _instantiate_contract(self, contract_address):
-        with open(self.CONTRACT_JSON_PATH) as crt_json:
-            abi = json.load(crt_json)['abi']
+    def _instantiate_contract(self):
+        with open(self.CONTRACT_JSON_PATH) as json_file:
+            crt_json = json.load(json_file)
+            abi = crt_json['abi']
+            address = crt_json['networks'][self.NETWORK_ID]['address']
         instance = self._web3.eth.contract(
             abi=abi,
-            address=contract_address
+            address=address
         )
         return instance
 
@@ -142,7 +145,7 @@ class Client:
 
     TOKENS_PER_UNIT_LOSS = 1e18 # number of wei per ether
 
-    def __init__(self, name, data, targets, model_constructor, contract_address, account_idx):
+    def __init__(self, name, data, targets, model_constructor, account_idx):
         self.name = name
         self.data_length = min(len(data), len(targets))
 
@@ -155,7 +158,7 @@ class Client:
             shuffle=True
         )
         self._model_constructor = model_constructor
-        self._contract = ContractClient(contract_address, account_idx)
+        self._contract = ContractClient(account_idx)
         self._ipfs_client = IPFSClient()
 
     def set_genesis_model(self):
