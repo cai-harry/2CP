@@ -1,3 +1,4 @@
+import functools
 import os
 import json
 
@@ -161,6 +162,8 @@ class Client:
         self._contract = ContractClient(account_idx)
         self._ipfs_client = IPFSClient()
 
+        self._cached_global_models = {}
+
     def set_genesis_model(self):
         genesis_model = self._model_constructor()
         genesis_hash = self._ipfs_client.add_model(genesis_model)
@@ -183,8 +186,11 @@ class Client:
         Provide Shaply Value score for each trainer in the training round.
         """
         trainers = self._contract.getTrainers()
-        return shapley.values(
+        self._characteristic_function.cache_clear()
+        sv = shapley.values(
                 self._characteristic_function, trainers)
+        print(self._characteristic_function.cache_info())
+        return sv
 
     def finish_training_round(self):
         """
@@ -215,12 +221,18 @@ class Client:
         """
         Calculate current global model by aggregating all updates from previous round.
         """
-        if self._contract.trainingRound() == 0:
-            return self._get_genesis_model()
-        model_hashes = self._get_previous_update_hashes()
-        models = self._get_models(model_hashes).values()
-        avg_model = self._avg_model(models)
-        return avg_model
+        current_training_round = self._contract.trainingRound()
+        if current_training_round in self._cached_global_models.keys():
+            return self._cached_global_models[current_training_round]
+        
+        if current_training_round == 0:
+            global_model = self._get_genesis_model()
+        else:
+            model_hashes = self._get_previous_update_hashes()
+            models = self._get_models(model_hashes).values()
+            global_model = self._avg_model(models)
+        self._cached_global_models[current_training_round] = global_model
+        return global_model
 
     def _train_model(self, model, lr):
         model = model.send(self._worker)
@@ -246,6 +258,7 @@ class Client:
                 total_correct += (torch.round(pred) == labels).float().sum()
         avg_loss = total_loss / len(self._data_loader)
         accuracy = total_correct / self.data_length
+        model = model.get()
         return avg_loss.get().item(), accuracy.get().item()
 
     def _upload_model(self, model):
@@ -296,6 +309,7 @@ class Client:
                     avg_param += client_param / len(models)
         return avg_model
 
+    @functools.lru_cache()
     def _characteristic_function(self, *players):
         """
         The characteristic function used to calculate Shapley Value.
