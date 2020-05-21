@@ -16,6 +16,7 @@ import shapley
 
 _hook = sy.TorchHook(torch)
 
+
 class IPFSClient:
     def __init__(self):
         self._ipfs_client = ipfshttpclient.connect(
@@ -144,7 +145,7 @@ class ContractClient:
 
 class Client:
 
-    TOKENS_PER_UNIT_LOSS = 1e18 # number of wei per ether
+    TOKENS_PER_UNIT_LOSS = 1e18  # number of wei per ether
 
     def __init__(self, name, data, targets, model_constructor, account_idx):
         self.name = name
@@ -162,9 +163,6 @@ class Client:
         self._contract = ContractClient(account_idx)
         self._ipfs_client = IPFSClient()
 
-        self._cached_global_models = {}
-        self._cached_global_model_metrics = {}
-
     def set_genesis_model(self):
         genesis_model = self._model_constructor()
         genesis_hash = self._ipfs_client.add_model(genesis_model)
@@ -173,19 +171,17 @@ class Client:
     def run_training_round(self, learning_rate):
         if not self._contract.isTrainer():
             self._contract.addTrainer()
-        model = self._get_global_model()
+        model = self._get_current_global_model()
         model = self._train_model(model, learning_rate)
         uploaded_hash = self._upload_model(model)
         self._record_model(uploaded_hash)
 
     def evaluate_global(self):
+        """
+        Evaluate the current global model using own data.
+        """
         current_training_round = self._contract.trainingRound()
-        if current_training_round in self._cached_global_model_metrics.keys():
-            return self._cached_global_model_metrics[current_training_round]
-        global_model = self._get_global_model()
-        loss, accuracy = self._evaluate_model(global_model)
-        self._cached_global_model_metrics[current_training_round] = (loss, accuracy)
-        return loss, accuracy
+        return self._evaluate_global(current_training_round)
 
     def evaluate_trainers(self):
         """
@@ -194,7 +190,7 @@ class Client:
         trainers = self._contract.getTrainers()
         self._characteristic_function.cache_clear()
         sv = shapley.values(
-                self._characteristic_function, trainers)
+            self._characteristic_function, trainers)
         return sv
 
     def finish_training_round(self):
@@ -210,7 +206,7 @@ class Client:
         self._contract.nextTrainingRound()
 
     def predict(self):
-        model = self._get_global_model().send(self._worker)
+        model = self._get_current_global_model().send(self._worker)
         predictions = []
         with torch.no_grad():
             for data, labels in self._data_loader:
@@ -222,22 +218,45 @@ class Client:
     def get_token_count(self):
         return self._contract.getTokens(), self._contract.totalTokens()
 
-    def _get_global_model(self):
+    def _get_current_global_model(self):
         """
-        Calculate current global model by aggregating all updates from previous round.
+        Calculate, or get from cache, the current global model.
         """
         current_training_round = self._contract.trainingRound()
-        if current_training_round in self._cached_global_models.keys():
-            return self._cached_global_models[current_training_round]
-        
-        if current_training_round == 0:
-            global_model = self._get_genesis_model()
-        else:
-            model_hashes = self._get_previous_update_hashes()
-            models = self._get_models(model_hashes).values()
-            global_model = self._avg_model(models)
-        self._cached_global_models[current_training_round] = global_model
-        return global_model
+        return self._get_global_model(current_training_round)
+
+    @functools.lru_cache()
+    def _get_global_model(self, training_round):
+        """
+        Calculate global model at the the given training round by aggregating updates from previous round.
+
+        This can only be done if training_round matches the current contract training round.
+        """
+        assert training_round == self._contract.trainingRound(), \
+            f"Tried to get global model at round {training_round}"\
+            f" but contract is at round {self._contract.trainingRound()}. "\
+            f"This stale global model cannot be calculated and is not in the cache."
+        if training_round == 0:
+            return self._get_genesis_model()
+        model_hashes = self._get_previous_update_hashes()
+        models = self._get_models(model_hashes).values()
+        avg_model = self._avg_model(models)
+        return avg_model
+
+    @functools.lru_cache()
+    def _evaluate_global(self, training_round):
+        """
+        Evaluate the global model at the given training round.
+
+        This can only be done if training_round matches the current contract training round.
+        """
+        assert training_round == self._contract.trainingRound(), \
+            f"Tried to evaluate global model at round {training_round}"\
+            f" but contract is at round {self._contract.trainingRound()}. "\
+            f"This stale result cannot be calculated and is not in the cache."
+        global_model = self._get_current_global_model()
+        loss, accuracy = self._evaluate_model(global_model)
+        return loss, accuracy
 
     def _train_model(self, model, lr):
         model = model.send(self._worker)
@@ -297,7 +316,8 @@ class Client:
     def _get_models(self, model_hashes):
         models = dict()
         for trainer, model_hash in model_hashes.items():
-            models[trainer] = self._ipfs_client.get_model(model_hash, self._model_constructor)
+            models[trainer] = self._ipfs_client.get_model(
+                model_hash, self._model_constructor)
         return models
 
     def _get_genesis_model(self):
@@ -327,4 +347,3 @@ class Client:
         avg_model = self._avg_model(models)
         loss, _ = self._evaluate_model(avg_model)
         return start_loss - loss
-        
