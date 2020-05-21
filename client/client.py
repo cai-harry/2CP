@@ -169,11 +169,11 @@ class Client:
         genesis_hash = self._ipfs_client.add_model(genesis_model)
         self._contract.setGenesis(genesis_hash)
 
-    def run_training_round(self, learning_rate):
+    def run_training_round(self, epochs, learning_rate):
         if not self._contract.isTrainer():
             self._contract.addTrainer()
         model = self._get_current_global_model()
-        model = self._train_model(model, learning_rate)
+        model = self._train_model(model, epochs, learning_rate)
         uploaded_hash = self._upload_model(model)
         self._record_model(uploaded_hash)
 
@@ -237,7 +237,6 @@ class Client:
             f"Tried to get global model at round {training_round}"\
             f" but contract is at round {self._contract.trainingRound()}. "\
             f"This stale global model cannot be calculated and is not in the cache."
-        print(f"{self.name}: _get_global_model({training_round})")
         if training_round == 0:
             return self._get_genesis_model()
         model_hashes = self._get_previous_update_hashes()
@@ -260,16 +259,17 @@ class Client:
         loss, accuracy = self._evaluate_model(global_model)
         return loss, accuracy
 
-    def _train_model(self, model, lr):
+    def _train_model(self, model, epochs, lr):
         model = model.send(self._worker)
         optimizer = optim.SGD(model.parameters(), lr=lr)
-        for data, labels in self._data_loader:
-            data, labels = data.float(), labels.float()
-            optimizer.zero_grad()
-            pred = model(data)
-            loss = F.mse_loss(pred, labels)
-            loss.backward()
-            optimizer.step()
+        for epoch in range(epochs):
+            for data, labels in self._data_loader:
+                data, labels = data.float(), labels.float()
+                optimizer.zero_grad()
+                pred = model(data)
+                loss = F.mse_loss(pred, labels)
+                loss.backward()
+                optimizer.step()
         return model.get()
 
     def _evaluate_model(self, model):
