@@ -163,6 +163,7 @@ class Client:
         self._ipfs_client = IPFSClient()
 
         self._cached_global_models = {}
+        self._cached_global_model_metrics = {}
 
     def set_genesis_model(self):
         genesis_model = self._model_constructor()
@@ -178,8 +179,13 @@ class Client:
         self._record_model(uploaded_hash)
 
     def evaluate_global(self):
-        model = self._get_global_model()
-        return self._evaluate_model(model)
+        current_training_round = self._contract.trainingRound()
+        if current_training_round in self._cached_global_model_metrics.keys():
+            return self._cached_global_model_metrics[current_training_round]
+        global_model = self._get_global_model()
+        loss, accuracy = self._evaluate_model(global_model)
+        self._cached_global_model_metrics[current_training_round] = (loss, accuracy)
+        return loss, accuracy
 
     def evaluate_trainers(self):
         """
@@ -189,7 +195,6 @@ class Client:
         self._characteristic_function.cache_clear()
         sv = shapley.values(
                 self._characteristic_function, trainers)
-        print(self._characteristic_function.cache_info())
         return sv
 
     def finish_training_round(self):
@@ -316,8 +321,7 @@ class Client:
         The Shapley Value of a coalition of trainers is the marginal loss reduction
         of the average of their models
         """
-        start_model = self._get_global_model()
-        start_loss, _ = self._evaluate_model(start_model)
+        start_loss, _ = self.evaluate_global()
         hashes = self._get_current_update_hashes(players)
         models = self._get_models(hashes).values()
         avg_model = self._avg_model(models)
