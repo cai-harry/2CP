@@ -1,4 +1,5 @@
 import functools
+import methodtools
 import os
 import json
 
@@ -225,7 +226,7 @@ class Client:
         current_training_round = self._contract.trainingRound()
         return self._get_global_model(current_training_round)
 
-    @functools.lru_cache()
+    @methodtools.lru_cache()
     def _get_global_model(self, training_round):
         """
         Calculate global model at the the given training round by aggregating updates from previous round.
@@ -236,6 +237,7 @@ class Client:
             f"Tried to get global model at round {training_round}"\
             f" but contract is at round {self._contract.trainingRound()}. "\
             f"This stale global model cannot be calculated and is not in the cache."
+        print(f"{self.name}: _get_global_model({training_round})")
         if training_round == 0:
             return self._get_genesis_model()
         model_hashes = self._get_previous_update_hashes()
@@ -243,7 +245,7 @@ class Client:
         avg_model = self._avg_model(models)
         return avg_model
 
-    @functools.lru_cache()
+    @methodtools.lru_cache()
     def _evaluate_global(self, training_round):
         """
         Evaluate the global model at the given training round.

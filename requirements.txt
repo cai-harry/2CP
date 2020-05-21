@@ -6,6 +6,7 @@ jupyter
 jupyterlab
 ipfshttpclient
 matplotlib
+methodtools
 more_itertools
 numpy
 pandas  # required to read covid hackathon data
