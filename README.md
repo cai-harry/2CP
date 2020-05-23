@@ -31,6 +31,8 @@ Use pip to install everything else.
 pip install -r requirements.txt
 ```
 
+Note: as of 22th May 2020, the version of `ipfshttpclient` on PyPI is too old to support `go-ipfs` v0.5.x - so try installing it directly from source instead ([GitHub repo](https://github.com/ipfs-shipyard/py-ipfs-http-client))
+
 ### Setting up IPFS client
 Requirements
 - [IPFS Desktop](https://github.com/ipfs-shipyard/ipfs-desktop)
