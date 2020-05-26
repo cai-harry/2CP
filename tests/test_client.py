@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import torch
 
 from context import Client
+from context import print_global_performance, print_token_count
 
-from test_utils.utils import print_global_performance, print_token_count
 from test_utils.xor import XORDataset, XORModel, plot_predictions
 
 def test_integration():

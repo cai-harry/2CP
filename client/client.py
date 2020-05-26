@@ -261,6 +261,7 @@ class Client:
 
     def _train_model(self, model, epochs, lr):
         model = model.send(self._worker)
+        model.train()
         optimizer = optim.SGD(model.parameters(), lr=lr)
         for epoch in range(epochs):
             for data, labels in self._data_loader:
@@ -274,6 +275,7 @@ class Client:
 
     def _evaluate_model(self, model):
         model = model.send(self._worker)
+        model.eval()
         with torch.no_grad():
             total_loss = 0
             total_correct = 0
@@ -336,7 +338,7 @@ class Client:
                     avg_param += client_param / len(models)
         return avg_model
 
-    @functools.lru_cache()
+    @functools.lru_cache()  # caution: must be cleared before each evaluation round!
     def _characteristic_function(self, *players):
         """
         The characteristic function used to calculate Shapley Value.

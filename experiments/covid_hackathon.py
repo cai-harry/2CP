@@ -75,23 +75,24 @@ alice_data, alice_targets, bob_data, bob_targets, \
 print(alice_data.shape)
 print(alice_targets.shape)
 
-contract_address = input("Enter contract address:\n>")
-
 # These clients will evaluate
-alice = Client("Alice", alice_data, alice_targets, CovidModel, contract_address, 0)
+alice = Client("Alice", alice_data, alice_targets, CovidModel, 0)
 
 # These clients will train
-bob = Client("Bob", bob_data, bob_targets, CovidModel, contract_address, 1)
-charlie = Client("Charlie", charlie_data, charlie_targets, CovidModel, contract_address, 2)
+bob = Client("Bob", bob_data, bob_targets, CovidModel, 1)
+charlie = Client("Charlie", charlie_data, charlie_targets, CovidModel, 2)
 
 TRAINING_ITERATIONS = 16
-LEARNING_RATE = 1e-2
+TRAINING_HYPERPARAMETERS = {
+    'epochs': 64,
+    'learning_rate': 1e-2
+}
 
 alice.set_genesis_model()
 for i in range(1, TRAINING_ITERATIONS+1):
     print(f"\nIteration {i}")
-    bob.run_training_round(LEARNING_RATE)
-    charlie.run_training_round(LEARNING_RATE)
+    bob.run_training_round(**TRAINING_HYPERPARAMETERS)
+    charlie.run_training_round(**TRAINING_HYPERPARAMETERS)
     print_global_performance(alice)
     alice.finish_training_round()
     print_token_count(bob)
