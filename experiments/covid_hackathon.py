@@ -6,8 +6,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from context import Client
-from context import print_global_performance, print_token_count
+from client import Client
+from utils import print_global_performance, print_token_count
 
 
 class CovidData:

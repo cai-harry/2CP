@@ -31,7 +31,17 @@ Use pip to install everything else.
 pip install -r requirements.txt
 ```
 
-Note: as of 22th May 2020, the version of `ipfshttpclient` on PyPI is too old to support `go-ipfs` v0.5.x - so try installing it directly from source instead ([GitHub repo](https://github.com/ipfs-shipyard/py-ipfs-http-client))
+Note: as of 22 May 2020, the version of `ipfshttpclient` on PyPI is too old to support `go-ipfs` v0.5.x - so try installing it directly from source instead ([GitHub repo](https://github.com/ipfs-shipyard/py-ipfs-http-client))
+
+#### Adding `/client` to `PYTHONPATH`
+
+Required to run unit tests or experiments. This is really easy with conda. From repo root:
+
+```
+conda develop client
+```
+
+VSCode should already be set up correctly; see `.vscode/settings.json` and `.env`. (Followed [these instructions](https://binx.io/blog/2020/03/05/setting-python-source-folders-vscode/))
 
 ### Setting up IPFS client
 Requirements
@@ -42,8 +52,13 @@ Requirements
 - [Truffle](https://www.trufflesuite.com/truffle)
 - [Ganache](https://www.trufflesuite.com/ganache)
 
+#### Setting up simulated blockchain
+1. Open the Ganache app.
+2. Quick start or set up a new workspace.
+3. In settings, under Server, turn off automine and set mining block time to 15 seconds (or set to 3 or 4 to make unit tests run more quickly).
+
 ### Running the unit tests
-1. Spin up a blockchain by opening the Ganache app. Default settings should work.
+1. Spin up a blockchain as above.
 2. Start up an IPFS node by opening the IPFS desktop app.
 3. Compile and deploy contracts: `truffle migrate`
 4. From repo root: `pytest -s` (the `-s` flag displays print statements.)

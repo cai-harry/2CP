@@ -4,8 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import torch
 
-from context import Client
-from context import print_global_performance, print_token_count
+from client import Client
+from utils import print_global_performance, print_token_count
 
 from test_utils.xor import XORDataset, XORModel, plot_predictions
 
@@ -35,15 +35,15 @@ def test_integration():
     david = Client("David", david_data, david_targets, XORModel, 3)
     eve = Client("Eve", eve_data, eve_targets, XORModel, 4)
 
-    print("Setting genesis...")
+    print("Alice setting genesis...")
     genesis_tx = alice.set_genesis_model()
     pending_txs = [genesis_tx]
+    alice.wait_for(pending_txs)
+    print("Alice done and transaction confirmed")
 
     # Training
     for i in range(1, TRAINING_ITERATIONS+1):
         print(f"\nIteration {i}")
-        print(f"Bob waiting for others' txs...")
-        bob.wait_for(pending_txs)
         print("\tBob training...")
         tx_b = bob.run_training_round(**TRAINING_HYPERPARAMS)
         print("\tCharlie training...")
@@ -53,22 +53,22 @@ def test_integration():
         print("\tEve training...")
         tx_e = eve.run_training_round(**TRAINING_HYPERPARAMS)
         pending_txs.extend([tx_b, tx_c, tx_d, tx_e])
-    
-    # Retrospective evaluation
-    print("\tAlice waiting for others' txs...")
-    alice.wait_for(pending_txs)
-    for i in range(1, TRAINING_ITERATIONS+1):
-        print(f"\nEvaluating iteration {i}")
+        print("\tAlice waiting for others' txs...")
+        alice.wait_for(pending_txs)
         print("\tAlice evaluating global...")
         print_global_performance(alice)
+    
+    # Retrospective evaluation
+    for i in range(1, TRAINING_ITERATIONS+1):
+        print(f"\nEvaluating iteration {i}")
         print("\tAlice calculating SVs...")
         scores = alice.evaluate_updates(i)
         print("\tAlice setting SVs...")
         txs = alice.set_tokens(scores)
         pending_txs.extend(txs)
+
     print("\tAlice waiting for her txs to finish...")
     alice.wait_for(pending_txs)
-
     print_token_count(bob)
     print_token_count(charlie)
     print_token_count(david)
