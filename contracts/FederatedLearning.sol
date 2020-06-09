@@ -64,6 +64,7 @@ contract FederatedLearning {
     }
 
     /// @notice Starts training by setting the genesis model.
+    /// @dev Does not reset the training process! Deploy a new contract instead.
     function setGenesis(bytes32 _modelHash) external evaluatorOnly() {
         genesis = _modelHash;
         genesisBlockNum = block.number;

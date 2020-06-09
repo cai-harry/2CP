@@ -36,11 +36,14 @@ def test_integration():
     eve = Client("Eve", eve_data, eve_targets, XORModel, 4)
 
     print("Setting genesis...")
-    tx = alice.set_genesis_model()
-    print(alice.wait_for_tx(tx))
+    genesis_tx = alice.set_genesis_model()
+    pending_txs = [genesis_tx]
 
+    # Training
     for i in range(1, TRAINING_ITERATIONS+1):
         print(f"\nIteration {i}")
+        print(f"Bob waiting for others' txs...")
+        bob.wait_for(pending_txs)
         print("\tBob training...")
         tx_b = bob.run_training_round(**TRAINING_HYPERPARAMS)
         print("\tCharlie training...")
@@ -49,18 +52,23 @@ def test_integration():
         tx_d = david.run_training_round(**TRAINING_HYPERPARAMS)
         print("\tEve training...")
         tx_e = eve.run_training_round(**TRAINING_HYPERPARAMS)
-        
-        print("\tAlice waiting for others' txs...")
-        alice.wait_for_txs([tx_b, tx_c, tx_d, tx_e])
+        pending_txs.extend([tx_b, tx_c, tx_d, tx_e])
+    
+    # Retrospective evaluation
+    print("\tAlice waiting for others' txs...")
+    alice.wait_for(pending_txs)
+    for i in range(1, TRAINING_ITERATIONS+1):
+        print(f"\nEvaluating iteration {i}")
         print("\tAlice evaluating global...")
         print_global_performance(alice)
         print("\tAlice calculating SVs...")
         scores = alice.evaluate_updates(i)
         print("\tAlice setting SVs...")
-        txs_a = alice.set_tokens(scores)
-        
-    print("\tAlice stalling until txs are finished...")
-    alice.wait_for_txs(txs_a)
+        txs = alice.set_tokens(scores)
+        pending_txs.extend(txs)
+    print("\tAlice waiting for her txs to finish...")
+    alice.wait_for(pending_txs)
+
     print_token_count(bob)
     print_token_count(charlie)
     print_token_count(david)
@@ -83,7 +91,6 @@ def test_integration():
         bob_global_model
     ), "Alice and Bob ran the same aggregation but got different model weights"
 
-    print(f"Alice: {alice_global_model.state_dict()}")
     assert str(alice_global_model.state_dict()) == \
         str(bob_global_model.state_dict()), \
             "Alice and Bob ran the same aggregation but got different model dicts"

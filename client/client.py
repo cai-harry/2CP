@@ -175,7 +175,7 @@ class Client:
 
     def evaluate_updates(self, training_round):
         """
-        Provide Shaply Value score for each update in the given training round.
+        Provide Shapley Value score for each update in the given training round.
         """
         cids = self._get_cids(training_round)
         def characteristic_function(*c):
@@ -213,13 +213,12 @@ class Client:
                 predictions.append(pred)
         return torch.stack(predictions)
 
-    def wait_for_tx(self, tx):
-        return self._contract.wait_for_tx(tx)
-
-    def wait_for_txs(self, txs):
+    def wait_for(self, txs):
         receipts = []
-        for tx in txs:
-            receipts.append(self.wait_for_tx(tx))
+        if txs:
+            for tx in txs:
+                receipts.append(self._contract.wait_for_tx(tx))
+            txs = []  # clears the list of pending transactions passed in as argument
         return receipts
 
     @methodtools.lru_cache()
