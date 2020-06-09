@@ -1,11 +1,6 @@
 def print_global_performance(client):
-    loss, accuracy = client.evaluate_global()
-    print(f"Loss {loss}\tAccuracy {accuracy}")
-
-
-def print_trainer_performances(client):
-    scores = client.evaluate_trainers()
-    print(f"\t Scores{scores.values()}\t")
+    loss, accuracy = client.evaluate_current_global()
+    print(f"\t\t{client.name} got: Loss {loss}\tAccuracy {accuracy}")
 
 
 def print_token_count(client):

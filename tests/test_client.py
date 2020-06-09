@@ -35,19 +35,36 @@ def test_integration():
     david = Client("David", david_data, david_targets, XORModel, 3)
     eve = Client("Eve", eve_data, eve_targets, XORModel, 4)
 
-    alice.set_genesis_model()
+    print("Setting genesis...")
+    tx = alice.set_genesis_model()
+    print(alice.wait_for_tx(tx))
+
     for i in range(1, TRAINING_ITERATIONS+1):
         print(f"\nIteration {i}")
-        bob.run_training_round(**TRAINING_HYPERPARAMS)
-        charlie.run_training_round(**TRAINING_HYPERPARAMS)
-        david.run_training_round(**TRAINING_HYPERPARAMS)
-        eve.run_training_round(**TRAINING_HYPERPARAMS)
+        print("\tBob training...")
+        tx_b = bob.run_training_round(**TRAINING_HYPERPARAMS)
+        print("\tCharlie training...")
+        tx_c = charlie.run_training_round(**TRAINING_HYPERPARAMS)
+        print("\tDavid training...")
+        tx_d = david.run_training_round(**TRAINING_HYPERPARAMS)
+        print("\tEve training...")
+        tx_e = eve.run_training_round(**TRAINING_HYPERPARAMS)
+        
+        print("\tAlice waiting for others' txs...")
+        alice.wait_for_txs([tx_b, tx_c, tx_d, tx_e])
+        print("\tAlice evaluating global...")
         print_global_performance(alice)
-        alice.finish_training_round()
-        print_token_count(bob)
-        print_token_count(charlie)
-        print_token_count(david)
-        print_token_count(eve)
+        print("\tAlice calculating SVs...")
+        scores = alice.evaluate_updates(i)
+        print("\tAlice setting SVs...")
+        txs_a = alice.set_tokens(scores)
+        
+    print("\tAlice stalling until txs are finished...")
+    alice.wait_for_txs(txs_a)
+    print_token_count(bob)
+    print_token_count(charlie)
+    print_token_count(david)
+    print_token_count(eve)
 
     assert bob.get_token_count() > david.get_token_count(
     ), "Bob ended up with fewer tokens than David"
@@ -58,8 +75,8 @@ def test_integration():
     assert charlie.get_token_count() > eve.get_token_count(
     ), "Charlie ended up with fewer tokens than Eve"
     
-    alice_global_model = alice._get_current_global_model()
-    bob_global_model = bob._get_current_global_model()
+    alice_global_model, _ = alice.get_current_global_model()
+    bob_global_model, _ = bob.get_current_global_model()
 
     assert _same_weights(
         alice_global_model,

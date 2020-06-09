@@ -1,42 +1,28 @@
 pragma solidity >=0.4.21 <0.7.0;
 
+
 /// @title Records contributions made to a consortium Federated Learning process
 /// @author Harry Cai
 contract FederatedLearning {
-
     /// @notice Address of contract creator, who evaluates updates
     address public evaluator;
 
-    /// @notice Addresses of registered trainers
-    address[] public trainers;
-
-    /// IPFS hash of genesis model
+    /// @notice IPFS hash of genesis model
     bytes32 public genesis;
 
-    /// @notice Mapping of trainer addresses to IPFS hashes of model updates in the previous training round. Clients will need to download all of these and train from their aggregate.
-    /// @dev IPFS hashes are 34 bytes long but we discard the first two (0x1220), which indicate hash function and length. https://ethereum.stackexchange.com/questions/17094/how-to-store-ipfs-hash-using-bytes
-    mapping(address => bytes32) public previousUpdates;
+    mapping(uint256 => bytes32[]) private updatesInRound;
 
-    /// @notice Mapping of trainer addresses IPFS hashes of model updates in the current training round.
-    mapping(address => bytes32) public currentUpdates;
+    mapping(address => bytes32[]) private updatesFromAddress;
 
-    /// @notice Index of training round. Starts at zero.
-    uint256 public trainingRound;
+    mapping(bytes32 => bool) private tokensAssigned;
 
-    /// @notice Number of contributions each trainer has made
-    mapping(address => uint256) public tokens;
+    mapping(bytes32 => uint256) private tokens;
 
-    /// @notice Number of tokens issued and owned by trainers.
-    uint256 public totalTokens;
+    uint256 internal genesisBlockNum;
 
     /// @notice Constructor. The address that deploys the contract is set as the evaluator.
     constructor() public {
         evaluator = msg.sender;
-    }
-
-    modifier trainersOnly() {
-        require(isTrainer(msg.sender), "Not a registered trainer");
-        _;
     }
 
     modifier evaluatorOnly() {
@@ -44,111 +30,69 @@ contract FederatedLearning {
         _;
     }
 
-    modifier endOfTrainingRoundOnly() {
-        require(
-            isTrainingRoundFinished(),
-            "Training round is still in progress"
-        );
-        _;
+    /// @return The index of the current training round.
+    function currentRound() public view returns (uint256) {
+        return 1 + block.number - genesisBlockNum;
     }
 
-    /// @return Token count of the calling address.
-    function getTokens() external view returns (uint256) {
-        return tokens[msg.sender];
+    /// @return The CID's of updates in the given training round.
+    function updates(uint256 _round) external view returns (bytes32[] memory) {
+        return updatesInRound[_round];
     }
 
-    /// @return List of addresses of registered trainers.
-    function getTrainers() external view returns (address[] memory) {
-        return trainers;
+    /// @return count Token count of the given address.
+    function countTokens(address _address) public view returns (uint256 count) {
+        bytes32[] memory updates = updatesFromAddress[_address];
+        for (uint256 i = 0; i < updates.length; i++) {
+            count += tokens[updates[i]];
+        }
     }
 
-    /// @return Whether the calling address is a registered trainer.
-    function isTrainer() external view returns (bool) {
-        return isTrainer(msg.sender);
+    /// @return count Token count of the calling address.
+    function countTokens() external view returns (uint256 count) {
+        count = countTokens(msg.sender);
     }
 
-    function isTrainer(address a) internal view returns (bool) {
-        for (uint256 i = 0; i < trainers.length; i++) {
-            address trainer = trainers[i];
-            if (trainer == a) {
-                return true;
+    /// @return count Total number of tokens.
+    function countTotalTokens() external view returns (uint256 count) {
+        for (uint256 i = 1; i <= currentRound(); i++) {
+            bytes32[] memory updates = updatesInRound[i];
+            for (uint256 j = 0; j < updates.length; j++) {
+                count += tokens[updates[j]];
             }
         }
-        return false;
     }
 
-    /// @return Whether the current training round is finished.
-    function isTrainingRoundFinished() public view returns (bool) {
-        // check if currentUpdates maps to zero for any trainer
-        for (uint256 i = 0; i < trainers.length; i++) {
-            address trainer = trainers[i];
-            if (currentUpdates[trainer] == 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /// @notice Starts or resets training and sets the genesis model.
+    /// @notice Starts training by setting the genesis model.
     function setGenesis(bytes32 _modelHash) external evaluatorOnly() {
-        for (uint256 i = 0; i < trainers.length; i++) {
-            address trainer = trainers[i];
-            previousUpdates[trainer] = 0;
-            currentUpdates[trainer] = 0;
-            tokens[trainer] = 0;
-        }
-        delete trainers;
-        totalTokens = 0;
-
         genesis = _modelHash;
-        trainingRound = 0;
-    }
-
-    /// @notice Registers the calling address as a trainer.
-    function addTrainer() external {
-        require(!isTrainer(msg.sender), "Trainer already added");
-        trainers.push(msg.sender);
+        genesisBlockNum = block.number;
     }
 
     /// @notice Records a training contribution in the current round.
-    function addModelUpdate(bytes32 _modelHash) external trainersOnly() {
-        require(
-            currentUpdates[msg.sender] == 0,
-            "Already submitted model update this round"
-        );
-        currentUpdates[msg.sender] = _modelHash;
+    function addModelUpdate(bytes32 _cid, uint256 _round)
+        external
+    // trainersOnly()
+    {
+        require(_round > 0, "Trying to add an update for the genesis round");
+        require(_round >= currentRound(), "Trying to add an update for a past round");
+        require(_round <= currentRound(), "Trying to add an update for a future round");
+        updatesInRound[_round].push(_cid);
+        updatesFromAddress[msg.sender].push(_cid);
     }
 
-    /// @notice Rewards a trainer with tokens.
-    /// @param _trainer The address of the trainer to give tokens to
+    /// @notice Assigns a token count to an update.
+    /// @param _cid The update being rewarded
     /// @param _numTokens The number of tokens to award; should be based on marginal value contribution
-    function giveTokens(address _trainer, uint256 _numTokens)
+    function setTokens(bytes32 _cid, uint256 _numTokens)
         external
         evaluatorOnly()
-        endOfTrainingRoundOnly()
     {
-        require(isTrainer(_trainer), "Recipient is not a registered trainer");
         require(
-            currentUpdates[_trainer] != 0,
-            "Trainer did not submit a model update this round"
+            !tokensAssigned[_cid],
+            "Update has already been rewarded"
         );
-        tokens[_trainer] = tokens[_trainer] + _numTokens;
-        totalTokens = totalTokens + _numTokens;
-    }
-
-    /// @notice Ends the current training round and starts the next one.
-    function nextTrainingRound()
-        external
-        evaluatorOnly()
-        endOfTrainingRoundOnly()
-    {
-        // make previousUpdates equal to currentUpdates
-        // reset currentUpdates so all trainers map to zero
-        for (uint256 i = 0; i < trainers.length; i++) {
-            address trainer = trainers[i];
-            previousUpdates[trainer] = currentUpdates[trainer];
-            currentUpdates[trainer] = 0;
-        }
-        trainingRound = trainingRound + 1;
+        tokens[_cid] = _numTokens;
+        tokensAssigned[_cid] = true;
     }
 }
