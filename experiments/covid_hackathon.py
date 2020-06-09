@@ -89,17 +89,27 @@ TRAINING_HYPERPARAMETERS = {
     'learning_rate': 1e-2
 }
 
-alice.set_genesis_model()
+tx = alice.set_genesis_model()
+alice.wait_for([tx])
+
 for i in range(1, TRAINING_ITERATIONS+1):
     print(f"\nIteration {i}")
-    bob.run_training_round(**TRAINING_HYPERPARAMETERS)
-    charlie.run_training_round(**TRAINING_HYPERPARAMETERS)
-    david.run_training_round(**TRAINING_HYPERPARAMETERS)
-    eve.run_training_round(**TRAINING_HYPERPARAMETERS)
+    
+    txb = bob.run_training_round(**TRAINING_HYPERPARAMETERS)
+    txc = charlie.run_training_round(**TRAINING_HYPERPARAMETERS)
+    txd = david.run_training_round(**TRAINING_HYPERPARAMETERS)
+    txe = eve.run_training_round(**TRAINING_HYPERPARAMETERS)
+    alice.wait_for([txb, txc, txd, txe])
     print_global_performance(alice)
-    alice.finish_training_round()
-    print_token_count(alice)
-    print_token_count(bob)
-    print_token_count(charlie)
-    print_token_count(david)
-    print_token_count(eve)
+
+for i in range(1, TRAINING_ITERATIONS+1):
+    print(f"\nEvaluating iteration {i}")
+    scores = alice.evaluate_updates(i)
+    txs = alice.set_tokens(scores)
+
+alice.wait_for(txs)
+print_token_count(alice)
+print_token_count(bob)
+print_token_count(charlie)
+print_token_count(david)
+print_token_count(eve)
