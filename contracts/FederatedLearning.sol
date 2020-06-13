@@ -7,16 +7,20 @@ contract FederatedLearning {
     /// @notice Address of contract creator, who evaluates updates
     address public evaluator;
 
-    /// @notice IPFS hash of genesis model
+    /// @notice IPFS CID of genesis model
     bytes32 public genesis;
 
-    mapping(uint256 => bytes32[]) private updatesInRound;
+    /// The IPFS CIDs of model updates in each round
+    mapping(uint256 => bytes32[]) internal updatesInRound;
 
-    mapping(address => bytes32[]) private updatesFromAddress;
+    /// The IPFS CIDs of model updates made by each address
+    mapping(address => bytes32[]) internal updatesFromAddress;
 
-    mapping(bytes32 => bool) private tokensAssigned;
+    /// Whether or not each model update has been evaluated
+    mapping(bytes32 => bool) internal tokensAssigned;
 
-    mapping(bytes32 => uint256) private tokens;
+    /// The contributivity score for each model update, if evaluated
+    mapping(bytes32 => uint256) internal tokens;
 
     uint256 internal genesisBlockNum;
 
