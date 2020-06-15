@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import torch
 
-from clients import CrowdsourceClient, ConsortiumCreatorClient, ConsortiumClient
+from clients import CrowdsourceClient, ConsortiumSetupClient, ConsortiumClient
 from utils import print_global_performance, print_token_count
 
 from test_utils.xor import XORDataset, XORModel, plot_predictions
@@ -95,7 +95,7 @@ def test_integration_consortium():
     Integration test for consortium setting.
     Alice sets up the main contract but doesn't participate.
     """
-    alice = ConsortiumCreatorClient("Alice", XORModel, 0)
+    alice = ConsortiumSetupClient("Alice", XORModel, 0)
     bob = ConsortiumClient("Bob", bob_data, bob_targets, XORModel, 1)
     charlie = ConsortiumClient("Charlie", charlie_data, charlie_targets, XORModel, 2)
     david = ConsortiumClient("David", david_data, david_targets, XORModel, 3)

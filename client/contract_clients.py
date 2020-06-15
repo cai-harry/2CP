@@ -4,24 +4,68 @@ import base58
 from web3 import HTTPProvider, Web3
 
 
-class ContractClient:
+class _BaseContractClient:
     """
-    Wrapper over the Smart Contract ABI, to gracefully bridge Python data to Solidity.
+    Contains common features of both contract clients.
 
-    The API of this class should match that of the smart contract, perhaps with some extra utility functions.
+    Handles contract setup, conversions to and from bytes32 and other utils.
     """
 
     PROVIDER_ADDRESS = "http://127.0.0.1:7545"
     NETWORK_ID = "5777"
-    CONTRACT_JSON_PATH = "build/contracts/Crowdsource.json"
     IPFS_HASH_PREFIX = bytes.fromhex('1220')
 
-    def __init__(self, account_idx, address=None):
+    def __init__(self, contract_json_path, account_idx, address=None):
+        self._contract_json_path = contract_json_path
+
         self._web3 = Web3(HTTPProvider(self.PROVIDER_ADDRESS))
         self._contract = self._instantiate_contract(address)
         
         self.address = self._web3.eth.accounts[account_idx]
         self._web3.eth.defaultAccount = self.address
+
+    def wait_for_tx(self, tx_hash):
+        return self._web3.eth.waitForTransactionReceipt(tx_hash)
+
+    def _instantiate_contract(self, address=None):
+        with open(self._contract_json_path) as json_file:
+            crt_json = json.load(json_file)
+            abi = crt_json['abi']
+            if address is None:
+                address = crt_json['networks'][self.NETWORK_ID]['address']
+        instance = self._web3.eth.contract(
+            abi=abi,
+            address=address
+        )
+        return instance
+    
+    def _to_bytes32(self, model_cid):
+        bytes34 = base58.b58decode(model_cid)
+        assert bytes34[:2] == self.IPFS_HASH_PREFIX, \
+            f"IPFS cid should begin with {self.IPFS_HASH_PREFIX} but got {bytes34[:2].hex()}"
+        bytes32 = bytes34[2:]
+        return bytes32
+
+    def _from_bytes32(self, bytes32):
+        bytes34 = self.IPFS_HASH_PREFIX + bytes32
+        model_cid = base58.b58encode(bytes34).decode()
+        return model_cid
+
+
+class CrowdsourceContractClient(_BaseContractClient):
+    """
+    Wrapper over the Crowdsource.sol ABI, to gracefully bridge Python data to Solidity.
+
+    The API of this class should match that of the smart contract.
+    """
+
+    def __init__(self, account_idx, address=None):
+        super().__init__(
+            "build/contracts/Crowdsource.json",
+            account_idx,
+            address
+        )
+
 
     def evaluator(self):
         return self._contract.functions.evaluator().call()
@@ -59,49 +103,22 @@ class ContractClient:
         return self._contract.functions.setTokens(
             cid_bytes, num_tokens).transact()
 
-    def wait_for_tx(self, tx_hash):
-        return self._web3.eth.waitForTransactionReceipt(tx_hash)
-
-    def _instantiate_contract(self, address=None):
-        with open(self.CONTRACT_JSON_PATH) as json_file:
-            crt_json = json.load(json_file)
-            abi = crt_json['abi']
-            if address is None:
-                address = crt_json['networks'][self.NETWORK_ID]['address']
-        instance = self._web3.eth.contract(
-            abi=abi,
-            address=address
-        )
-        return instance
-
-    def _to_bytes32(self, model_cid):
-        bytes34 = base58.b58decode(model_cid)
-        assert bytes34[:2] == self.IPFS_HASH_PREFIX, \
-            f"IPFS cid should begin with {self.IPFS_HASH_PREFIX} but got {bytes34[:2].hex()}"
-        bytes32 = bytes34[2:]
-        return bytes32
-
-    def _from_bytes32(self, bytes32):
-        bytes34 = self.IPFS_HASH_PREFIX + bytes32
-        model_cid = base58.b58encode(bytes34).decode()
-        return model_cid
 
 
 
-class ConsortiumContractClient():
-    # TODO: both contract clients should inherit from a base class
+class ConsortiumContractClient(_BaseContractClient):
+    """
+    Wrapper over the Consortium.sol ABI, to gracefully bridge Python data to Solidity.
 
-    PROVIDER_ADDRESS = "http://127.0.0.1:7545"
-    NETWORK_ID = "5777"
-    CONTRACT_JSON_PATH = "build/contracts/Consortium.json"
-    IPFS_HASH_PREFIX = bytes.fromhex('1220')
+    The API of this class should match that of the smart contract.
+    """
 
     def __init__(self, account_idx, address=None):
-        self._web3 = Web3(HTTPProvider(self.PROVIDER_ADDRESS))
-        self._contract = self._instantiate_contract(address)
-
-        self.address = self._web3.eth.accounts[account_idx]
-        self._web3.eth.defaultAccount = self.address
+        super().__init__(
+            "build/contracts/Consortium.json",
+            account_idx,
+            address
+        )
 
     def main(self):
         return self._contract.functions.main().call()
@@ -123,31 +140,4 @@ class ConsortiumContractClient():
 
     def addSub(self, evaluator):
         return self._contract.functions.addSub(evaluator).transact()
-
-    def wait_for_tx(self, tx_hash):
-        return self._web3.eth.waitForTransactionReceipt(tx_hash)
-
-    def _instantiate_contract(self, address=None):
-        with open(self.CONTRACT_JSON_PATH) as json_file:
-            crt_json = json.load(json_file)
-            abi = crt_json['abi']
-            if address is None:
-                address = crt_json['networks'][self.NETWORK_ID]['address']
-        instance = self._web3.eth.contract(
-            abi=abi,
-            address=address
-        )
-        return instance
-
-    def _to_bytes32(self, model_cid):
-        bytes34 = base58.b58decode(model_cid)
-        assert bytes34[:2] == self.IPFS_HASH_PREFIX, \
-            f"IPFS cid should begin with {self.IPFS_HASH_PREFIX} but got {bytes34[:2].hex()}"
-        bytes32 = bytes34[2:]
-        return bytes32
-
-    def _from_bytes32(self, bytes32):
-        bytes34 = self.IPFS_HASH_PREFIX + bytes32
-        model_cid = base58.b58encode(bytes34).decode()
-        return model_cid
 

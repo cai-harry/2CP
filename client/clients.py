@@ -1,27 +1,81 @@
 import functools
 import methodtools
 
-import matplotlib.pyplot as plt
 import syft as sy
-from syft.federated.floptimizer import Optims
 import torch
 from torch import nn, optim
 from torch.nn import functional as F
 
 from ipfs_client import IPFSClient
-from contract_clients import ContractClient, ConsortiumContractClient
+from contract_clients import CrowdsourceContractClient, ConsortiumContractClient
 import shapley
 
 _hook = sy.TorchHook(torch)
 
 
-class CrowdsourceClient:
-    # TODO: BaseClient -> TrainerClient, EvaluatorClient -> CrowdsourceClient
+class _BaseClient:
+    """
+    Abstract base client containing common features of the clients for both the
+    Crowdsource Protocol and the Consortium Protocol.
+    """
+
+    def __init__(self, name, model_constructor, contract_constructor, account_idx, contract_address=None):
+        self.name = name
+        self._model_constructor = model_constructor
+        self._contract = contract_constructor(account_idx, contract_address)
+        self._account_idx = account_idx
+        self.address = self._contract.address
+
+    def get_token_count(self):
+        return self._contract.countTokens(), self._contract.countTotalTokens()
+
+    def wait_for(self, txs):
+        receipts = []
+        if txs:
+            for tx in txs:
+                receipts.append(self._contract.wait_for_tx(tx))
+            txs.clear()  # clears the list of pending transactions passed in as argument
+        return receipts
+
+
+class _GenesisClient(_BaseClient):
+    """
+    Extends upon base client with the ability to set the genesis model to start training.
+    """
+
+    def __init__(self, name, model_constructor, contract_constructor, account_idx, contract_address=None):
+        super().__init__(name, model_constructor,
+                         contract_constructor, account_idx, contract_address)
+        self._ipfs_client = IPFSClient()
+
+    def set_genesis_model(self):
+        """
+        Create, upload and record the genesis model.
+        """
+        genesis_model = self._model_constructor()
+        genesis_cid = self._upload_model(genesis_model)
+        tx = self._contract.setGenesis(genesis_cid)
+        return tx
+
+    def _upload_model(self, model):
+        """Uploads the given model to IPFS."""
+        uploaded_cid = self._ipfs_client.add_model(model)
+        return uploaded_cid
+
+
+class CrowdsourceClient(_GenesisClient):
+    """
+    Full client for the Crowdsource Protocol.
+    """
 
     TOKENS_PER_UNIT_LOSS = 1e18  # number of wei per ether
 
     def __init__(self, name, data, targets, model_constructor, account_idx, contract_address=None):
-        self.name = name
+        super().__init__(name,
+                         model_constructor,
+                         CrowdsourceContractClient,
+                         account_idx,
+                         contract_address)
         self.data_length = min(len(data), len(targets))
 
         self._worker = sy.VirtualWorker(_hook, id=name)
@@ -32,15 +86,9 @@ class CrowdsourceClient:
             batch_size=len(data),
             shuffle=True
         )
-        self._model_constructor = model_constructor
-        self._contract = ContractClient(account_idx, contract_address)
-        self._ipfs_client = IPFSClient()
 
     def is_evaluator(self):
         return self._contract.evaluator() == self._contract.address
-
-    def get_token_count(self):
-        return self._contract.countTokens(), self._contract.countTotalTokens()
 
     def get_current_global_model(self):
         """
@@ -48,15 +96,6 @@ class CrowdsourceClient:
         """
         current_training_round = self._contract.currentRound()
         return self._get_global_model(current_training_round), current_training_round
-
-    def set_genesis_model(self):
-        """
-        Create, upload and record the genesis model.
-        """
-        genesis_model = self._model_constructor()
-        genesis_cid = self._ipfs_client.add_model(genesis_model)
-        tx = self._contract.setGenesis(genesis_cid)
-        return tx
 
     def run_training_round(self, epochs, learning_rate):
         """
@@ -73,6 +112,7 @@ class CrowdsourceClient:
         Provide Shapley Value score for each update in the given training round.
         """
         cids = self._get_cids(training_round)
+
         def characteristic_function(*c):
             return self._marginal_value(training_round, *c)
         scores = shapley.values(
@@ -107,14 +147,6 @@ class CrowdsourceClient:
                 pred = model(data).get()
                 predictions.append(pred)
         return torch.stack(predictions)
-
-    def wait_for(self, txs):
-        receipts = []
-        if txs:
-            for tx in txs:
-                receipts.append(self._contract.wait_for_tx(tx))
-            txs.clear()  # clears the list of pending transactions passed in as argument
-        return receipts
 
     @methodtools.lru_cache()
     def _get_global_model(self, training_round):
@@ -167,11 +199,6 @@ class CrowdsourceClient:
         model = model.get()
         return avg_loss.get().item(), accuracy.get().item()
 
-    def _upload_model(self, model):
-        """Uploads the given model to IPFS."""
-        uploaded_cid = self._ipfs_client.add_model(model)
-        return uploaded_cid
-
     def _record_model(self, uploaded_cid, training_round):
         """Records the given model IPFS cid on the smart contract."""
         return self._contract.addModelUpdate(uploaded_cid, training_round)
@@ -222,55 +249,37 @@ class CrowdsourceClient:
         return start_loss - loss
 
 
-class ConsortiumCreatorClient():
-    # TODO: BaseClient -> ConsortiumCreatorClient()
+class ConsortiumSetupClient(_GenesisClient):
+    """
+    Client which sets up the Consortium Protocol but does not participate.
+    """
+
     def __init__(self, name, model_constructor, account_idx, contract_address=None):
-        self.name = name
-
-        self._model_constructor = model_constructor
-        self._contract = ConsortiumContractClient(
-            account_idx, contract_address)
-        self._ipfs_client = IPFSClient()
-
-    def set_genesis_model(self):
-        """
-        Create, upload and record the genesis model.
-        """
-        genesis_model = self._model_constructor()
-        genesis_cid = self._ipfs_client.add_model(genesis_model)
-        tx = self._contract.setGenesis(genesis_cid)
-        return tx
+        super().__init__(name,
+                         model_constructor,
+                         ConsortiumContractClient,
+                         account_idx,
+                         contract_address)
 
     def add_sub(self, evaluator):
         return self._contract.addSub(evaluator)
 
-    def wait_for(self, txs):
-        receipts = []
-        if txs:
-            for tx in txs:
-                receipts.append(self._contract.wait_for_tx(tx))
-            txs = []  # clears the list of pending transactions passed in as argument
-        return receipts
 
+class ConsortiumClient(_BaseClient):
+    """
+    Full client for the Consortium Protocol.
+    """
 
-class ConsortiumClient():
-    # TODO: BaseClient -> ConsortiumClient
-    def __init__(self, name, data, targets, model_constructor, account_idx):
-        self.name = name
-
+    def __init__(self, name, data, targets, model_constructor, account_idx, contract_address=None):
+        super().__init__(name,
+                         model_constructor,
+                         ConsortiumContractClient,
+                         account_idx,
+                         contract_address)
         self._data = data
         self._targets = targets
-        self._model_constructor = model_constructor
-        self._account_idx = account_idx
-
-        self._contract = ConsortiumContractClient(account_idx)
-        self.address = self._contract.address
-
         self._main_client = CrowdsourceClient(name + " (main)", data, targets, model_constructor, account_idx,
                                               contract_address=self._contract.main())
-
-    def get_token_count(self):
-        return self._contract.countTokens(), self._contract.countTotalTokens()
 
     def get_current_global_model(self):
         return self._main_client.get_current_global_model()
@@ -302,10 +311,6 @@ class ConsortiumClient():
     def predict(self):
         return self._main_client.predict()
 
-    def wait_for(self, txs):
-        # TODO: should inherit this
-        self._main_client.wait_for(txs)   # doesn't matter which client we use
-
     def _get_sub_clients(self):
         return [
             CrowdsourceClient(self.name + f" (sub {i})", self._data, self._targets, self._model_constructor, self._account_idx,
@@ -324,4 +329,3 @@ class ConsortiumClient():
         sub_clients = self._get_sub_clients()
         return [
             sub for sub in sub_clients if sub.is_evaluator()]
-
