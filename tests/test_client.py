@@ -4,8 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import torch
 
-from client import CrowdsourceClient
-from consortium_client import ConsortiumCreatorClient, ConsortiumClient
+from clients import CrowdsourceClient, ConsortiumCreatorClient, ConsortiumClient
 from utils import print_global_performance, print_token_count
 
 from test_utils.xor import XORDataset, XORModel, plot_predictions
@@ -130,7 +129,6 @@ def test_integration_consortium():
         print(f"\nEvaluating iteration {i}")
         print("\tCalculating SVs...")
         bob_scores = bob.evaluate_updates(i)
-        print(f"\t\tbob_scores={bob_scores}")
         charlie_scores = charlie.evaluate_updates(i)
         david_scores = david.evaluate_updates(i)
         eve_scores = eve.evaluate_updates(i)
