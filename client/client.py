@@ -51,15 +51,15 @@ class ContractClient:
 
     PROVIDER_ADDRESS = "http://127.0.0.1:7545"
     NETWORK_ID = "5777"
-    CONTRACT_JSON_PATH = "build/contracts/FederatedLearning.json"
+    CONTRACT_JSON_PATH = "build/contracts/Crowdsource.json"
     IPFS_HASH_PREFIX = bytes.fromhex('1220')
 
-    def __init__(self, account_idx):
+    def __init__(self, account_idx, address=None):
         self._web3 = Web3(HTTPProvider(self.PROVIDER_ADDRESS))
-        self._contract = self._instantiate_contract()
-        self._address = self._web3.eth.accounts[account_idx]
-
-        self._web3.eth.defaultAccount = self._address
+        self._contract = self._instantiate_contract(address)
+        
+        self.address = self._web3.eth.accounts[account_idx]
+        self._web3.eth.defaultAccount = self.address
 
     def evaluator(self):
         return self._contract.functions.evaluator().call()
@@ -100,11 +100,12 @@ class ContractClient:
     def wait_for_tx(self, tx_hash):
         return self._web3.eth.waitForTransactionReceipt(tx_hash)
 
-    def _instantiate_contract(self):
+    def _instantiate_contract(self, address=None):
         with open(self.CONTRACT_JSON_PATH) as json_file:
             crt_json = json.load(json_file)
             abi = crt_json['abi']
-            address = crt_json['networks'][self.NETWORK_ID]['address']
+            if address is None:
+                address = crt_json['networks'][self.NETWORK_ID]['address']
         instance = self._web3.eth.contract(
             abi=abi,
             address=address
@@ -123,12 +124,12 @@ class ContractClient:
         model_cid = base58.b58encode(bytes34).decode()
         return model_cid
 
-
-class Client:
+class CrowdsourceClient:
+    # TODO: BaseClient -> TrainerClient, EvaluatorClient -> CrowdsourceClient
 
     TOKENS_PER_UNIT_LOSS = 1e18  # number of wei per ether
 
-    def __init__(self, name, data, targets, model_constructor, account_idx):
+    def __init__(self, name, data, targets, model_constructor, account_idx, contract_address=None):
         self.name = name
         self.data_length = min(len(data), len(targets))
 
@@ -141,8 +142,11 @@ class Client:
             shuffle=True
         )
         self._model_constructor = model_constructor
-        self._contract = ContractClient(account_idx)
+        self._contract = ContractClient(account_idx, contract_address)
         self._ipfs_client = IPFSClient()
+
+    def is_evaluator(self):
+        return self._contract.evaluator() == self._contract.address
 
     def get_token_count(self):
         return self._contract.countTokens(), self._contract.countTotalTokens()
@@ -190,7 +194,7 @@ class Client:
         """
         txs = []
         for cid, score in cid_scores.items():
-            num_tokens = int(score * self.TOKENS_PER_UNIT_LOSS)
+            num_tokens = max(0, int(score * self.TOKENS_PER_UNIT_LOSS))
             tx = self._contract.setTokens(cid, num_tokens)
             txs.append(tx)
         return txs
@@ -218,7 +222,7 @@ class Client:
         if txs:
             for tx in txs:
                 receipts.append(self._contract.wait_for_tx(tx))
-            txs = []  # clears the list of pending transactions passed in as argument
+            txs.clear()  # clears the list of pending transactions passed in as argument
         return receipts
 
     @methodtools.lru_cache()

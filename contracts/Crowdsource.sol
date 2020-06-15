@@ -1,9 +1,9 @@
 pragma solidity >=0.4.21 <0.7.0;
 
 
-/// @title Records contributions made to a consortium Federated Learning process
+/// @title Records contributions made to a Crowdsourcing Federated Learning process
 /// @author Harry Cai
-contract FederatedLearning {
+contract Crowdsource {
     /// @notice Address of contract creator, who evaluates updates
     address public evaluator;
 
@@ -36,6 +36,9 @@ contract FederatedLearning {
 
     /// @return The index of the current training round.
     function currentRound() public view returns (uint256) {
+        if (genesisBlockNum == 0) {  // genesis not set
+            return 0;
+        }
         return 1 + block.number - genesisBlockNum;
     }
 
@@ -67,9 +70,15 @@ contract FederatedLearning {
         }
     }
 
+    /// @notice Sets a new evaluator.
+    function setEvaluator(address _newEvaluator) external evaluatorOnly() {
+        evaluator = _newEvaluator;
+    }
+
     /// @notice Starts training by setting the genesis model.
     /// @dev Does not reset the training process! Deploy a new contract instead.
     function setGenesis(bytes32 _modelHash) external evaluatorOnly() {
+        require(genesis == 0, "Genesis has already been set");
         genesis = _modelHash;
         genesisBlockNum = block.number;
     }
@@ -77,7 +86,6 @@ contract FederatedLearning {
     /// @notice Records a training contribution in the current round.
     function addModelUpdate(bytes32 _cid, uint256 _round)
         external
-    // trainersOnly()
     {
         require(_round > 0, "Trying to add an update for the genesis round");
         require(_round >= currentRound(), "Trying to add an update for a past round");

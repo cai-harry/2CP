@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from client import Client
+from client import CrowdsourceClient
 from utils import print_global_performance, print_token_count
 
 
@@ -75,13 +75,13 @@ alice_data, alice_targets, bob_data, bob_targets, \
          eve_data, eve_targets = CovidData().split(5)
 
 # These clients will evaluate
-alice = Client("Alice", alice_data, alice_targets, CovidModel, 0)
+alice = CrowdsourceClient("Alice", alice_data, alice_targets, CovidModel, 0)
 
 # These clients will train
-bob = Client("Bob", bob_data, bob_targets, CovidModel, 1)
-charlie = Client("Charlie", charlie_data, charlie_targets, CovidModel, 2)
-david = Client("David", david_data, david_targets, CovidModel, 3)
-eve = Client("Eve", eve_data, eve_targets, CovidModel, 4)
+bob = CrowdsourceClient("Bob", bob_data, bob_targets, CovidModel, 1)
+charlie = CrowdsourceClient("Charlie", charlie_data, charlie_targets, CovidModel, 2)
+david = CrowdsourceClient("David", david_data, david_targets, CovidModel, 3)
+eve = CrowdsourceClient("Eve", eve_data, eve_targets, CovidModel, 4)
 
 TRAINING_ITERATIONS = 16
 TRAINING_HYPERPARAMETERS = {

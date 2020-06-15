@@ -1,6 +1,8 @@
-var FederatedLearning = artifacts.require("./FederatedLearning.sol");
+var Crowdsource = artifacts.require("./Crowdsource.sol");
+var Consortium = artifacts.require("./Consortium.sol");
 
 module.exports = async function(deployer) {
-  await deployer.deploy(FederatedLearning);
-  let crt = await FederatedLearning.deployed();
+  let crowdsource = deployer.deploy(Crowdsource);
+  let consortium = deployer.deploy(Consortium);
+  await Promise.all([crowdsource, consortium]);
 };
