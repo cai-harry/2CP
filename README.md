@@ -1,9 +1,11 @@
-# BlockchainFL
+# 2CP
 
 My MSc Individual Project for Summer 2020.
 
+This repository contains `2CP`, the software framework which implements the _Crowdsource Protocol_ and the _Consortium Protocol_.
+
 ## Project paper
-[Blockchains for shared ownership and governance of Federated Learning models](https://www.overleaf.com/read/bjznxpcbxvfs)
+[Blockchains for shared ownership and governance of Federated Learning models](https://1drv.ms/b/s!Ag6l4RY3j8vthYUVJIWq1XYcFK2D-g?e=B80G7n)
 
 ## Development
 
