@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from client import CrowdsourceClient
+from clients import CrowdsourceClient
 from utils import print_global_performance, print_token_count
 
 
