@@ -70,7 +70,7 @@ class CrowdsourceClient(_GenesisClient):
 
     TOKENS_PER_UNIT_LOSS = 1e18  # number of wei per ether
 
-    def __init__(self, name, data, targets, model_constructor, account_idx, contract_address=None):
+    def __init__(self, name, data, targets, model_constructor, model_criterion, account_idx, contract_address=None):
         super().__init__(name,
                          model_constructor,
                          CrowdsourceContractClient,
@@ -79,6 +79,7 @@ class CrowdsourceClient(_GenesisClient):
         self.data_length = min(len(data), len(targets))
 
         self._worker = sy.VirtualWorker(_hook, id=name)
+        self._criterion = model_criterion
         self._data = data.send(self._worker)
         self._targets = targets.send(self._worker)
         self._data_loader = torch.utils.data.DataLoader(
@@ -90,18 +91,22 @@ class CrowdsourceClient(_GenesisClient):
     def is_evaluator(self):
         return self._contract.evaluator() == self._contract.address
 
-    def get_current_global_model(self):
+    def get_current_global_model(self, return_current_training_round=False):
         """
         Calculate, or get from cache, the current global model.
         """
         current_training_round = self._contract.currentRound()
-        return self._get_global_model(current_training_round), current_training_round
+        current_global_model = self._get_global_model(current_training_round)
+        if return_current_training_round:
+            return current_global_model, current_training_round
+        return current_global_model
 
     def run_training_round(self, epochs, learning_rate):
         """
         Run training using own data, upload and record the contribution.
         """
-        model, training_round = self.get_current_global_model()
+        model, training_round = self.get_current_global_model(
+            return_current_training_round=True)
         model = self._train_model(model, epochs, learning_rate)
         uploaded_cid = self._upload_model(model)
         tx = self._record_model(uploaded_cid, training_round + 1)
@@ -138,7 +143,7 @@ class CrowdsourceClient(_GenesisClient):
         return self._evaluate_global(current_training_round)
 
     def predict(self):
-        model, _ = self.get_current_global_model()
+        model = self.get_current_global_model()
         model = model.send(self._worker)
         predictions = []
         with torch.no_grad():
@@ -166,8 +171,8 @@ class CrowdsourceClient(_GenesisClient):
         Evaluate the global model at the given training round.
         """
         model = self._get_global_model(training_round)
-        loss, accuracy = self._evaluate_model(model)
-        return loss, accuracy
+        loss = self._evaluate_model(model)
+        return loss
 
     def _train_model(self, model, epochs, lr):
         model = model.send(self._worker)
@@ -175,10 +180,9 @@ class CrowdsourceClient(_GenesisClient):
         optimizer = optim.SGD(model.parameters(), lr=lr)
         for epoch in range(epochs):
             for data, labels in self._data_loader:
-                data, labels = data.float(), labels.float()
                 optimizer.zero_grad()
                 pred = model(data)
-                loss = F.mse_loss(pred, labels)
+                loss = self._criterion(pred, labels)
                 loss.backward()
                 optimizer.step()
         return model.get()
@@ -188,16 +192,12 @@ class CrowdsourceClient(_GenesisClient):
         model.eval()
         with torch.no_grad():
             total_loss = 0
-            total_correct = 0
             for data, labels in self._data_loader:
-                data, labels = data.float(), labels.float()
                 pred = model(data)
-                total_loss += F.mse_loss(pred, labels)
-                total_correct += (torch.round(pred) == labels).float().sum()
+                total_loss += self._criterion(pred, labels)
         avg_loss = total_loss / len(self._data_loader)
-        accuracy = total_correct / self.data_length
         model = model.get()
-        return avg_loss.get().item(), accuracy.get().item()
+        return avg_loss.get().item()
 
     def _record_model(self, uploaded_cid, training_round):
         """Records the given model IPFS cid on the smart contract."""
@@ -242,10 +242,10 @@ class CrowdsourceClient(_GenesisClient):
         The Shapley Value of a coalition of trainers is the marginal loss reduction
         of the average of their models
         """
-        start_loss, _ = self._evaluate_global(training_round)
+        start_loss = self._evaluate_global(training_round)
         models = self._get_models(update_cids)
         avg_model = self._avg_model(models)
-        loss, _ = self._evaluate_model(avg_model)
+        loss = self._evaluate_model(avg_model)
         return start_loss - loss
 
 

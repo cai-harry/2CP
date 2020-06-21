@@ -54,7 +54,7 @@ class CovidData:
 
 class CovidModel(nn.Module):
     def __init__(self):
-        super(CovidModel, self).__init__()
+        super().__init__()
         self.fc1 = nn.Linear(62, 64)
         self.fc2 = nn.Linear(64, 16)
         self.fc3 = nn.Linear(16, 1)
@@ -75,18 +75,19 @@ alice_data, alice_targets, bob_data, bob_targets, \
          eve_data, eve_targets = CovidData().split(5)
 
 # These clients will evaluate
-alice = CrowdsourceClient("Alice", alice_data, alice_targets, CovidModel, 0)
+alice = CrowdsourceClient("Alice", alice_data, alice_targets, CovdModel, F.mse_loss, 0)
 
 # These clients will train
-bob = CrowdsourceClient("Bob", bob_data, bob_targets, CovidModel, 1)
-charlie = CrowdsourceClient("Charlie", charlie_data, charlie_targets, CovidModel, 2)
-david = CrowdsourceClient("David", david_data, david_targets, CovidModel, 3)
-eve = CrowdsourceClient("Eve", eve_data, eve_targets, CovidModel, 4)
+bob = CrowdsourceClient("Bob", bob_data, bob_targets, CovdModel, F.mse_loss, 1)
+charlie = CrowdsourceClient("Charlie", charlie_data, charlie_targets, CovdModel, F.mse_loss, 2)
+david = CrowdsourceClient("David", david_data, david_targets, CovdModel, F.mse_loss, 3)
+eve = CrowdsourceClient("Eve", eve_data, eve_targets, CovdModel, F.mse_loss, 4)
 
 TRAINING_ITERATIONS = 16
 TRAINING_HYPERPARAMETERS = {
     'epochs': 64,
-    'learning_rate': 1e-2
+    'learning_rate': 1e-2, 
+    'criterion': F.mse_loss
 }
 
 tx = alice.set_genesis_model()

@@ -3,6 +3,7 @@ import filecmp
 import numpy as np
 import matplotlib.pyplot as plt
 import torch
+import torch.nn.functional as F
 
 from clients import CrowdsourceClient, ConsortiumSetupClient, ConsortiumClient
 from utils import print_global_performance, print_token_count
@@ -12,7 +13,7 @@ from test_utils.xor import XORDataset, XORModel, plot_predictions
 TRAINING_ITERATIONS = 2
 TRAINING_HYPERPARAMS = {
     'epochs': 2,
-    'learning_rate': 0.3
+    'learning_rate': 0.3,
 }
 TORCH_SEED = 8888
 
@@ -29,11 +30,11 @@ def test_integration_crowdsource():
     Integration test for crowdsource scenario.
     Alice is evaluator, others are trainers.
     """
-    alice = CrowdsourceClient("Alice", alice_data, alice_targets, XORModel, 0)
-    bob = CrowdsourceClient("Bob", bob_data, bob_targets, XORModel, 1)
-    charlie = CrowdsourceClient("Charlie", charlie_data, charlie_targets, XORModel, 2)
-    david = CrowdsourceClient("David", david_data, david_targets, XORModel, 3)
-    eve = CrowdsourceClient("Eve", eve_data, eve_targets, XORModel, 4)
+    alice = CrowdsourceClient("Alice", alice_data, alice_targets, XORModel, F.mse_loss, 0)
+    bob = CrowdsourceClient("Bob", bob_data, bob_targets, XORModel, F.mse_loss, 1)
+    charlie = CrowdsourceClient("Charlie", charlie_data, charlie_targets, XORModel, F.mse_loss, 2)
+    david = CrowdsourceClient("David", david_data, david_targets, XORModel, F.mse_loss, 3)
+    eve = CrowdsourceClient("Eve", eve_data, eve_targets, XORModel, F.mse_loss, 4)
 
     print("Alice setting genesis...")
     alice.wait_for([
@@ -78,8 +79,8 @@ def test_integration_crowdsource():
     assert charlie.get_token_count() > eve.get_token_count(
     ), "Charlie ended up with fewer tokens than Eve"
     
-    alice_global_model, _ = alice.get_current_global_model()
-    bob_global_model, _ = bob.get_current_global_model()
+    alice_global_model = alice.get_current_global_model()
+    bob_global_model = bob.get_current_global_model()
 
     assert _same_weights(
         alice_global_model,
@@ -156,8 +157,8 @@ def test_integration_consortium():
     assert charlie.get_token_count() > eve.get_token_count(
     ), "Charlie ended up with fewer tokens than Eve"
 
-    bob_global_model, _ = bob.get_current_global_model()
-    charlie_global_model, _ = charlie.get_current_global_model()
+    bob_global_model = bob.get_current_global_model()
+    charlie_global_model = charlie.get_current_global_model()
 
     assert _same_weights(
         bob_global_model,
