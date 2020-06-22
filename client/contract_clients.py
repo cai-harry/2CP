@@ -89,10 +89,10 @@ class CrowdsourceContractClient(_BaseContractClient):
     def countTotalTokens(self):
         return self._contract.functions.countTotalTokens().call()
 
-    def setGenesis(self, model_cid, round_min_duration):
+    def setGenesis(self, model_cid, round_duration):
         cid_bytes = self._to_bytes32(model_cid)
-        self._contract.functions.setGenesis(cid_bytes, round_min_duration).call()
-        return self._contract.functions.setGenesis(cid_bytes, round_min_duration).transact()
+        self._contract.functions.setGenesis(cid_bytes, round_duration).call()
+        return self._contract.functions.setGenesis(cid_bytes, round_duration).transact()
 
     def addModelUpdate(self, model_cid, training_round):
         cid_bytes = self._to_bytes32(model_cid)
@@ -139,10 +139,10 @@ class ConsortiumContractClient(_BaseContractClient):
     def countTotalTokens(self):
         return self._contract.functions.countTotalTokens().call()
 
-    def setGenesis(self, model_cid):
+    def setGenesis(self, model_cid, round_duration):
         cid_bytes = self._to_bytes32(model_cid)
-        self._contract.functions.setGenesis(cid_bytes).call()
-        return self._contract.functions.setGenesis(cid_bytes).transact()
+        self._contract.functions.setGenesis(cid_bytes, round_duration).call()
+        return self._contract.functions.setGenesis(cid_bytes, round_duration).transact()
 
     def addSub(self, evaluator):
         self._contract.functions.addSub(evaluator).call()

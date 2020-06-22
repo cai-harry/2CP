@@ -51,9 +51,9 @@ contract Consortium {
         }
     }
 
-    function setGenesis(bytes32 _modelHash, uint256 _roundMinDuration) external {
+    function setGenesis(bytes32 _modelHash, uint256 roundDuration) external {
         genesis = _modelHash;
-        roundMinDuration = _roundMinDuration;
+        roundMinDuration = roundDuration;
         Crowdsource main = Crowdsource(mainAddress);
         main.setGenesis(genesis, roundMinDuration);
     }

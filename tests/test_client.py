@@ -37,14 +37,15 @@ def test_integration_crowdsource():
     eve = CrowdsourceClient("Eve", eve_data, eve_targets, XORModel, F.mse_loss, 4)
 
     print("Alice setting genesis...")
-    alice.wait_for([
-        alice.set_genesis_model(15)
+    alice.wait_for_txs([
+        alice.set_genesis_model(10)
     ])
 
     # Training
     for i in range(1, TRAINING_ITERATIONS+1):
         print(f"\nIteration {i}")
-        alice.wait_for([
+        alice.wait_for_round(i)
+        alice.wait_for_txs([
             bob.run_training_round(**TRAINING_HYPERPARAMS),
             charlie.run_training_round(**TRAINING_HYPERPARAMS),
             david.run_training_round(**TRAINING_HYPERPARAMS),
@@ -59,7 +60,7 @@ def test_integration_crowdsource():
     print("\tAlice setting SVs...")
     txs = alice.set_tokens(scores)
     print("\tAlice waiting for her txs to finish...")
-    alice.wait_for(txs)
+    alice.wait_for_txs(txs)
     print_token_count(bob)
     print_token_count(charlie)
     print_token_count(david)
@@ -92,16 +93,16 @@ def test_integration_consortium():
     Alice sets up the main contract but doesn't participate.
     """
     alice = ConsortiumSetupClient("Alice", XORModel, 0)
-    bob = ConsortiumClient("Bob", bob_data, bob_targets, XORModel, 1)
-    charlie = ConsortiumClient("Charlie", charlie_data, charlie_targets, XORModel, 2)
-    david = ConsortiumClient("David", david_data, david_targets, XORModel, 3)
-    eve = ConsortiumClient("Eve", eve_data, eve_targets, XORModel, 4)
+    bob = ConsortiumClient("Bob", bob_data, bob_targets, XORModel, F.mse_loss, 1)
+    charlie = ConsortiumClient("Charlie", charlie_data, charlie_targets, XORModel, F.mse_loss, 2)
+    david = ConsortiumClient("David", david_data, david_targets, XORModel, F.mse_loss, 3)
+    eve = ConsortiumClient("Eve", eve_data, eve_targets, XORModel, F.mse_loss, 4)
 
-    alice.wait_for([
-        alice.set_genesis_model(15)
+    alice.wait_for_txs([
+        alice.set_genesis_model(30)
     ])
 
-    alice.wait_for([
+    alice.wait_for_txs([
         alice.add_sub(bob.address),
         alice.add_sub(charlie.address),
         alice.add_sub(david.address),
@@ -111,8 +112,9 @@ def test_integration_consortium():
     # Training
     for i in range(1, TRAINING_ITERATIONS+1):
         print(f"\nIteration {i}")
+        bob.wait_for_round(i)
         print("\tTraining...")
-        alice.wait_for([
+        alice.wait_for_txs([
             *bob.run_training_round(**TRAINING_HYPERPARAMS),
             *charlie.run_training_round(**TRAINING_HYPERPARAMS),
             *david.run_training_round(**TRAINING_HYPERPARAMS),
@@ -120,23 +122,18 @@ def test_integration_consortium():
         ])
 
     # Retrospective evaluation
-    pending_txs = []
-    for i in range(1, TRAINING_ITERATIONS+1):  # TODO: automatically find which rounds need evcaluating
-        print(f"\nEvaluating iteration {i}")
-        print("\tCalculating SVs...")
-        bob_scores = bob.evaluate_updates(i)
-        charlie_scores = charlie.evaluate_updates(i)
-        david_scores = david.evaluate_updates(i)
-        eve_scores = eve.evaluate_updates(i)
-        print("\tSetting SVs...")
-        pending_txs.extend([
-            *bob.set_tokens(bob_scores),
-            *charlie.set_tokens(charlie_scores),
-            *david.set_tokens(david_scores),
-            *eve.set_tokens(eve_scores)
-        ])
-
-    alice.wait_for(pending_txs)
+    print("\tCalculating SVs...")
+    bob_scores = bob.evaluate_updates()
+    charlie_scores = charlie.evaluate_updates()
+    david_scores = david.evaluate_updates()
+    eve_scores = eve.evaluate_updates()
+    print("\tSetting SVs...")
+    alice.wait_for_txs([
+        *bob.set_tokens(bob_scores),
+        *charlie.set_tokens(charlie_scores),
+        *david.set_tokens(david_scores),
+        *eve.set_tokens(eve_scores)
+    ])
 
     print_token_count(bob)
     print_token_count(charlie)

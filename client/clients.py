@@ -1,3 +1,5 @@
+import time
+
 import functools
 import methodtools
 
@@ -29,7 +31,7 @@ class _BaseClient:
     def get_token_count(self):
         return self._contract.countTokens(), self._contract.countTotalTokens()
 
-    def wait_for(self, txs):
+    def wait_for_txs(self, txs):
         receipts = []
         if txs:
             for tx in txs:
@@ -48,13 +50,13 @@ class _GenesisClient(_BaseClient):
                          contract_constructor, account_idx, contract_address)
         self._ipfs_client = IPFSClient()
 
-    def set_genesis_model(self, round_min_duration):
+    def set_genesis_model(self, round_duration):
         """
         Create, upload and record the genesis model.
         """
         genesis_model = self._model_constructor()
         genesis_cid = self._upload_model(genesis_model)
-        tx = self._contract.setGenesis(genesis_cid, round_min_duration)
+        tx = self._contract.setGenesis(genesis_cid, round_duration)
         return tx
 
     def _upload_model(self, model):
@@ -69,6 +71,7 @@ class CrowdsourceClient(_GenesisClient):
     """
 
     TOKENS_PER_UNIT_LOSS = 1e18  # number of wei per ether
+    CURRENT_ROUND_POLL_INTERVAL = 0.1
 
     def __init__(self, name, data, targets, model_constructor, model_criterion, account_idx, contract_address=None):
         super().__init__(name,
@@ -149,6 +152,10 @@ class CrowdsourceClient(_GenesisClient):
                 pred = model(data).get()
                 predictions.append(pred)
         return torch.stack(predictions)
+
+    def wait_for_round(self, n):
+        while(self._contract.currentRound() < n):
+            time.sleep(self.CURRENT_ROUND_POLL_INTERVAL)
 
     @methodtools.lru_cache()
     def _get_global_model(self, training_round):
@@ -279,7 +286,7 @@ class ConsortiumClient(_BaseClient):
     Full client for the Consortium Protocol.
     """
 
-    def __init__(self, name, data, targets, model_constructor, account_idx, contract_address=None):
+    def __init__(self, name, data, targets, model_constructor, model_criterion, account_idx, contract_address=None):
         super().__init__(name,
                          model_constructor,
                          ConsortiumContractClient,
@@ -287,7 +294,13 @@ class ConsortiumClient(_BaseClient):
                          contract_address)
         self._data = data
         self._targets = targets
-        self._main_client = CrowdsourceClient(name + " (main)", data, targets, model_constructor, account_idx,
+        self._criterion = model_criterion
+        self._main_client = CrowdsourceClient(name + " (main)",
+                                              data,
+                                              targets,
+                                              model_constructor,
+                                              model_criterion,
+                                              account_idx,
                                               contract_address=self._contract.main())
 
     def get_current_global_model(self):
@@ -300,10 +313,10 @@ class ConsortiumClient(_BaseClient):
             for client in train_clients
         ]
 
-    def evaluate_updates(self, training_round):
+    def evaluate_updates(self):
         eval_clients = self._get_eval_clients()
         return [
-            client.evaluate_updates(training_round)
+            client.evaluate_updates()
             for client in eval_clients
         ]
 
@@ -320,9 +333,19 @@ class ConsortiumClient(_BaseClient):
     def predict(self):
         return self._main_client.predict()
 
+    def wait_for_round(self, n):
+        self._main_client.wait_for_round(n)
+        for client in self._get_sub_clients():
+            client.wait_for_round(n)
+
     def _get_sub_clients(self):
         return [
-            CrowdsourceClient(self.name + f" (sub {i})", self._data, self._targets, self._model_constructor, self._account_idx,
+            CrowdsourceClient(self.name + f" (sub {i})",
+                              self._data,
+                              self._targets,
+                              self._model_constructor,
+                              self._criterion,
+                              self._account_idx,
                               contract_address=sub)
             for i, sub in enumerate(self._contract.subs())]
 

@@ -21,6 +21,9 @@ contract Crowdsource {
     /// @dev The IPFS CIDs of model updates made by each address
     mapping(address => bytes32[]) internal updatesFromAddress;
 
+    /// @dev The training round to which the address last made a contribution
+    mapping(address => uint256) internal latestContribution;
+
     /// @dev Whether or not each model update has been evaluated
     mapping(bytes32 => bool) internal tokensAssigned;
 
@@ -101,10 +104,14 @@ contract Crowdsource {
             _round <= currentRound(),
             "Cannot add an update for a future round"
         );
-        // TODO: don't let same address push multiple updates in one round
+        require(
+            latestContribution[msg.sender] != _round,
+            "Already added an update for this round"
+        );
 
         updatesInRound[_round].push(_cid);
         updatesFromAddress[msg.sender].push(_cid);
+        latestContribution[msg.sender] = _round;
     }
 
     /// @notice Assigns a token count to an update.

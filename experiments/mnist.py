@@ -71,7 +71,7 @@ TRAINING_HYPERPARAMETERS = {
 }
 
 tx = alice.set_genesis_model(30)
-alice.wait_for([tx])
+alice.wait_for_txs([tx])
 
 for i in range(1, TRAINING_ITERATIONS+1):
     print(f"\nIteration {i}")
@@ -85,7 +85,7 @@ for i in range(1, TRAINING_ITERATIONS+1):
     print(f"\tEve training...")
     txe = eve.run_training_round(**TRAINING_HYPERPARAMETERS)
     print(f"\tWaiting for transactions...")
-    alice.wait_for([txb, txc, txd, txe])
+    alice.wait_for_txs([txb, txc, txd, txe])
     print_global_performance(alice)
 
 for i in range(1, TRAINING_ITERATIONS+1):
@@ -93,7 +93,7 @@ for i in range(1, TRAINING_ITERATIONS+1):
     scores = alice.evaluate_updates(i)
     txs = alice.set_tokens(scores)
 
-alice.wait_for(txs)
+alice.wait_for_txs(txs)
 print_token_count(alice)
 print_token_count(bob)
 print_token_count(charlie)
