@@ -48,13 +48,13 @@ class _GenesisClient(_BaseClient):
                          contract_constructor, account_idx, contract_address)
         self._ipfs_client = IPFSClient()
 
-    def set_genesis_model(self):
+    def set_genesis_model(self, round_min_duration):
         """
         Create, upload and record the genesis model.
         """
         genesis_model = self._model_constructor()
         genesis_cid = self._upload_model(genesis_model)
-        tx = self._contract.setGenesis(genesis_cid)
+        tx = self._contract.setGenesis(genesis_cid, round_min_duration)
         return tx
 
     def _upload_model(self, model):
@@ -109,7 +109,7 @@ class CrowdsourceClient(_GenesisClient):
             return_current_training_round=True)
         model = self._train_model(model, epochs, learning_rate)
         uploaded_cid = self._upload_model(model)
-        tx = self._record_model(uploaded_cid, training_round + 1)
+        tx = self._record_model(uploaded_cid, training_round)
         return tx
 
     def evaluate_updates(self, training_round):
@@ -160,7 +160,7 @@ class CrowdsourceClient(_GenesisClient):
 
         This can only be done if training_round matches the current contract training round.
         """
-        model_cids = self._get_cids(training_round-1)
+        model_cids = self._get_cids(training_round - 1)
         models = self._get_models(model_cids)
         avg_model = self._avg_model(models)
         return avg_model

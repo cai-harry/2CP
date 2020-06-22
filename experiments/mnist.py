@@ -70,7 +70,7 @@ TRAINING_HYPERPARAMETERS = {
     'learning_rate': 1e-2
 }
 
-tx = alice.set_genesis_model()
+tx = alice.set_genesis_model(30)
 alice.wait_for([tx])
 
 for i in range(1, TRAINING_ITERATIONS+1):

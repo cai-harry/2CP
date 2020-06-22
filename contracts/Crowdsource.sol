@@ -1,28 +1,31 @@
 pragma solidity >=0.4.21 <0.7.0;
 
-
 /// @title Records contributions made to a Crowdsourcing Federated Learning process
 /// @author Harry Cai
 contract Crowdsource {
     /// @notice Address of contract creator, who evaluates updates
     address public evaluator;
 
+    /// @notice Minimum duration of each training round in seconds
+    uint256 public roundMinDuration;
+
     /// @notice IPFS CID of genesis model
     bytes32 public genesis;
 
-    /// The IPFS CIDs of model updates in each round
+    /// @dev The timestamps for the start of each training round.
+    uint256[] internal roundStartTimes;
+
+    /// @dev The IPFS CIDs of model updates in each round
     mapping(uint256 => bytes32[]) internal updatesInRound;
 
-    /// The IPFS CIDs of model updates made by each address
+    /// @dev The IPFS CIDs of model updates made by each address
     mapping(address => bytes32[]) internal updatesFromAddress;
 
-    /// Whether or not each model update has been evaluated
+    /// @dev Whether or not each model update has been evaluated
     mapping(bytes32 => bool) internal tokensAssigned;
 
-    /// The contributivity score for each model update, if evaluated
+    /// @dev The contributivity score for each model update, if evaluated
     mapping(bytes32 => uint256) internal tokens;
-
-    uint256 internal genesisBlockNum;
 
     /// @notice Constructor. The address that deploys the contract is set as the evaluator.
     constructor() public {
@@ -36,10 +39,7 @@ contract Crowdsource {
 
     /// @return The index of the current training round.
     function currentRound() public view returns (uint256) {
-        if (genesisBlockNum == 0) {  // genesis not set
-            return 0;
-        }
-        return 1 + block.number - genesisBlockNum;
+        return roundStartTimes.length;
     }
 
     /// @return The CID's of updates in the given training round.
@@ -75,21 +75,44 @@ contract Crowdsource {
         evaluator = _newEvaluator;
     }
 
-    /// @notice Starts training by setting the genesis model.
+    /// @notice Starts training by setting the genesis model. Can only be called once.
+    /// @param _cid The CID of the genesis model
+    /// @param _roundMinDuration Minimum number of seconds per training round
     /// @dev Does not reset the training process! Deploy a new contract instead.
-    function setGenesis(bytes32 _modelHash) external evaluatorOnly() {
+    function setGenesis(bytes32 _cid, uint256 _roundMinDuration)
+        external
+        evaluatorOnly()
+    {
         require(genesis == 0, "Genesis has already been set");
-        genesis = _modelHash;
-        genesisBlockNum = block.number;
+        genesis = _cid;
+        roundMinDuration = _roundMinDuration;
+        roundStartTimes.push(now);
     }
 
     /// @notice Records a training contribution in the current round.
-    function addModelUpdate(bytes32 _cid, uint256 _round)
-        external
-    {
-        require(_round > 0, "Trying to add an update for the genesis round");
-        require(_round >= currentRound(), "Trying to add an update for a past round");
-        require(_round <= currentRound(), "Trying to add an update for a future round");
+    function addModelUpdate(bytes32 _cid, uint256 _round) external {
+        if (
+            now > roundStartTimes[roundStartTimes.length - 1] + roundMinDuration
+        ) {
+            roundStartTimes.push(now);
+        }
+
+        uint256 expectedRound = currentRound();
+        if (now == roundStartTimes[roundStartTimes.length - 1]) {
+            expectedRound -= 1;
+        }
+
+        require(_round > 0, "Cannot add an update for the genesis round");
+        require(
+            _round >= expectedRound,
+            "Cannot add an update for a past round"
+        );
+        require(
+            _round <= expectedRound,
+            "Cannot add an update for a future round"
+        );
+        // TODO: don't let same address push multiple updates in one round
+
         updatesInRound[_round].push(_cid);
         updatesFromAddress[msg.sender].push(_cid);
     }
@@ -101,10 +124,7 @@ contract Crowdsource {
         external
         evaluatorOnly()
     {
-        require(
-            !tokensAssigned[_cid],
-            "Update has already been rewarded"
-        );
+        require(!tokensAssigned[_cid], "Update has already been rewarded");
         tokens[_cid] = _numTokens;
         tokensAssigned[_cid] = true;
     }

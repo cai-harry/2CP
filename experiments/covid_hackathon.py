@@ -90,7 +90,7 @@ TRAINING_HYPERPARAMETERS = {
     'criterion': F.mse_loss
 }
 
-tx = alice.set_genesis_model()
+tx = alice.set_genesis_model(10)
 alice.wait_for([tx])
 
 for i in range(1, TRAINING_ITERATIONS+1):

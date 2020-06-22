@@ -13,7 +13,7 @@ contract Consortium {
 
     bytes32 internal genesis;
 
-    uint256 internal genesisBlockNum;
+    uint256 internal roundMinDuration;
 
     constructor() public {
         Crowdsource main = new Crowdsource();
@@ -51,16 +51,17 @@ contract Consortium {
         }
     }
 
-    function setGenesis(bytes32 _modelHash) external {
+    function setGenesis(bytes32 _modelHash, uint256 _roundMinDuration) external {
         genesis = _modelHash;
+        roundMinDuration = _roundMinDuration;
         Crowdsource main = Crowdsource(mainAddress);
-        main.setGenesis(genesis);
+        main.setGenesis(genesis, roundMinDuration);
     }
 
     function addSub(address _evaluator) external {
         require(genesis != 0, "Genesis not set");
         Crowdsource sub = new Crowdsource();
-        sub.setGenesis(genesis);
+        sub.setGenesis(genesis, roundMinDuration);
         sub.setEvaluator(_evaluator);
         subsAddresses.push(address(sub));
     }

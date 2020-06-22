@@ -38,7 +38,7 @@ def test_integration_crowdsource():
 
     print("Alice setting genesis...")
     alice.wait_for([
-        alice.set_genesis_model()
+        alice.set_genesis_model(5)
     ])
 
     # Training
@@ -103,7 +103,7 @@ def test_integration_consortium():
     eve = ConsortiumClient("Eve", eve_data, eve_targets, XORModel, 4)
 
     alice.wait_for([
-        alice.set_genesis_model()
+        alice.set_genesis_model(15)
     ])
 
     alice.wait_for([
