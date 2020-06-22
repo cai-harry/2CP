@@ -112,16 +112,13 @@ class CrowdsourceClient(_GenesisClient):
         tx = self._record_model(uploaded_cid, training_round)
         return tx
 
-    def evaluate_updates(self, training_round):
-        """
-        Provide Shapley Value score for each update in the given training round.
-        """
-        cids = self._get_cids(training_round)
-
-        def characteristic_function(*c):
-            return self._marginal_value(training_round, *c)
-        scores = shapley.values(
-            characteristic_function, cids)
+    def evaluate_updates(self):
+        num_rounds = self._contract.currentRound()
+        scores = {}
+        for r in range(1, num_rounds+1):
+            scores.update(
+                self._evaluate_updates(r)
+            )
         return scores
 
     def set_tokens(self, cid_scores):
@@ -234,6 +231,18 @@ class CrowdsourceClient(_GenesisClient):
                 for avg_param, client_param in zip(avg_model.parameters(), client_model.parameters()):
                     avg_param += client_param / len(models)
         return avg_model
+
+    def _evaluate_updates(self, training_round):
+        """
+        Provide Shapley Value score for each update in the given training round.
+        """
+        cids = self._get_cids(training_round)
+
+        def characteristic_function(*c):
+            return self._marginal_value(training_round, *c)
+        scores = shapley.values(
+            characteristic_function, cids)
+        return scores
 
     @functools.lru_cache()
     def _marginal_value(self, training_round, *update_cids):

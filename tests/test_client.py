@@ -38,7 +38,7 @@ def test_integration_crowdsource():
 
     print("Alice setting genesis...")
     alice.wait_for([
-        alice.set_genesis_model(5)
+        alice.set_genesis_model(15)
     ])
 
     # Training
@@ -54,17 +54,12 @@ def test_integration_crowdsource():
         print_global_performance(alice)
     
     # Retrospective evaluation
-    pending_txs = []
-    for i in range(1, TRAINING_ITERATIONS+1):
-        print(f"\nEvaluating iteration {i}")
-        print("\tAlice calculating SVs...")
-        scores = alice.evaluate_updates(i)
-        print("\tAlice setting SVs...")
-        txs = alice.set_tokens(scores)
-        pending_txs.extend(txs)
-
+    print("\tAlice calculating SVs...")
+    scores = alice.evaluate_updates()
+    print("\tAlice setting SVs...")
+    txs = alice.set_tokens(scores)
     print("\tAlice waiting for her txs to finish...")
-    alice.wait_for(pending_txs)
+    alice.wait_for(txs)
     print_token_count(bob)
     print_token_count(charlie)
     print_token_count(david)
