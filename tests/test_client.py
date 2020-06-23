@@ -12,10 +12,13 @@ from test_utils.xor import XORDataset, XORModel, plot_predictions
 
 TRAINING_ITERATIONS = 2
 TRAINING_HYPERPARAMS = {
-    'epochs': 2,
+    'epochs': 1,
     'learning_rate': 0.3,
 }
 TORCH_SEED = 8888
+
+CROWDSOURCE_ROUND_DURATION = 10
+CONSORTIUM_ROUND_DURATION = 40
 
 torch.manual_seed(TORCH_SEED)
 
@@ -36,14 +39,12 @@ def test_integration_crowdsource():
     david = CrowdsourceClient("David", david_data, david_targets, XORModel, F.mse_loss, 3)
     eve = CrowdsourceClient("Eve", eve_data, eve_targets, XORModel, F.mse_loss, 4)
 
-    print("Alice setting genesis...")
     alice.wait_for_txs([
-        alice.set_genesis_model(15)
+        alice.set_genesis_model(CROWDSOURCE_ROUND_DURATION)
     ])
 
     # Training
     for i in range(1, TRAINING_ITERATIONS+1):
-        print(f"\nIteration {i}")
         alice.wait_for_round(i)
         alice.wait_for_txs([
             bob.run_training_round(**TRAINING_HYPERPARAMS),
@@ -51,15 +52,11 @@ def test_integration_crowdsource():
             david.run_training_round(**TRAINING_HYPERPARAMS),
             eve.run_training_round(**TRAINING_HYPERPARAMS)
         ])
-        print("\tAlice evaluating global...")
         print_global_performance(alice)
     
     # Retrospective evaluation
-    print("\tAlice calculating SVs...")
     scores = alice.evaluate_updates()
-    print("\tAlice setting SVs...")
     txs = alice.set_tokens(scores)
-    print("\tAlice waiting for her txs to finish...")
     alice.wait_for_txs(txs)
     print_token_count(bob)
     print_token_count(charlie)
@@ -99,7 +96,7 @@ def test_integration_consortium():
     eve = ConsortiumClient("Eve", eve_data, eve_targets, XORModel, F.mse_loss, 4)
 
     alice.wait_for_txs([
-        alice.set_genesis_model(30)
+        alice.set_genesis_model(CONSORTIUM_ROUND_DURATION)
     ])
 
     alice.wait_for_txs([
@@ -111,9 +108,7 @@ def test_integration_consortium():
 
     # Training
     for i in range(1, TRAINING_ITERATIONS+1):
-        print(f"\nIteration {i}")
         bob.wait_for_round(i)
-        print("\tTraining...")
         alice.wait_for_txs([
             *bob.run_training_round(**TRAINING_HYPERPARAMS),
             *charlie.run_training_round(**TRAINING_HYPERPARAMS),
@@ -122,12 +117,10 @@ def test_integration_consortium():
         ])
 
     # Retrospective evaluation
-    print("\tCalculating SVs...")
     bob_scores = bob.evaluate_updates()
     charlie_scores = charlie.evaluate_updates()
     david_scores = david.evaluate_updates()
     eve_scores = eve.evaluate_updates()
-    print("\tSetting SVs...")
     alice.wait_for_txs([
         *bob.set_tokens(bob_scores),
         *charlie.set_tokens(charlie_scores),

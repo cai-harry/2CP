@@ -33,8 +33,8 @@ class XORDataset:
 class XORModel(nn.Module):
     def __init__(self):
         super(XORModel, self).__init__()
-        self.fc1 = nn.Linear(2, 8)
-        self.fc2 = nn.Linear(8, 1)
+        self.fc1 = nn.Linear(2, 4)
+        self.fc2 = nn.Linear(4, 1)
 
     def forward(self, x):
         x = torch.relu(self.fc1(x))

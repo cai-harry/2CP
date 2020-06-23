@@ -32,6 +32,7 @@ class _BaseClient:
         return self._contract.countTokens(), self._contract.countTotalTokens()
 
     def wait_for_txs(self, txs):
+        self._print(f"Waiting for {len(txs)} transactions...")
         receipts = []
         if txs:
             for tx in txs:
@@ -57,6 +58,7 @@ class _GenesisClient(_BaseClient):
         """
         Create, upload and record the genesis model.
         """
+        self._print("Setting genesis...")
         genesis_model = self._model_constructor()
         genesis_cid = self._upload_model(genesis_model)
         tx = self._contract.setGenesis(genesis_cid, round_duration)
@@ -251,12 +253,16 @@ class CrowdsourceClient(_GenesisClient):
         """
         Provide Shapley Value score for each update in the given training round.
         """
+        self._print(f"Evaluating updates in round {training_round}...")
+
         cids = self._get_cids(training_round)
 
         def characteristic_function(*c):
             return self._marginal_value(training_round, *c)
         scores = shapley.values(
             characteristic_function, cids)
+
+        self._print(f"Scores in round {training_round} are {list(scores.values())}")
         return scores
 
     @functools.lru_cache()
@@ -286,6 +292,7 @@ class ConsortiumSetupClient(_GenesisClient):
                          contract_address)
 
     def add_sub(self, evaluator):
+        self._print(f"Setting sub...")
         return self._contract.addSub(evaluator)
 
 
@@ -352,7 +359,7 @@ class ConsortiumClient(_BaseClient):
         Updates self._sub_clients cache then returns it
         """
         for sub in self._contract.subs():
-            if sub in self._sub_clients:
+            if sub not in self._sub_clients.keys():
                 self._sub_clients[sub] = CrowdsourceClient(
                     self.name + f" (sub {len(self._sub_clients)+1})",
                     self._data,
