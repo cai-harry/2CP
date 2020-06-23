@@ -39,6 +39,9 @@ class _BaseClient:
             txs.clear()  # clears the list of pending transactions passed in as argument
         return receipts
 
+    def _print(self, msg):
+        print(f"{self.name}: {msg}")
+
 
 class _GenesisClient(_BaseClient):
     """
@@ -110,13 +113,16 @@ class CrowdsourceClient(_GenesisClient):
         """
         model, training_round = self.get_current_global_model(
             return_current_training_round=True)
+        self._print(f"Training model, round {training_round}...")
         model = self._train_model(model, epochs, learning_rate)
         uploaded_cid = self._upload_model(model)
+        self._print(f"Adding model update...")
         tx = self._record_model(uploaded_cid, training_round)
         return tx
 
     def evaluate_updates(self):
         num_rounds = self._contract.currentRound()
+        self._print(f"Starting evaluation over {num_rounds} rounds...")
         scores = {}
         for r in range(1, num_rounds+1):
             scores.update(
@@ -129,6 +135,7 @@ class CrowdsourceClient(_GenesisClient):
         Record the given Shapley value scores for the given contributions.
         """
         txs = []
+        self._print(f"Setting {len(cid_scores.values())} scores...")
         for cid, score in cid_scores.items():
             num_tokens = max(0, int(score * self.TOKENS_PER_UNIT_LOSS))
             tx = self._contract.setTokens(cid, num_tokens)
@@ -154,6 +161,7 @@ class CrowdsourceClient(_GenesisClient):
         return torch.stack(predictions)
 
     def wait_for_round(self, n):
+        self._print(f"Waiting for round {n}...")
         while(self._contract.currentRound() < n):
             time.sleep(self.CURRENT_ROUND_POLL_INTERVAL)
 
@@ -302,6 +310,7 @@ class ConsortiumClient(_BaseClient):
                                               model_criterion,
                                               account_idx,
                                               contract_address=self._contract.main())
+        self._sub_clients = {}  # cache, updated every time self._get_sub_clients() is called
 
     def get_current_global_model(self):
         return self._main_client.get_current_global_model()
@@ -339,15 +348,22 @@ class ConsortiumClient(_BaseClient):
             client.wait_for_round(n)
 
     def _get_sub_clients(self):
-        return [
-            CrowdsourceClient(self.name + f" (sub {i})",
-                              self._data,
-                              self._targets,
-                              self._model_constructor,
-                              self._criterion,
-                              self._account_idx,
-                              contract_address=sub)
-            for i, sub in enumerate(self._contract.subs())]
+        """
+        Updates self._sub_clients cache then returns it
+        """
+        for sub in self._contract.subs():
+            if sub in self._sub_clients:
+                self._sub_clients[sub] = CrowdsourceClient(
+                    self.name + f" (sub {len(self._sub_clients)+1})",
+                    self._data,
+                    self._targets,
+                    self._model_constructor,
+                    self._criterion,
+                    self._account_idx,
+                    contract_address=sub
+                )
+        # No need to check to remove sub clients as the contract does not allow it
+        return self._sub_clients.values()
 
     def _get_train_clients(self):
         sub_clients = self._get_sub_clients()

@@ -96,9 +96,7 @@ class CrowdsourceContractClient(_BaseContractClient):
 
     def addModelUpdate(self, model_cid, training_round):
         cid_bytes = self._to_bytes32(model_cid)
-        print(f"addModelUpdate({model_cid}, {training_round})")
         self._contract.functions.addModelUpdate(cid_bytes, training_round).call()
-        print(f"Call successful")
         return self._contract.functions.addModelUpdate(
             cid_bytes, training_round).transact()
 

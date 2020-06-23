@@ -19,9 +19,9 @@ TORCH_SEED = 8888
 
 torch.manual_seed(TORCH_SEED)
 
-alice_data, alice_targets = XORDataset(256).get()
+alice_data, alice_targets = XORDataset(128).get()
 bob_data, bob_targets, charlie_data, charlie_targets = XORDataset(
-    128).split()
+    64).split()
 david_data, david_targets, eve_data, eve_targets = XORDataset(4).split()
 
     
@@ -38,7 +38,7 @@ def test_integration_crowdsource():
 
     print("Alice setting genesis...")
     alice.wait_for_txs([
-        alice.set_genesis_model(10)
+        alice.set_genesis_model(15)
     ])
 
     # Training
