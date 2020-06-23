@@ -12,7 +12,7 @@ from test_utils.xor import XORDataset, XORModel, plot_predictions
 
 TRAINING_ITERATIONS = 2
 TRAINING_HYPERPARAMS = {
-    'epochs': 1,
+    'epochs': 2,
     'learning_rate': 0.3,
 }
 TORCH_SEED = 8888

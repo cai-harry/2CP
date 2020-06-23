@@ -124,6 +124,7 @@ class CrowdsourceClient(_GenesisClient):
 
     def evaluate_updates(self):
         num_rounds = self._contract.currentRound()
+        self.wait_for_round(num_rounds + 1)
         self._print(f"Starting evaluation over {num_rounds} rounds...")
         scores = {}
         for r in range(1, num_rounds+1):
