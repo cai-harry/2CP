@@ -90,7 +90,7 @@ for i in range(1, TRAINING_ITERATIONS+1):
 
 for i in range(1, TRAINING_ITERATIONS+1):
     print(f"\nEvaluating iteration {i}")
-    scores = alice.evaluate_updates(i)
+    scores = alice.evaluate_until(i)
     txs = alice._set_tokens(scores)
 
 alice.wait_for_txs(txs)

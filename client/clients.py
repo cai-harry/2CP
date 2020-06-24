@@ -95,6 +95,20 @@ class CrowdsourceClient(_GenesisClient):
             shuffle=True
         )
 
+    def train_until(self, final_round_num, epochs, learning_rate):
+        start_round = self._contract.currentRound()
+        for r in range(start_round, final_round_num+1):
+            self.wait_for_round(r)
+            tx = self._train_single_round(r, epochs, learning_rate)
+            self.wait_for_txs([tx])
+
+    def evaluate_until(self, final_round_num):
+        for r in range(1, final_round_num+1):
+            self.wait_for_round(r + 1)
+            scores = self._evaluate_single_round(r)
+            txs = self._set_tokens(scores)
+            self.wait_for_txs(txs)
+
     def is_evaluator(self):
         return self._contract.evaluator() == self._contract.address
 
@@ -105,28 +119,6 @@ class CrowdsourceClient(_GenesisClient):
         current_training_round = self._contract.currentRound()
         current_global_model = self._get_global_model(current_training_round)
         return current_global_model
-
-    def train_until(self, final_round_num, epochs, learning_rate):
-        start_round = self._contract.currentRound()
-        for r in range(start_round, final_round_num+1):
-            self.wait_for_round(r)
-            tx = self._train_single_round(r, epochs, learning_rate)
-            self.wait_for_txs([tx])
-
-    def evaluate_updates(self):
-        """
-        Evaluate all model updates
-        """
-        num_rounds = self._contract.currentRound()
-        self.wait_for_round(num_rounds + 1)
-        self._print(f"Starting evaluation over {num_rounds} rounds...")
-        scores = {}
-        for r in range(1, num_rounds+1):
-            scores.update(
-                self._evaluate_single_round(r)
-            )
-        txs = self._set_tokens(scores)
-        self.wait_for_txs(txs)
 
     def evaluate_current_global(self):
         """
@@ -333,8 +325,6 @@ class ConsortiumClient(_BaseClient):
                                               contract_address=self._contract.main())
         self._sub_clients = {}  # cache, updated every time self._get_sub_clients() is called
 
-    def get_current_global_model(self):
-        return self._main_client.get_current_global_model()
 
     def train_until(self, final_round_num, epochs, learning_rate):
         train_clients = self._get_train_clients()
@@ -349,17 +339,21 @@ class ConsortiumClient(_BaseClient):
         for t in threads:
             t.join()
 
-    def evaluate_updates(self):
+    def evaluate_until(self, final_training_round):
         eval_clients = self._get_eval_clients()
         threads = [
             threading.Thread(
-                target=eval_client.evaluate_updates
+                target=eval_client.evaluate_until,
+                args=(final_training_round,)
             ) for eval_client in eval_clients
         ]
         for t in threads:
             t.start()
         for t in threads:
             t.join()
+
+    def get_current_global_model(self):
+        return self._main_client.get_current_global_model()
 
     def evaluate_current_global(self):
         return self._main_client.evaluate_current_global()

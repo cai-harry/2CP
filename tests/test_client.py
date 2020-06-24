@@ -12,8 +12,9 @@ from utils import print_global_performance, print_token_count
 from test_utils.xor import XORDataset, XORModel, plot_predictions
 from test_utils.functions import same_weights
 
+TRAINING_ITERATIONS = 2
 TRAINING_HYPERPARAMS = {
-    'final_round_num': 2,
+    'final_round_num': TRAINING_ITERATIONS,
     'epochs': 2,
     'learning_rate': 0.3,
 }
@@ -59,13 +60,21 @@ def test_integration_crowdsource():
             kwargs=TRAINING_HYPERPARAMS
         ) for trainer in trainers
     ]
+
+    # Evaluation
+    threads.append(
+        threading.Thread(
+            target=alice.evaluate_until,
+            args=(TRAINING_ITERATIONS,)
+        )
+    )
+
+    # Run all threads in parallel
     for t in threads:
         t.start()
     for t in threads:
         t.join()
 
-    # Retrospective evaluation
-    alice.evaluate_updates()
     print_token_count(bob)
     print_token_count(charlie)
     print_token_count(david)
@@ -123,17 +132,16 @@ def test_integration_consortium():
             kwargs=TRAINING_HYPERPARAMS
         ) for trainer in trainers
     ]
-    for t in threads:
-        t.start()
-    for t in threads:
-        t.join()
 
-    # Retrospective evaluation
-    threads = [
+    # Evaluation
+    threads.extend([
         threading.Thread(
-            target=trainer.evaluate_updates
+            target=trainer.evaluate_until,
+            args=(TRAINING_ITERATIONS,)
         ) for trainer in trainers
-    ]
+    ])
+
+    # Run all threads in parallel
     for t in threads:
         t.start()
     for t in threads:

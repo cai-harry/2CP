@@ -105,7 +105,7 @@ for i in range(1, TRAINING_ITERATIONS+1):
 
 for i in range(1, TRAINING_ITERATIONS+1):
     print(f"\nEvaluating iteration {i}")
-    txs = alice.evaluate_updates(i)
+    txs = alice.evaluate_until(i)
 
 alice.wait_for_txs(txs)
 print_token_count(alice)
