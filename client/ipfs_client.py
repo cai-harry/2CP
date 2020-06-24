@@ -9,8 +9,6 @@ class IPFSClient:
     _cached_models = {}
 
     def __init__(self, model_constructor):
-        self._ipfs_client = ipfshttpclient.connect(
-            '/ip4/127.0.0.1/tcp/5001/http')
         self._model_constructor = model_constructor
 
     def get_model(self, model_cid):
@@ -21,7 +19,7 @@ class IPFSClient:
                 self._cached_models[model_cid].state_dict())
         else:
             # download from IPFS
-            with self._ipfs_client as ipfs:
+            with ipfshttpclient.connect() as ipfs:
                 model_bytes = ipfs.cat(model_cid)
             buffer = io.BytesIO(model_bytes)
             model.load_state_dict(torch.load(buffer))
@@ -31,7 +29,7 @@ class IPFSClient:
         buffer = io.BytesIO()
         torch.save(model.state_dict(), buffer)
         buffer.seek(0)
-        with self._ipfs_client as ipfs:
+        with ipfshttpclient.connect() as ipfs:
             model_cid = ipfs.add_bytes(buffer.read())
         self._cached_models[model_cid] = model
         return model_cid
