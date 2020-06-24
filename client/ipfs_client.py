@@ -1,28 +1,34 @@
-import os
+import io
 
 import ipfshttpclient
 import torch
 
 class IPFSClient:
-    def __init__(self):
+
+    # class attribute so that IPFSClient's on the same machine can all benefit
+    _cached_models = {}
+
+    def __init__(self, model_constructor):
         self._ipfs_client = ipfshttpclient.connect(
             '/ip4/127.0.0.1/tcp/5001/http')
+        self._model_constructor = model_constructor
 
-    def get_model(self, model_cid, model_constructor):
-        model = model_constructor()
+    def get_model(self, model_cid):
+        if model_cid in self._cached_models:
+            return self._cached_models[model_cid]
+        model = self._model_constructor()
         with self._ipfs_client as ipfs:
-            # saves to current directory, filename is model_cid
-            ipfs.get(model_cid)
-        model.load_state_dict(torch.load(model_cid))
-        os.remove(model_cid)
+            model_bytes = ipfs.cat(model_cid)
+        buffer = io.BytesIO(model_bytes)
+        model.load_state_dict(torch.load(buffer))
         return model
 
     def add_model(self, model):
-        model_filename = "tmp.pt"
+        buffer = io.BytesIO()
+        torch.save(model.state_dict(), buffer)
+        buffer.seek(0)
         with self._ipfs_client as ipfs:
-            torch.save(model.state_dict(), model_filename)
-            res = ipfs.add(model_filename)
-        os.remove(model_filename)
-        model_cid = res['Hash']
+            model_cid = ipfs.add_bytes(buffer.read())
+        self._cached_models[model_cid] = model
         return model_cid
 

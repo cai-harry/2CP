@@ -1,5 +1,7 @@
 import pytest
 
+import time
+
 import shapley
 
 def v2(*args):

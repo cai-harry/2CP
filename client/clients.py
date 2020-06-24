@@ -1,6 +1,6 @@
+import threading
 import time
 
-import functools
 import methodtools
 
 import syft as sy
@@ -32,12 +32,11 @@ class _BaseClient:
         return self._contract.countTokens(), self._contract.countTotalTokens()
 
     def wait_for_txs(self, txs):
-        self._print(f"Waiting for {len(txs)} transactions...")
         receipts = []
         if txs:
+            self._print(f"Waiting for {len(txs)} transactions...")
             for tx in txs:
                 receipts.append(self._contract.wait_for_tx(tx))
-            txs.clear()  # clears the list of pending transactions passed in as argument
         return receipts
 
     def _print(self, msg):
@@ -52,7 +51,7 @@ class _GenesisClient(_BaseClient):
     def __init__(self, name, model_constructor, contract_constructor, account_idx, contract_address=None):
         super().__init__(name, model_constructor,
                          contract_constructor, account_idx, contract_address)
-        self._ipfs_client = IPFSClient()
+        self._ipfs_client = IPFSClient(model_constructor)
 
     def set_genesis_model(self, round_duration):
         """
@@ -62,7 +61,7 @@ class _GenesisClient(_BaseClient):
         genesis_model = self._model_constructor()
         genesis_cid = self._upload_model(genesis_model)
         tx = self._contract.setGenesis(genesis_cid, round_duration)
-        return tx
+        self.wait_for_txs([tx])
 
     def _upload_model(self, model):
         """Uploads the given model to IPFS."""
@@ -75,8 +74,8 @@ class CrowdsourceClient(_GenesisClient):
     Full client for the Crowdsource Protocol.
     """
 
-    TOKENS_PER_UNIT_LOSS = 1e18  # number of wei per ether
-    CURRENT_ROUND_POLL_INTERVAL = 0.1
+    TOKENS_PER_UNIT_LOSS = 1e18  # same as the number of wei per ether
+    CURRENT_ROUND_POLL_INTERVAL = 1.  # Ganache can't mine quicker than once per second
 
     def __init__(self, name, data, targets, model_constructor, model_criterion, account_idx, contract_address=None):
         super().__init__(name,
@@ -99,51 +98,35 @@ class CrowdsourceClient(_GenesisClient):
     def is_evaluator(self):
         return self._contract.evaluator() == self._contract.address
 
-    def get_current_global_model(self, return_current_training_round=False):
+    def get_current_global_model(self):
         """
         Calculate, or get from cache, the current global model.
         """
         current_training_round = self._contract.currentRound()
         current_global_model = self._get_global_model(current_training_round)
-        if return_current_training_round:
-            return current_global_model, current_training_round
         return current_global_model
 
-    def run_training_round(self, epochs, learning_rate):
-        """
-        Run training using own data, upload and record the contribution.
-        """
-        model, training_round = self.get_current_global_model(
-            return_current_training_round=True)
-        self._print(f"Training model, round {training_round}...")
-        model = self._train_model(model, epochs, learning_rate)
-        uploaded_cid = self._upload_model(model)
-        self._print(f"Adding model update...")
-        tx = self._record_model(uploaded_cid, training_round)
-        return tx
+    def train_until(self, final_round_num, epochs, learning_rate):
+        start_round = self._contract.currentRound()
+        for r in range(start_round, final_round_num+1):
+            self.wait_for_round(r)
+            tx = self._train_single_round(r, epochs, learning_rate)
+            self.wait_for_txs([tx])
 
     def evaluate_updates(self):
+        """
+        Evaluate all model updates
+        """
         num_rounds = self._contract.currentRound()
         self.wait_for_round(num_rounds + 1)
         self._print(f"Starting evaluation over {num_rounds} rounds...")
         scores = {}
         for r in range(1, num_rounds+1):
             scores.update(
-                self._evaluate_updates(r)
+                self._evaluate_single_round(r)
             )
-        return scores
-
-    def set_tokens(self, cid_scores):
-        """
-        Record the given Shapley value scores for the given contributions.
-        """
-        txs = []
-        self._print(f"Setting {len(cid_scores.values())} scores...")
-        for cid, score in cid_scores.items():
-            num_tokens = max(0, int(score * self.TOKENS_PER_UNIT_LOSS))
-            tx = self._contract.setTokens(cid, num_tokens)
-            txs.append(tx)
-        return txs
+        txs = self._set_tokens(scores)
+        self.wait_for_txs(txs)
 
     def evaluate_current_global(self):
         """
@@ -189,6 +172,18 @@ class CrowdsourceClient(_GenesisClient):
         loss = self._evaluate_model(model)
         return loss
 
+    def _train_single_round(self, round_num, epochs, learning_rate):
+        """
+        Run a round of training using own data, upload and record the contribution.
+        """
+        model = self.get_current_global_model()
+        self._print(f"Training model, round {round_num}...")
+        model = self._train_model(model, epochs, learning_rate)
+        uploaded_cid = self._upload_model(model)
+        self._print(f"Adding model update...")
+        tx = self._record_model(uploaded_cid, round_num)
+        return tx
+
     def _train_model(self, model, epochs, lr):
         model = model.send(self._worker)
         model.train()
@@ -232,13 +227,13 @@ class CrowdsourceClient(_GenesisClient):
     def _get_models(self, model_cids):
         models = []
         for cid in model_cids:
-            model = self._ipfs_client.get_model(cid, self._model_constructor)
+            model = self._ipfs_client.get_model(cid)
             models.append(model)
         return models
 
     def _get_genesis_model(self):
         gen_cid = self._contract.genesis()
-        return self._ipfs_client.get_model(gen_cid, self._model_constructor)
+        return self._ipfs_client.get_model(gen_cid)
 
     def _avg_model(self, models):
         avg_model = self._model_constructor()
@@ -250,7 +245,7 @@ class CrowdsourceClient(_GenesisClient):
                     avg_param += client_param / len(models)
         return avg_model
 
-    def _evaluate_updates(self, training_round):
+    def _evaluate_single_round(self, training_round):
         """
         Provide Shapley Value score for each update in the given training round.
         """
@@ -263,10 +258,23 @@ class CrowdsourceClient(_GenesisClient):
         scores = shapley.values(
             characteristic_function, cids)
 
-        self._print(f"Scores in round {training_round} are {list(scores.values())}")
+        self._print(
+            f"Scores in round {training_round} are {list(scores.values())}")
         return scores
 
-    @functools.lru_cache()
+    def _set_tokens(self, cid_scores):
+        """
+        Record the given Shapley value scores for the given contributions.
+        """
+        txs = []
+        self._print(f"Setting {len(cid_scores.values())} scores...")
+        for cid, score in cid_scores.items():
+            num_tokens = max(0, int(score * self.TOKENS_PER_UNIT_LOSS))
+            tx = self._contract.setTokens(cid, num_tokens)
+            txs.append(tx)
+        return txs
+
+    @methodtools.lru_cache()
     def _marginal_value(self, training_round, *update_cids):
         """
         The characteristic function used to calculate Shapley Value.
@@ -292,9 +300,14 @@ class ConsortiumSetupClient(_GenesisClient):
                          account_idx,
                          contract_address)
 
-    def add_sub(self, evaluator):
-        self._print(f"Setting sub...")
-        return self._contract.addSub(evaluator)
+    def add_subs(self, evaluators):
+        self._print(f"Setting {len(evaluators)} subs...")
+        txs = []
+        for evaluator in evaluators:
+            txs.append(
+                self._contract.addSub(evaluator)
+            )
+        self.wait_for_txs(txs)
 
 
 class ConsortiumClient(_BaseClient):
@@ -323,26 +336,30 @@ class ConsortiumClient(_BaseClient):
     def get_current_global_model(self):
         return self._main_client.get_current_global_model()
 
-    def run_training_round(self, epochs, learning_rate):
+    def train_until(self, final_round_num, epochs, learning_rate):
         train_clients = self._get_train_clients()
-        return [
-            client.run_training_round(epochs, learning_rate)
-            for client in train_clients
+        threads = [
+            threading.Thread(
+                target=train_client.train_until,
+                args=(final_round_num, epochs, learning_rate)
+            ) for train_client in train_clients
         ]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
 
     def evaluate_updates(self):
         eval_clients = self._get_eval_clients()
-        return [
-            client.evaluate_updates()
-            for client in eval_clients
+        threads = [
+            threading.Thread(
+                target=eval_client.evaluate_updates
+            ) for eval_client in eval_clients
         ]
-
-    def set_tokens(self, cid_scores):
-        eval_clients = self._get_eval_clients()
-        txs = []
-        for scores, client in zip(cid_scores, eval_clients):
-            txs.extend(client.set_tokens(scores))
-        return txs
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
 
     def evaluate_current_global(self):
         return self._main_client.evaluate_current_global()

@@ -77,13 +77,13 @@ for i in range(1, TRAINING_ITERATIONS+1):
     print(f"\nIteration {i}")
 
     print(f"\tBob training...")
-    txb = bob.run_training_round(**TRAINING_HYPERPARAMETERS)
+    txb = bob._train_single_round(**TRAINING_HYPERPARAMETERS)
     print(f"\tCharlie training...")
-    txc = charlie.run_training_round(**TRAINING_HYPERPARAMETERS)
+    txc = charlie._train_single_round(**TRAINING_HYPERPARAMETERS)
     print(f"\tDavid training...")
-    txd = david.run_training_round(**TRAINING_HYPERPARAMETERS)
+    txd = david._train_single_round(**TRAINING_HYPERPARAMETERS)
     print(f"\tEve training...")
-    txe = eve.run_training_round(**TRAINING_HYPERPARAMETERS)
+    txe = eve._train_single_round(**TRAINING_HYPERPARAMETERS)
     print(f"\tWaiting for transactions...")
     alice.wait_for_txs([txb, txc, txd, txe])
     print_global_performance(alice)
@@ -91,7 +91,7 @@ for i in range(1, TRAINING_ITERATIONS+1):
 for i in range(1, TRAINING_ITERATIONS+1):
     print(f"\nEvaluating iteration {i}")
     scores = alice.evaluate_updates(i)
-    txs = alice.set_tokens(scores)
+    txs = alice._set_tokens(scores)
 
 alice.wait_for_txs(txs)
 print_token_count(alice)
