@@ -126,8 +126,8 @@ class ConsortiumContractClient(_BaseContractClient):
     def main(self):
         return self._contract.functions.main().call()
 
-    def subs(self):
-        return self._contract.functions.subs().call()
+    def auxiliaries(self):
+        return self._contract.functions.auxiliaries().call()
 
     def countTokens(self, address=None):
         if address is None:
@@ -142,7 +142,7 @@ class ConsortiumContractClient(_BaseContractClient):
         self._contract.functions.setGenesis(cid_bytes, round_duration).call()
         return self._contract.functions.setGenesis(cid_bytes, round_duration).transact()
 
-    def addSub(self, evaluator):
-        self._contract.functions.addSub(evaluator).call()
-        return self._contract.functions.addSub(evaluator).transact()
+    def addAux(self, evaluator):
+        self._contract.functions.addAux(evaluator).call()
+        return self._contract.functions.addAux(evaluator).transact()
 

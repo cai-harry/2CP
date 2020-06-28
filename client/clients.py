@@ -292,12 +292,12 @@ class ConsortiumSetupClient(_GenesisClient):
                          account_idx,
                          contract_address)
 
-    def add_subs(self, evaluators):
-        self._print(f"Setting {len(evaluators)} subs...")
+    def add_auxiliaries(self, evaluators):
+        self._print(f"Setting {len(evaluators)} auxiliaries...")
         txs = []
         for evaluator in evaluators:
             txs.append(
-                self._contract.addSub(evaluator)
+                self._contract.addAux(evaluator)
             )
         self.wait_for_txs(txs)
 
@@ -323,7 +323,7 @@ class ConsortiumClient(_BaseClient):
                                               model_criterion,
                                               account_idx,
                                               contract_address=self._contract.main())
-        self._sub_clients = {}  # cache, updated every time self._get_sub_clients() is called
+        self._aux_clients = {}  # cache, updated every time self._get_aux_clients() is called
 
 
     def train_until(self, final_round_num, epochs, learning_rate):
@@ -363,36 +363,36 @@ class ConsortiumClient(_BaseClient):
 
     def wait_for_round(self, n):
         self._main_client.wait_for_round(n)
-        for client in self._get_sub_clients():
+        for client in self._get_aux_clients():
             client.wait_for_round(n)
 
-    def _get_sub_clients(self):
+    def _get_aux_clients(self):
         """
-        Updates self._sub_clients cache then returns it
+        Updates self._aux_clients cache then returns it
         """
-        for sub in self._contract.subs():
-            if sub not in self._sub_clients.keys():
-                self._sub_clients[sub] = CrowdsourceClient(
-                    self.name + f" (sub {len(self._sub_clients)+1})",
+        for aux in self._contract.auxiliaries():
+            if aux not in self._aux_clients.keys():
+                self._aux_clients[aux] = CrowdsourceClient(
+                    self.name + f" (aux {len(self._aux_clients)+1})",
                     self._data,
                     self._targets,
                     self._model_constructor,
                     self._criterion,
                     self._account_idx,
-                    contract_address=sub
+                    contract_address=aux
                 )
-        # No need to check to remove sub clients as the contract does not allow it
-        return self._sub_clients.values()
+        # No need to check to remove aux clients as the contract does not allow it
+        return self._aux_clients.values()
 
     def _get_train_clients(self):
-        sub_clients = self._get_sub_clients()
+        aux_clients = self._get_aux_clients()
         train_clients = [
-            sub for sub in sub_clients if not sub.is_evaluator()
+            aux for aux in aux_clients if not aux.is_evaluator()
         ]
         train_clients.append(self._main_client)
         return train_clients
 
     def _get_eval_clients(self):
-        sub_clients = self._get_sub_clients()
+        aux_clients = self._get_aux_clients()
         return [
-            sub for sub in sub_clients if sub.is_evaluator()]
+            aux for aux in aux_clients if aux.is_evaluator()]

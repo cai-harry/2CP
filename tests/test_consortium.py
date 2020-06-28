@@ -45,7 +45,7 @@ def test_consortium():
 
     alice.set_genesis_model(ROUND_DURATION)
 
-    alice.add_subs([
+    alice.add_auxiliaries([
         trainer.address for trainer in trainers
     ])
 

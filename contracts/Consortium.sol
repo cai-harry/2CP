@@ -3,13 +3,13 @@ pragma solidity >=0.4.21 <0.7.0;
 import "./Crowdsource.sol";
 
 
-/// @title Deploys and manages Crowdsourcing subs that make up a Consortium Federated Learning process.
+/// @title Deploys and manages Crowdsourcing auxiliaries that make up a Consortium Federated Learning process.
 /// @author Harry Cai
 contract Consortium {
 
     address internal mainAddress;
 
-    address[] internal subsAddresses;
+    address[] internal auxAddresses;
 
     bytes32 internal genesis;
 
@@ -25,16 +25,16 @@ contract Consortium {
         return mainAddress;
     }
 
-    /// @return The addresses of the Crowdsourcing subs.
-    function subs() external view returns (address[] memory) {
-        return subsAddresses;
+    /// @return The addresses of the Crowdsourcing auxiliaries.
+    function auxiliaries() external view returns (address[] memory) {
+        return auxAddresses;
     }
 
     /// @return count Token count of the given address.
     function countTokens(address _address) public view returns (uint256 count) {
-        for (uint256 i = 0; i < subsAddresses.length; i++) {
-            Crowdsource sub = Crowdsource(subsAddresses[i]);
-            count += sub.countTokens(_address);
+        for (uint256 i = 0; i < auxAddresses.length; i++) {
+            Crowdsource aux = Crowdsource(auxAddresses[i]);
+            count += aux.countTokens(_address);
         }
     }
 
@@ -45,9 +45,9 @@ contract Consortium {
 
     /// @return count Total number of tokens.
     function countTotalTokens() external view returns (uint256 count) {
-        for (uint256 i = 0; i < subsAddresses.length; i++) {
-            Crowdsource sub = Crowdsource(subsAddresses[i]);
-            count += sub.countTotalTokens();
+        for (uint256 i = 0; i < auxAddresses.length; i++) {
+            Crowdsource aux = Crowdsource(auxAddresses[i]);
+            count += aux.countTotalTokens();
         }
     }
 
@@ -58,11 +58,11 @@ contract Consortium {
         main.setGenesis(genesis, roundMinDuration);
     }
 
-    function addSub(address _evaluator) external {
+    function addAux(address _evaluator) external {
         require(genesis != 0, "Genesis not set");
-        Crowdsource sub = new Crowdsource();
-        sub.setGenesis(genesis, roundMinDuration);
-        sub.setEvaluator(_evaluator);
-        subsAddresses.push(address(sub));
+        Crowdsource aux = new Crowdsource();
+        aux.setGenesis(genesis, roundMinDuration);
+        aux.setEvaluator(_evaluator);
+        auxAddresses.push(address(aux));
     }
 }
