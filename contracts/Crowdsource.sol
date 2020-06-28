@@ -21,9 +21,6 @@ contract Crowdsource {
     /// @dev The IPFS CIDs of model updates made by each address
     mapping(address => bytes32[]) internal updatesFromAddress;
 
-    /// @dev The training round to which the address last made a contribution
-    mapping(address => uint256) internal latestContribution;
-
     /// @dev Whether or not each model update has been evaluated
     mapping(bytes32 => bool) internal tokensAssigned;
 
@@ -74,6 +71,18 @@ contract Crowdsource {
         }
     }
 
+    /// @return Whether the given address made a contribution in the given round.
+    function madeContribution(address _address, uint256 _round) public view returns (bool) {
+        for (uint256 i = 0; i < updatesInRound[_round].length; i++) {
+            for (uint256 j = 0; j < updatesFromAddress[_address].length; j++) {
+                if (updatesInRound[_round][i] == updatesFromAddress[_address][j]){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /// @notice Sets a new evaluator.
     function setEvaluator(address _newEvaluator) external evaluatorOnly() {
         evaluator = _newEvaluator;
@@ -105,13 +114,12 @@ contract Crowdsource {
             "Cannot add an update for a future round"
         );
         require(
-            latestContribution[msg.sender] != _round,
+            !madeContribution(msg.sender, _round),
             "Already added an update for this round"
         );
 
         updatesInRound[_round].push(_cid);
         updatesFromAddress[msg.sender].push(_cid);
-        latestContribution[msg.sender] = _round;
     }
 
     /// @notice Assigns a token count to an update.
@@ -125,4 +133,5 @@ contract Crowdsource {
         tokens[_cid] = _numTokens;
         tokensAssigned[_cid] = true;
     }
+
 }
