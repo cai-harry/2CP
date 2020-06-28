@@ -1,6 +1,4 @@
-import os
-import joblib
-import matplotlib.pyplot as plt
+import threading
 
 import torch
 import torch.nn as nn
@@ -56,44 +54,57 @@ bob_data, bob_targets, \
     eve_data, eve_targets = Data(train=True).split(4)
 
 # These clients will evaluate
-alice = CrowdsourceClient("Alice", alice_data, alice_targets, Model, F.nll_loss, 0)
+alice = CrowdsourceClient(
+    "Alice", alice_data, alice_targets, Model, F.nll_loss, 0)
 
 # These clients will train
 bob = CrowdsourceClient("Bob", bob_data, bob_targets, Model, F.nll_loss, 1)
-charlie = CrowdsourceClient("Charlie", charlie_data, charlie_targets, Model, F.nll_loss, 2)
-david = CrowdsourceClient("David", david_data, david_targets, Model, F.nll_loss, 3)
+charlie = CrowdsourceClient("Charlie", charlie_data,
+                            charlie_targets, Model, F.nll_loss, 2)
+david = CrowdsourceClient(
+    "David", david_data, david_targets, Model, F.nll_loss, 3)
 eve = CrowdsourceClient("Eve", eve_data, eve_targets, Model, F.nll_loss, 4)
 
+trainers = [bob,
+            charlie,
+            david,
+            eve]
+
 TRAINING_ITERATIONS = 3
-TRAINING_HYPERPARAMETERS = {
+TRAINING_HYPERPARAMS = {
+    'final_round_num': TRAINING_ITERATIONS,
     'epochs': 1,
     'learning_rate': 1e-2
 }
+ROUND_DURATION = 300
 
-tx = alice.set_genesis_model(30)
-alice.wait_for_txs([tx])
+TORCH_SEED = 8888
+torch.manual_seed(TORCH_SEED)
 
-for i in range(1, TRAINING_ITERATIONS+1):
-    print(f"\nIteration {i}")
+alice.set_genesis_model(ROUND_DURATION)
 
-    print(f"\tBob training...")
-    txb = bob._train_single_round(**TRAINING_HYPERPARAMETERS)
-    print(f"\tCharlie training...")
-    txc = charlie._train_single_round(**TRAINING_HYPERPARAMETERS)
-    print(f"\tDavid training...")
-    txd = david._train_single_round(**TRAINING_HYPERPARAMETERS)
-    print(f"\tEve training...")
-    txe = eve._train_single_round(**TRAINING_HYPERPARAMETERS)
-    print(f"\tWaiting for transactions...")
-    alice.wait_for_txs([txb, txc, txd, txe])
-    print_global_performance(alice)
+# Training
+threads = [
+    threading.Thread(
+        target=trainer.train_until,
+        kwargs=TRAINING_HYPERPARAMS
+    ) for trainer in trainers
+]
 
-for i in range(1, TRAINING_ITERATIONS+1):
-    print(f"\nEvaluating iteration {i}")
-    scores = alice.evaluate_until(i)
-    txs = alice._set_tokens(scores)
+# Evaluation
+threads.append(
+    threading.Thread(
+        target=alice.evaluate_until,
+        args=(TRAINING_ITERATIONS,)
+    )
+)
 
-alice.wait_for_txs(txs)
+# Run all threads in parallel
+for t in threads:
+    t.start()
+for t in threads:
+    t.join()
+
 print_token_count(alice)
 print_token_count(bob)
 print_token_count(charlie)
