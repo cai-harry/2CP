@@ -12,8 +12,14 @@ contract Crowdsource {
     /// @dev The timestamp when the genesis model was upload
     uint256 internal genesisTimestamp;
 
-    /// @dev Minimum duration of each training round in seconds
+    /// @dev Duration of each training round in seconds
     uint256 internal roundDuration;
+
+    /// @dev Number of updates before training round automatically ends. (If 0, always wait the full roundDuration)
+    uint256 internal maxNumUpdates;
+
+    /// @dev Total number of seconds skipped when training rounds finish early
+    uint256 internal timeSkipped;
 
     /// @dev The IPFS CIDs of model updates in each round
     mapping(uint256 => bytes32[]) internal updatesInRound;
@@ -40,7 +46,13 @@ contract Crowdsource {
     /// @return round The index of the current training round.
     function currentRound() public view returns (uint256 round) {
         uint256 timeElapsed = now - genesisTimestamp;
-        round = 1 + timeElapsed / roundDuration;
+        round = 1 + (timeElapsed + timeSkipped) / roundDuration;
+    }
+
+    /// @return remaining The number of seconds remaining in the current training round.
+    function secondsRemaining() public view returns (uint256 remaining) {
+        uint256 timeElapsed = now - genesisTimestamp;
+        remaining = roundDuration - (timeElapsed % roundDuration);
     }
 
     /// @return The CID's of updates in the given training round.
@@ -72,10 +84,16 @@ contract Crowdsource {
     }
 
     /// @return Whether the given address made a contribution in the given round.
-    function madeContribution(address _address, uint256 _round) public view returns (bool) {
+    function madeContribution(address _address, uint256 _round)
+        public
+        view
+        returns (bool)
+    {
         for (uint256 i = 0; i < updatesInRound[_round].length; i++) {
             for (uint256 j = 0; j < updatesFromAddress[_address].length; j++) {
-                if (updatesInRound[_round][i] == updatesFromAddress[_address][j]){
+                if (
+                    updatesInRound[_round][i] == updatesFromAddress[_address][j]
+                ) {
                     return true;
                 }
             }
@@ -90,16 +108,19 @@ contract Crowdsource {
 
     /// @notice Starts training by setting the genesis model. Can only be called once.
     /// @param _cid The CID of the genesis model
-    /// @param _roundDuration Minimum number of seconds per training round
+    /// @param _roundDuration Number of seconds per training round
+    /// @param _maxNumUpdates Number of updates per round before training round automatically ends. (If 0, always wait the full roundDuration)
     /// @dev Does not reset the training process! Deploy a new contract instead.
-    function setGenesis(bytes32 _cid, uint256 _roundDuration)
-        external
-        evaluatorOnly()
-    {
+    function setGenesis(
+        bytes32 _cid,
+        uint256 _roundDuration,
+        uint256 _maxNumUpdates
+    ) external evaluatorOnly() {
         require(genesis == 0, "Genesis has already been set");
         genesis = _cid;
         genesisTimestamp = now;
         roundDuration = _roundDuration;
+        maxNumUpdates = _maxNumUpdates;
     }
 
     /// @notice Records a training contribution in the current round.
@@ -120,6 +141,11 @@ contract Crowdsource {
 
         updatesInRound[_round].push(_cid);
         updatesFromAddress[msg.sender].push(_cid);
+
+        if (maxNumUpdates > 0 && updatesInRound[_round].length >= maxNumUpdates) {
+            // Skip to the end of training round
+            timeSkipped += secondsRemaining();
+        }
     }
 
     /// @notice Assigns a token count to an update.
@@ -133,5 +159,4 @@ contract Crowdsource {
         tokens[_cid] = _numTokens;
         tokensAssigned[_cid] = true;
     }
-
 }

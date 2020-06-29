@@ -53,14 +53,14 @@ class _GenesisClient(_BaseClient):
                          contract_constructor, account_idx, contract_address)
         self._ipfs_client = IPFSClient(model_constructor)
 
-    def set_genesis_model(self, round_duration):
+    def set_genesis_model(self, round_duration, max_num_updates=0):
         """
         Create, upload and record the genesis model.
         """
         self._print("Setting genesis...")
         genesis_model = self._model_constructor()
         genesis_cid = self._upload_model(genesis_model)
-        tx = self._contract.setGenesis(genesis_cid, round_duration)
+        tx = self._contract.setGenesis(genesis_cid, round_duration, max_num_updates)
         self.wait_for_txs([tx])
 
     def _upload_model(self, model):
@@ -331,7 +331,8 @@ class ConsortiumClient(_BaseClient):
         threads = [
             threading.Thread(
                 target=train_client.train_until,
-                args=(final_round_num, epochs, learning_rate)
+                args=(final_round_num, epochs, learning_rate),
+                daemon=True
             ) for train_client in train_clients
         ]
         for t in threads:
@@ -344,7 +345,8 @@ class ConsortiumClient(_BaseClient):
         threads = [
             threading.Thread(
                 target=eval_client.evaluate_until,
-                args=(final_training_round,)
+                args=(final_training_round,),
+                daemon=True
             ) for eval_client in eval_clients
         ]
         for t in threads:

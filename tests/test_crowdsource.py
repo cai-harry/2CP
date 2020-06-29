@@ -17,7 +17,7 @@ TRAINING_HYPERPARAMS = {
 }
 TORCH_SEED = 8888
 
-ROUND_DURATION = 10
+ROUND_DURATION = 60  # expecting rounds to always end early
 
 torch.manual_seed(TORCH_SEED)
 
@@ -47,13 +47,17 @@ def test_crowdsource():
     # others are trainers
     trainers = [bob, charlie, david, eve]
 
-    alice.set_genesis_model(ROUND_DURATION)
+    alice.set_genesis_model(
+        round_duration=ROUND_DURATION,
+        max_num_updates=len(trainers)
+    )
 
     # Training
     threads = [
         threading.Thread(
             target=trainer.train_until,
-            kwargs=TRAINING_HYPERPARAMS
+            kwargs=TRAINING_HYPERPARAMS,
+            daemon=True
         ) for trainer in trainers
     ]
 
@@ -61,7 +65,8 @@ def test_crowdsource():
     threads.append(
         threading.Thread(
             target=alice.evaluate_until,
-            args=(TRAINING_ITERATIONS,)
+            args=(TRAINING_ITERATIONS,),
+            daemon=True
         )
     )
 

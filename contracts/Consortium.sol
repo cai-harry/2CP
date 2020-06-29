@@ -2,18 +2,18 @@ pragma solidity >=0.4.21 <0.7.0;
 
 import "./Crowdsource.sol";
 
-
 /// @title Deploys and manages Crowdsourcing auxiliaries that make up a Consortium Federated Learning process.
 /// @author Harry Cai
 contract Consortium {
-
     address internal mainAddress;
 
     address[] internal auxAddresses;
 
     bytes32 internal genesis;
 
-    uint256 internal roundMinDuration;
+    uint256 internal roundDuration;
+
+    uint256 internal numTrainers;
 
     constructor() public {
         Crowdsource main = new Crowdsource();
@@ -51,17 +51,22 @@ contract Consortium {
         }
     }
 
-    function setGenesis(bytes32 _modelHash, uint256 roundDuration) external {
-        genesis = _modelHash;
-        roundMinDuration = roundDuration;
+    function setGenesis(
+        bytes32 _cid,
+        uint256 _roundDuration,
+        uint256 _numTrainers
+    ) external {
+        genesis = _cid;
+        roundDuration = _roundDuration;
+        numTrainers = _numTrainers;
         Crowdsource main = Crowdsource(mainAddress);
-        main.setGenesis(genesis, roundMinDuration);
+        main.setGenesis(genesis, roundDuration, numTrainers);
     }
 
     function addAux(address _evaluator) external {
         require(genesis != 0, "Genesis not set");
         Crowdsource aux = new Crowdsource();
-        aux.setGenesis(genesis, roundMinDuration);
+        aux.setGenesis(genesis, roundDuration, numTrainers-1);
         aux.setEvaluator(_evaluator);
         auxAddresses.push(address(aux));
     }
