@@ -187,7 +187,8 @@ class CrowdsourceClient(_GenesisClient):
                 loss = self._criterion(pred, labels)
                 loss.backward()
                 optimizer.step()
-        return model.get()
+        model.get()
+        return model
 
     def _evaluate_model(self, model):
         model = model.send(self._worker)
@@ -196,10 +197,9 @@ class CrowdsourceClient(_GenesisClient):
             total_loss = 0
             for data, labels in self._data_loader:
                 pred = model(data)
-                total_loss += self._criterion(pred, labels)
+                total_loss += self._criterion(pred, labels).get().item()
         avg_loss = total_loss / len(self._data_loader)
-        model = model.get()
-        return avg_loss.get().item()
+        return avg_loss
 
     def _record_model(self, uploaded_cid, training_round):
         """Records the given model IPFS cid on the smart contract."""

@@ -16,13 +16,14 @@ class IPFSClient:
         if model_cid in self._cached_models:
             # make a deep copy from cache
             model.load_state_dict(
-                self._cached_models[model_cid].state_dict())
+                self._cached_models[model_cid])
         else:
             # download from IPFS
             with ipfshttpclient.connect() as ipfs:
                 model_bytes = ipfs.cat(model_cid)
             buffer = io.BytesIO(model_bytes)
             model.load_state_dict(torch.load(buffer))
+            self._cached_models[model_cid] = model.state_dict()
         return model
 
     def add_model(self, model):
@@ -31,6 +32,5 @@ class IPFSClient:
         buffer.seek(0)
         with ipfshttpclient.connect() as ipfs:
             model_cid = ipfs.add_bytes(buffer.read())
-        self._cached_models[model_cid] = model
         return model_cid
 
