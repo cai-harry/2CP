@@ -21,12 +21,16 @@ class _BaseClient:
     Crowdsource Protocol and the Consortium Protocol.
     """
 
-    def __init__(self, name, model_constructor, contract_constructor, account_idx, contract_address=None):
+    def __init__(self, name, model_constructor, contract_constructor, account_idx, contract_address=None, deploy=False):
         self.name = name
         self._model_constructor = model_constructor
-        self._contract = contract_constructor(account_idx, contract_address)
+        if deploy:
+            self._print("Deploying contract...")
+        self._contract = contract_constructor(account_idx, contract_address, deploy)
         self._account_idx = account_idx
         self.address = self._contract.address
+        self.contract_address = self._contract.contract_address
+        self._print(f"Connected to contract at address {self.contract_address}")
 
     def get_token_count(self):
         return self._contract.countTokens(), self._contract.countTotalTokens()
@@ -48,9 +52,9 @@ class _GenesisClient(_BaseClient):
     Extends upon base client with the ability to set the genesis model to start training.
     """
 
-    def __init__(self, name, model_constructor, contract_constructor, account_idx, contract_address=None):
+    def __init__(self, name, model_constructor, contract_constructor, account_idx, contract_address=None, deploy=False):
         super().__init__(name, model_constructor,
-                         contract_constructor, account_idx, contract_address)
+                         contract_constructor, account_idx, contract_address, deploy)
         self._ipfs_client = IPFSClient(model_constructor)
 
     def set_genesis_model(self, round_duration, max_num_updates=0):
@@ -77,12 +81,13 @@ class CrowdsourceClient(_GenesisClient):
     TOKENS_PER_UNIT_LOSS = 1e18  # same as the number of wei per ether
     CURRENT_ROUND_POLL_INTERVAL = 1.  # Ganache can't mine quicker than once per second
 
-    def __init__(self, name, data, targets, model_constructor, model_criterion, account_idx, contract_address=None):
+    def __init__(self, name, data, targets, model_constructor, model_criterion, account_idx, contract_address=None, deploy=False):
         super().__init__(name,
                          model_constructor,
                          CrowdsourceContractClient,
                          account_idx,
-                         contract_address)
+                         contract_address,
+                         deploy)
         self.data_length = min(len(data), len(targets))
 
         self._worker = sy.VirtualWorker(_hook, id=name)
@@ -285,12 +290,13 @@ class ConsortiumSetupClient(_GenesisClient):
     Client which sets up the Consortium Protocol but does not participate.
     """
 
-    def __init__(self, name, model_constructor, account_idx, contract_address=None):
+    def __init__(self, name, model_constructor, account_idx, contract_address=None, deploy=False):
         super().__init__(name,
                          model_constructor,
                          ConsortiumContractClient,
                          account_idx,
-                         contract_address)
+                         contract_address,
+                         deploy)
 
     def add_auxiliaries(self, evaluators):
         self._print(f"Setting {len(evaluators)} auxiliaries...")

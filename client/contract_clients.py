@@ -15,29 +15,41 @@ class _BaseContractClient:
     NETWORK_ID = "5777"
     IPFS_HASH_PREFIX = bytes.fromhex('1220')
 
-    def __init__(self, contract_json_path, account_idx, address=None):
+    def __init__(self, contract_json_path, account_idx, address, deploy):
+        self._w3 = Web3(HTTPProvider(self.PROVIDER_ADDRESS))
+
+        self.address = self._w3.eth.accounts[account_idx]
+        self._w3.eth.defaultAccount = self.address
+
         self._contract_json_path = contract_json_path
 
-        self._web3 = Web3(HTTPProvider(self.PROVIDER_ADDRESS))
-        self._contract = self._instantiate_contract(address)
+        self._contract, self.contract_address = self._instantiate_contract(address, deploy)
 
-        self.address = self._web3.eth.accounts[account_idx]
-        self._web3.eth.defaultAccount = self.address
 
     def wait_for_tx(self, tx_hash):
-        return self._web3.eth.waitForTransactionReceipt(tx_hash)
+        receipt = self._w3.eth.waitForTransactionReceipt(tx_hash)
+        return receipt
 
-    def _instantiate_contract(self, address=None):
+    def _instantiate_contract(self, address=None, deploy=False):
         with open(self._contract_json_path) as json_file:
             crt_json = json.load(json_file)
             abi = crt_json['abi']
+            bytecode = crt_json['bytecode']
             if address is None:
-                address = crt_json['networks'][self.NETWORK_ID]['address']
-        instance = self._web3.eth.contract(
+                if deploy:
+                    tx_hash = self._w3.eth.contract(
+                        abi=abi,
+                        bytecode=bytecode
+                    ).constructor().transact()
+                    tx_receipt = self.wait_for_tx(tx_hash)
+                    address = tx_receipt.contractAddress
+                else:
+                    address = crt_json['networks'][self.NETWORK_ID]['address']
+        instance = self._w3.eth.contract(
             abi=abi,
             address=address
         )
-        return instance
+        return instance, address
 
     def _to_bytes32(self, model_cid):
         bytes34 = base58.b58decode(model_cid)
@@ -59,11 +71,12 @@ class CrowdsourceContractClient(_BaseContractClient):
     The API of this class should match that of the smart contract.
     """
 
-    def __init__(self, account_idx, address=None):
+    def __init__(self, account_idx, address, deploy):
         super().__init__(
             "build/contracts/Crowdsource.json",
             account_idx,
-            address
+            address,
+            deploy
         )
 
     def evaluator(self):
@@ -121,11 +134,12 @@ class ConsortiumContractClient(_BaseContractClient):
     The API of this class should match that of the smart contract.
     """
 
-    def __init__(self, account_idx, address=None):
+    def __init__(self, account_idx, address, deploy):
         super().__init__(
             "build/contracts/Consortium.json",
             account_idx,
-            address
+            address,
+            deploy
         )
 
     def main(self):

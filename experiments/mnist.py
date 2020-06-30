@@ -1,3 +1,4 @@
+import json
 import threading
 
 import torch
@@ -8,15 +9,17 @@ from torchvision import datasets, transforms
 from clients import CrowdsourceClient
 from utils import print_global_performance, print_token_count
 
+TORCH_SEED = 8888
+torch.manual_seed(TORCH_SEED)
+
 
 class Data:
     def __init__(self, train):
         self._dataset = datasets.MNIST(
             'experiments/resources',
             train=train)
-        self.data = torch.tensor(self._dataset.data
-                                 ).float().view(-1, 1, 28, 28) / 255
-        self.targets = torch.tensor(self._dataset.targets)
+        self.data = self._dataset.data.float().view(-1, 1, 28, 28) / 255
+        self.targets = self._dataset.targets
 
     def split(self, n):
         perm = torch.randperm(len(self.data))
@@ -47,28 +50,7 @@ class Model(nn.Module):
         return F.log_softmax(x, dim=1)
 
 
-alice_data, alice_targets = Data(train=False).split(1)
-
-bob_data, bob_targets, \
-    charlie_data, charlie_targets, david_data, david_targets, \
-    eve_data, eve_targets = Data(train=True).split(4)
-
-# These clients will evaluate
-alice = CrowdsourceClient(
-    "Alice", alice_data, alice_targets, Model, F.nll_loss, 0)
-
-# These clients will train
-bob = CrowdsourceClient("Bob", bob_data, bob_targets, Model, F.nll_loss, 1)
-charlie = CrowdsourceClient("Charlie", charlie_data,
-                            charlie_targets, Model, F.nll_loss, 2)
-david = CrowdsourceClient(
-    "David", david_data, david_targets, Model, F.nll_loss, 3)
-eve = CrowdsourceClient("Eve", eve_data, eve_targets, Model, F.nll_loss, 4)
-
-trainers = [bob,
-            charlie,
-            david,
-            eve]
+QUICK_RUN = False
 
 TRAINING_ITERATIONS = 3
 TRAINING_HYPERPARAMS = {
@@ -76,37 +58,152 @@ TRAINING_HYPERPARAMS = {
     'epochs': 1,
     'learning_rate': 1e-2
 }
-ROUND_DURATION = 300
+ROUND_DURATION = 1000  # should always end early
 
-TORCH_SEED = 8888
-torch.manual_seed(TORCH_SEED)
 
-alice.set_genesis_model(ROUND_DURATION)
+def run_crowdsource_experiment(
+        num_trainers):
+    """
+    Experiment 1: fairness / variance
+    iid datasets; expecting clients to get similar scores. Varying number of trainers
+    """
+    if num_trainers not in {2, 3, 4}:
+        raise ValueError(
+            f"Expected num_trainers to be 2 or 3 or 4, got {num_trainers}")
 
-# Training
-threads = [
-    threading.Thread(
-        target=trainer.train_until,
-        kwargs=TRAINING_HYPERPARAMS
-    ) for trainer in trainers
-]
+    # set up results dict, add details of current experiment
+    results = {}
+    results['num_trainers'] = num_trainers
 
-# Evaluation
-threads.append(
-    threading.Thread(
-        target=alice.evaluate_until,
-        args=(TRAINING_ITERATIONS,)
+    # instantiate data
+    if QUICK_RUN:
+        alice_data, alice_targets, *_ = Data(train=False).split(100)
+    else:
+        alice_data, alice_targets = Data(train=False).split(1)
+
+    print(
+        f"Alice distribution:\t{torch.unique(alice_targets, return_counts=True)[1]}")
+
+    if QUICK_RUN:
+        bob_data, bob_targets, \
+            charlie_data, charlie_targets, david_data, david_targets, \
+            eve_data, eve_targets, *_ = Data(train=True).split(400)
+    else:
+        bob_data, bob_targets, \
+            charlie_data, charlie_targets, david_data, david_targets, \
+            eve_data, eve_targets = Data(train=True).split(4)
+
+    print(
+        f"Bob distribution:\t{torch.unique(bob_targets, return_counts=True)[1]}")
+    print(
+        f"Charlie distribution:\t{torch.unique(charlie_targets, return_counts=True)[1]}")
+    print(
+        f"David distribution:\t{torch.unique(david_targets, return_counts=True)[1]}")
+    print(
+        f"Eve distribution:\t{torch.unique(eve_targets, return_counts=True)[1]}")
+
+    # instantiate clients
+    alice = CrowdsourceClient(
+        name="Alice",
+        data=alice_data,
+        targets=alice_targets,
+        model_constructor=Model,
+        model_criterion=F.nll_loss,
+        account_idx=0,
+        contract_address=None,
+        deploy=True
     )
-)
+    bob = CrowdsourceClient(
+        name="Bob",
+        data=bob_data,
+        targets=bob_targets,
+        model_constructor=Model,
+        model_criterion=F.nll_loss,
+        account_idx=1,
+        contract_address=alice.contract_address,
+        deploy=False
+    )
+    charlie = CrowdsourceClient(
+        name="Charlie",
+        data=charlie_data,
+        targets=charlie_targets,
+        model_constructor=Model,
+        model_criterion=F.nll_loss,
+        account_idx=2,
+        contract_address=alice.contract_address,
+        deploy=False
+    )
+    david = CrowdsourceClient(
+        name="David",
+        data=david_data,
+        targets=david_targets,
+        model_constructor=Model,
+        model_criterion=F.nll_loss,
+        account_idx=3,
+        contract_address=alice.contract_address,
+        deploy=False
+    )
+    eve = CrowdsourceClient(
+        name="Eve",
+        data=eve_data,
+        targets=eve_targets,
+        model_constructor=Model,
+        model_criterion=F.nll_loss,
+        account_idx=4,
+        contract_address=alice.contract_address,
+        deploy=False
+    )
+    results['contract_address'] = alice.contract_address
 
-# Run all threads in parallel
-for t in threads:
-    t.start()
-for t in threads:
-    t.join()
+    trainers = [
+        bob,
+        charlie,
+        david,
+        eve
+    ][:num_trainers]
 
-print_token_count(alice)
-print_token_count(bob)
-print_token_count(charlie)
-print_token_count(david)
-print_token_count(eve)
+    # Set up
+    alice.set_genesis_model(
+        round_duration=ROUND_DURATION,
+        max_num_updates=len(trainers)
+    )
+
+    # define training threads
+    threads = [
+        threading.Thread(
+            target=trainer.train_until,
+            kwargs=TRAINING_HYPERPARAMS,
+            daemon=True
+        ) for trainer in trainers
+    ]
+
+    # define evaluation threads
+    threads.append(
+        threading.Thread(
+            target=alice.evaluate_until,
+            args=(TRAINING_ITERATIONS,),
+            daemon=True
+        )
+    )
+
+    # run all threads in parallel
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+
+    results['final_tokens'] = [trainer.get_token_count()[0]
+                               for trainer in trainers]
+    return results
+
+
+if __name__ == "__main__":
+    all_results = [
+        run_crowdsource_experiment(2),
+        run_crowdsource_experiment(3),
+        run_crowdsource_experiment(4)
+    ]
+    print(all_results)
+    with open('experiments/results.json', 'w') as f:
+        json.dump(all_results, f,
+                  indent=4)

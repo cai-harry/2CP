@@ -27,6 +27,9 @@ contract Crowdsource {
     /// @dev The IPFS CIDs of model updates made by each address
     mapping(address => bytes32[]) internal updatesFromAddress;
 
+    /// @dev The rounds in which each address has made a contribution
+    mapping(address => uint256[]) internal roundsContributed;
+
     /// @dev Whether or not each model update has been evaluated
     mapping(bytes32 => bool) internal tokensAssigned;
 
@@ -46,7 +49,7 @@ contract Crowdsource {
     /// @return round The index of the current training round.
     function currentRound() public view returns (uint256 round) {
         uint256 timeElapsed = now - genesisTimestamp;
-        round = 1 + (timeElapsed + timeSkipped) / roundDuration;
+        round = 1 + ((timeElapsed + timeSkipped) / roundDuration);
     }
 
     /// @return remaining The number of seconds remaining in the current training round.
@@ -89,13 +92,9 @@ contract Crowdsource {
         view
         returns (bool)
     {
-        for (uint256 i = 0; i < updatesInRound[_round].length; i++) {
-            for (uint256 j = 0; j < updatesFromAddress[_address].length; j++) {
-                if (
-                    updatesInRound[_round][i] == updatesFromAddress[_address][j]
-                ) {
-                    return true;
-                }
+        for (uint256 i = 0; i < roundsContributed[_address].length; i++) {
+            if (roundsContributed[_address][i] == _round) {
+                return true;
             }
         }
         return false;
@@ -141,15 +140,13 @@ contract Crowdsource {
 
         updatesInRound[_round].push(_cid);
         updatesFromAddress[msg.sender].push(_cid);
+        roundsContributed[msg.sender].push(_round);
 
         if (
             maxNumUpdates > 0 && updatesInRound[_round].length >= maxNumUpdates
         ) {
             // Skip to the end of training round
             timeSkipped += secondsRemaining();
-            while (currentRound() == _round) {
-                timeSkipped += 1;
-            }
         }
     }
 
