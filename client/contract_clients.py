@@ -91,6 +91,9 @@ class CrowdsourceContractClient(_BaseContractClient):
     def countTotalTokens(self):
         return self._contract.functions.countTotalTokens().call()
 
+    def madeContribution(self, address, training_round):
+        return self._contract.functions.madecontribution(address, training_round).call()
+
     def setGenesis(self, model_cid, round_duration, max_num_updates):
         cid_bytes = self._to_bytes32(model_cid)
         self._contract.functions.setGenesis(

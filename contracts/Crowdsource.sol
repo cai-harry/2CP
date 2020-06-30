@@ -142,9 +142,14 @@ contract Crowdsource {
         updatesInRound[_round].push(_cid);
         updatesFromAddress[msg.sender].push(_cid);
 
-        if (maxNumUpdates > 0 && updatesInRound[_round].length >= maxNumUpdates) {
+        if (
+            maxNumUpdates > 0 && updatesInRound[_round].length >= maxNumUpdates
+        ) {
             // Skip to the end of training round
             timeSkipped += secondsRemaining();
+            while (currentRound() == _round) {
+                timeSkipped += 1;
+            }
         }
     }
 
