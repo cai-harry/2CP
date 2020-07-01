@@ -26,11 +26,13 @@ class _BaseClient:
         self._model_constructor = model_constructor
         if deploy:
             self._print("Deploying contract...")
-        self._contract = contract_constructor(account_idx, contract_address, deploy)
+        self._contract = contract_constructor(
+            account_idx, contract_address, deploy)
         self._account_idx = account_idx
         self.address = self._contract.address
         self.contract_address = self._contract.contract_address
-        self._print(f"Connected to contract at address {self.contract_address}")
+        self._print(
+            f"Connected to contract at address {self.contract_address}")
 
     def get_token_count(self):
         return self._contract.countTokens(), self._contract.countTotalTokens()
@@ -64,7 +66,8 @@ class _GenesisClient(_BaseClient):
         self._print("Setting genesis...")
         genesis_model = self._model_constructor()
         genesis_cid = self._upload_model(genesis_model)
-        tx = self._contract.setGenesis(genesis_cid, round_duration, max_num_updates)
+        tx = self._contract.setGenesis(
+            genesis_cid, round_duration, max_num_updates)
         self.wait_for_txs([tx])
 
     def _upload_model(self, model):
@@ -94,17 +97,17 @@ class CrowdsourceClient(_GenesisClient):
         self._criterion = model_criterion
         self._data = data.send(self._worker)
         self._targets = targets.send(self._worker)
-        self._data_loader = torch.utils.data.DataLoader(
+        self._test_loader = torch.utils.data.DataLoader(
             sy.BaseDataset(self._data, self._targets),
-            batch_size=len(data),
-            shuffle=True
+            batch_size=len(data)
         )
+        # train loader is defined each time training is run
 
-    def train_until(self, final_round_num, epochs, learning_rate):
+    def train_until(self, final_round_num, batch_size, epochs, learning_rate):
         start_round = self._contract.currentRound()
         for r in range(start_round, final_round_num+1):
             self.wait_for_round(r)
-            tx = self._train_single_round(r, epochs, learning_rate)
+            tx = self._train_single_round(r, batch_size, epochs, learning_rate)
             self.wait_for_txs([tx])
 
     def evaluate_until(self, final_round_num):
@@ -137,7 +140,7 @@ class CrowdsourceClient(_GenesisClient):
         model = model.send(self._worker)
         predictions = []
         with torch.no_grad():
-            for data, labels in self._data_loader:
+            for data, labels in self._test_loader:
                 data, labels = data.float(), labels.float()
                 pred = model(data).get()
                 predictions.append(pred)
@@ -169,24 +172,28 @@ class CrowdsourceClient(_GenesisClient):
         loss = self._evaluate_model(model)
         return loss
 
-    def _train_single_round(self, round_num, epochs, learning_rate):
+    def _train_single_round(self, round_num, batch_size, epochs, learning_rate):
         """
         Run a round of training using own data, upload and record the contribution.
         """
         model = self.get_current_global_model()
         self._print(f"Training model, round {round_num}...")
-        model = self._train_model(model, epochs, learning_rate)
+        model = self._train_model(model, batch_size, epochs, learning_rate)
         uploaded_cid = self._upload_model(model)
         self._print(f"Adding model update...")
         tx = self._record_model(uploaded_cid, round_num)
         return tx
 
-    def _train_model(self, model, epochs, lr):
+    def _train_model(self, model, batch_size, epochs, lr):
+        train_loader = torch.utils.data.DataLoader(
+            sy.BaseDataset(self._data, self._targets),
+            batch_size=batch_size,
+            shuffle=True)
         model = model.send(self._worker)
         model.train()
         optimizer = optim.SGD(model.parameters(), lr=lr)
         for epoch in range(epochs):
-            for data, labels in self._data_loader:
+            for data, labels in train_loader:
                 optimizer.zero_grad()
                 pred = model(data)
                 loss = self._criterion(pred, labels)
@@ -200,10 +207,10 @@ class CrowdsourceClient(_GenesisClient):
         model.eval()
         with torch.no_grad():
             total_loss = 0
-            for data, labels in self._data_loader:
+            for data, labels in self._test_loader:
                 pred = model(data)
                 total_loss += self._criterion(pred, labels).get().item()
-        avg_loss = total_loss / len(self._data_loader)
+        avg_loss = total_loss / len(self._test_loader)
         return avg_loss
 
     def _record_model(self, uploaded_cid, training_round):
@@ -330,7 +337,6 @@ class ConsortiumClient(_BaseClient):
                                               account_idx,
                                               contract_address=self._contract.main())
         self._aux_clients = {}  # cache, updated every time self._get_aux_clients() is called
-
 
     def train_until(self, final_round_num, epochs, learning_rate):
         train_clients = self._get_train_clients()

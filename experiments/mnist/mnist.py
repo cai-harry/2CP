@@ -9,14 +9,11 @@ from torchvision import datasets, transforms
 from clients import CrowdsourceClient
 from utils import print_global_performance, print_token_count
 
-TORCH_SEED = 8888
-torch.manual_seed(TORCH_SEED)
-
 
 class Data:
     def __init__(self, train):
         self._dataset = datasets.MNIST(
-            'experiments/resources',
+            'experiments/mnist/resources',
             train=train)
         self.data = self._dataset.data.float().view(-1, 1, 28, 28) / 255
         self.targets = self._dataset.targets
@@ -55,6 +52,7 @@ QUICK_RUN = False
 TRAINING_ITERATIONS = 3
 TRAINING_HYPERPARAMS = {
     'final_round_num': TRAINING_ITERATIONS,
+    'batch_size': 32,
     'epochs': 1,
     'learning_rate': 1e-2
 }
@@ -62,18 +60,22 @@ ROUND_DURATION = 1000  # should always end early
 
 
 def run_crowdsource_experiment(
-        num_trainers):
+        num_trainers,
+        seed):
     """
     Experiment 1: fairness / variance
     iid datasets; expecting clients to get similar scores. Varying number of trainers
     """
-    if num_trainers not in {2, 3, 4}:
+    if not 2 <= num_trainers <= 6:
         raise ValueError(
-            f"Expected num_trainers to be 2 or 3 or 4, got {num_trainers}")
+            f"Expected num_trainers to be between 2 and 6, got {num_trainers}")
 
     # set up results dict, add details of current experiment
     results = {}
     results['num_trainers'] = num_trainers
+    results['seed'] = seed
+
+    torch.manual_seed(seed)
 
     # instantiate data
     if QUICK_RUN:
@@ -81,26 +83,22 @@ def run_crowdsource_experiment(
     else:
         alice_data, alice_targets = Data(train=False).split(1)
 
-    print(
-        f"Alice distribution:\t{torch.unique(alice_targets, return_counts=True)[1]}")
-
     if QUICK_RUN:
         bob_data, bob_targets, \
-            charlie_data, charlie_targets, david_data, david_targets, \
-            eve_data, eve_targets, *_ = Data(train=True).split(400)
+            carol_data, carol_targets, \
+            david_data, david_targets, \
+            eve_data, eve_targets, \
+            frank_data, frank_targets, \
+            georgia_data, georgia_targets, \
+            *_ = Data(train=True).split(60)
     else:
         bob_data, bob_targets, \
-            charlie_data, charlie_targets, david_data, david_targets, \
-            eve_data, eve_targets = Data(train=True).split(4)
-
-    print(
-        f"Bob distribution:\t{torch.unique(bob_targets, return_counts=True)[1]}")
-    print(
-        f"Charlie distribution:\t{torch.unique(charlie_targets, return_counts=True)[1]}")
-    print(
-        f"David distribution:\t{torch.unique(david_targets, return_counts=True)[1]}")
-    print(
-        f"Eve distribution:\t{torch.unique(eve_targets, return_counts=True)[1]}")
+            carol_data, carol_targets, \
+            david_data, david_targets, \
+            eve_data, eve_targets, \
+            frank_data, frank_targets, \
+            georgia_data, georgia_targets \
+            = Data(train=True).split(6)
 
     # instantiate clients
     alice = CrowdsourceClient(
@@ -123,10 +121,10 @@ def run_crowdsource_experiment(
         contract_address=alice.contract_address,
         deploy=False
     )
-    charlie = CrowdsourceClient(
-        name="Charlie",
-        data=charlie_data,
-        targets=charlie_targets,
+    carol = CrowdsourceClient(
+        name="Carol",
+        data=carol_data,
+        targets=carol_targets,
         model_constructor=Model,
         model_criterion=F.nll_loss,
         account_idx=2,
@@ -153,13 +151,35 @@ def run_crowdsource_experiment(
         contract_address=alice.contract_address,
         deploy=False
     )
+    frank = CrowdsourceClient(
+        name="Frank",
+        data=frank_data,
+        targets=frank_targets,
+        model_constructor=Model,
+        model_criterion=F.nll_loss,
+        account_idx=5,
+        contract_address=alice.contract_address,
+        deploy=False
+    )
+    georgia = CrowdsourceClient(
+        name="Georgia",
+        data=georgia_data,
+        targets=georgia_targets,
+        model_constructor=Model,
+        model_criterion=F.nll_loss,
+        account_idx=6,
+        contract_address=alice.contract_address,
+        deploy=False
+    )
     results['contract_address'] = alice.contract_address
 
     trainers = [
         bob,
-        charlie,
+        carol,
         david,
-        eve
+        eve,
+        frank,
+        georgia
     ][:num_trainers]
 
     # Set up
@@ -194,16 +214,35 @@ def run_crowdsource_experiment(
 
     results['final_tokens'] = [trainer.get_token_count()[0]
                                for trainer in trainers]
+
+    filename = f"experiments/mnist/results/crowdsource-{num_trainers}-{seed}.json"
+    with open(filename, 'w') as f:
+        json.dump(results, f,
+                  indent=4)
+    print(f"Saved to {filename}")
+
     return results
 
 
 if __name__ == "__main__":
-    all_results = [
-        run_crowdsource_experiment(2),
-        run_crowdsource_experiment(3),
-        run_crowdsource_experiment(4)
+    experiments = [
+        # {'num_trainers': 2, 'seed': 32},
+        # {'num_trainers': 3, 'seed': 32},
+        # {'num_trainers': 4, 'seed': 32},
+        # {'num_trainers': 5, 'seed': 32},
+        # {'num_trainers': 6, 'seed': 32},
+        # {'num_trainers': 2, 'seed': 76},
+        # {'num_trainers': 3, 'seed': 76},
+        # {'num_trainers': 4, 'seed': 76},
+        # {'num_trainers': 5, 'seed': 76},
+        # {'num_trainers': 6, 'seed': 76},
+        {'num_trainers': 2, 'seed': 88},
+        {'num_trainers': 3, 'seed': 88},
+        {'num_trainers': 4, 'seed': 88},
+        {'num_trainers': 5, 'seed': 88}
+        # {'num_trainers': 6, 'seed': 88}
     ]
-    print(all_results)
-    with open('experiments/results.json', 'w') as f:
-        json.dump(all_results, f,
-                  indent=4)
+    if QUICK_RUN:
+        experiments = experiments[:2]
+    for exp in experiments:
+        run_crowdsource_experiment(**exp)

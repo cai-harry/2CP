@@ -1,0 +1,9 @@
+{
+    "num_trainers": 2,
+    "seed": 76,
+    "contract_address": "0x1834b24E81Be6E17F4A8a79d93915a5a9D34f8d0",
+    "final_tokens": [
+        2551843598484992960,
+        2462794288992881792
+    ]
+}
