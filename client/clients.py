@@ -320,7 +320,7 @@ class ConsortiumClient(_BaseClient):
     Full client for the Consortium Protocol.
     """
 
-    def __init__(self, name, data, targets, model_constructor, model_criterion, account_idx, contract_address=None):
+    def __init__(self, name, data, targets, model_constructor, model_criterion, account_idx, contract_address=None, deploy=False):
         super().__init__(name,
                          model_constructor,
                          ConsortiumContractClient,
@@ -338,12 +338,12 @@ class ConsortiumClient(_BaseClient):
                                               contract_address=self._contract.main())
         self._aux_clients = {}  # cache, updated every time self._get_aux_clients() is called
 
-    def train_until(self, final_round_num, epochs, learning_rate):
+    def train_until(self, final_round_num, batch_size, epochs, learning_rate):
         train_clients = self._get_train_clients()
         threads = [
             threading.Thread(
                 target=train_client.train_until,
-                args=(final_round_num, epochs, learning_rate),
+                args=(final_round_num, batch_size, epochs, learning_rate),
                 daemon=True
             ) for train_client in train_clients
         ]

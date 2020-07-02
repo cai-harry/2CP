@@ -12,6 +12,7 @@ from test_utils.functions import same_weights
 TRAINING_ITERATIONS = 2
 TRAINING_HYPERPARAMS = {
     'final_round_num': TRAINING_ITERATIONS,
+    'batch_size': 64,
     'epochs': 2,
     'learning_rate': 0.3,
 }
