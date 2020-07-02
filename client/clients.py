@@ -95,8 +95,11 @@ class CrowdsourceClient(_GenesisClient):
 
         self._worker = sy.VirtualWorker(_hook, id=name)
         self._criterion = model_criterion
-        self._data = data.send(self._worker)
-        self._targets = targets.send(self._worker)
+        # TODO: should actually send these to the syft worker.
+        # Temporarily stopped doing this as a workaround for subtle multithreading bugs
+        # in order to run experiments on contributivity
+        self._data = data  # .send(self._worker)
+        self._targets = targets  # .send(self._worker)
         self._test_loader = torch.utils.data.DataLoader(
             sy.BaseDataset(self._data, self._targets),
             batch_size=len(data)
@@ -137,12 +140,12 @@ class CrowdsourceClient(_GenesisClient):
 
     def predict(self):
         model = self.get_current_global_model()
-        model = model.send(self._worker)
+        model = model  # .send(self._worker)
         predictions = []
         with torch.no_grad():
             for data, labels in self._test_loader:
                 data, labels = data.float(), labels.float()
-                pred = model(data).get()
+                pred = model(data)  # .get()
                 predictions.append(pred)
         return torch.stack(predictions)
 
@@ -189,7 +192,7 @@ class CrowdsourceClient(_GenesisClient):
             sy.BaseDataset(self._data, self._targets),
             batch_size=batch_size,
             shuffle=True)
-        model = model.send(self._worker)
+        model = model  # .send(self._worker)
         model.train()
         optimizer = optim.SGD(model.parameters(), lr=lr)
         for epoch in range(epochs):
@@ -199,17 +202,19 @@ class CrowdsourceClient(_GenesisClient):
                 loss = self._criterion(pred, labels)
                 loss.backward()
                 optimizer.step()
-        model.get()
+        model  # .get()
         return model
 
     def _evaluate_model(self, model):
-        model = model.send(self._worker)
+        model = model  # .send(self._worker)
         model.eval()
         with torch.no_grad():
             total_loss = 0
             for data, labels in self._test_loader:
                 pred = model(data)
-                total_loss += self._criterion(pred, labels).get().item()
+                total_loss += self._criterion(pred, labels
+                                              ).item() 
+                                              #).get().item()
         avg_loss = total_loss / len(self._test_loader)
         return avg_loss
 
