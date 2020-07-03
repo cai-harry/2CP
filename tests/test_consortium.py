@@ -32,13 +32,16 @@ def test_consortium():
     Integration test for consortium setting.
     Alice sets up the main contract but doesn't participate.
     """
-    alice = ConsortiumSetupClient("Alice", XORModel, 0)
-    bob = ConsortiumClient("Bob", bob_data, bob_targets,
-                           XORModel, F.mse_loss, 1)
+    alice = ConsortiumSetupClient("Alice", XORModel, 0, deploy=True)
+    bob = ConsortiumClient(
+        "Bob", bob_data, bob_targets, XORModel, F.mse_loss, 1,
+        contract_address=alice.contract_address)
     charlie = ConsortiumClient(
-        "Charlie", charlie_data, charlie_targets, XORModel, F.mse_loss, 2)
+        "Charlie", charlie_data, charlie_targets, XORModel, F.mse_loss, 2,
+        contract_address=alice.contract_address)
     david = ConsortiumClient(
-        "David", david_data, david_targets, XORModel, F.mse_loss, 3)
+        "David", david_data, david_targets, XORModel, F.mse_loss, 3,
+        contract_address=alice.contract_address)
 
     trainers = [bob,
                 charlie,

@@ -57,15 +57,10 @@ Requirements
 #### Setting up simulated blockchain
 1. Open the Ganache app.
 2. Quick start or set up a new workspace.
-3. In settings, under Server, turn off automine and set mining block time to 15 seconds (or set to 3 or 4 to make unit tests run more quickly).
+3. (Optional, to create a more realistic blockchain) In settings, under Server, turn off automine and set mining block time to 15 seconds (or set to 3 or 4 to make unit tests run more quickly). Need to do this to test behaviour when transactions aren't mined instantaneously.
 
 ### Running the unit tests
 1. Spin up a blockchain as above.
 2. Start up an IPFS node by opening the IPFS desktop app.
-3. Compile and deploy contracts: `truffle migrate`
+3. Compile the contracts: `truffle compile` (no need to deploy, the unit test does this automatically)
 4. From repo root: `pytest -s` (the `-s` flag displays print statements.)
-
-**Note**: the contract must be reset each time the unit test is run. Use:
-```
-truffle migrate --reset && pytest -s
-```

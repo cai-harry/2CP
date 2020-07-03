@@ -34,15 +34,19 @@ def test_crowdsource():
     Alice is evaluator, others are trainers.
     """
     alice = CrowdsourceClient(
-        "Alice", alice_data, alice_targets, XORModel, F.mse_loss, 0)
-    bob = CrowdsourceClient("Bob", bob_data, bob_targets,
-                            XORModel, F.mse_loss, 1)
+        "Alice", alice_data, alice_targets, XORModel, F.mse_loss, 0, deploy=True)
+    bob = CrowdsourceClient(
+        "Bob", bob_data, bob_targets, XORModel, F.mse_loss, 1,
+        contract_address=alice.contract_address)
     charlie = CrowdsourceClient(
-        "Charlie", charlie_data, charlie_targets, XORModel, F.mse_loss, 2)
+        "Charlie", charlie_data, charlie_targets, XORModel, F.mse_loss, 2,
+        contract_address=alice.contract_address)
     david = CrowdsourceClient(
-        "David", david_data, david_targets, XORModel, F.mse_loss, 3)
+        "David", david_data, david_targets, XORModel, F.mse_loss, 3,
+        contract_address=alice.contract_address)
     eve = CrowdsourceClient("Eve", eve_data, eve_targets,
-                            XORModel, F.mse_loss, 4)
+                            XORModel, F.mse_loss, 4,
+                            contract_address=alice.contract_address)
 
     # alice is evaluator
     # others are trainers
