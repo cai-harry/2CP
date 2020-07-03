@@ -43,6 +43,7 @@ class _BaseClient:
             self._print(f"Waiting for {len(txs)} transactions...")
             for tx in txs:
                 receipts.append(self._contract.wait_for_tx(tx))
+            self._print(f"{len(txs)} transactions mined")
         return receipts
 
     def _print(self, msg):
@@ -153,6 +154,7 @@ class CrowdsourceClient(_GenesisClient):
         self._print(f"Waiting for round {n}...")
         while(self._contract.currentRound() < n):
             time.sleep(self.CURRENT_ROUND_POLL_INTERVAL)
+        self._print(f"Round {n} started")
 
     @methodtools.lru_cache()
     def _get_global_model(self, training_round):
