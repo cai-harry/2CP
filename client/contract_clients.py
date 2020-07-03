@@ -3,32 +3,40 @@ import json
 import base58
 from web3 import HTTPProvider, Web3
 
+class BaseEthClient:
+    """
+    An ethereum client.
+    """
 
-class _BaseContractClient:
+    PROVIDER_ADDRESS = "http://127.0.0.1:7545"
+    NETWORK_ID = "5777"
+
+    def __init__(self, account_idx):
+        self._w3 = Web3(HTTPProvider(self.PROVIDER_ADDRESS))
+
+        self.address = self._w3.eth.accounts[account_idx]
+        self._w3.eth.defaultAccount = self.address
+    
+    def wait_for_tx(self, tx_hash):
+        receipt = self._w3.eth.waitForTransactionReceipt(tx_hash)
+        return receipt
+
+
+class _BaseContractClient(BaseEthClient):
     """
     Contains common features of both contract clients.
 
     Handles contract setup, conversions to and from bytes32 and other utils.
     """
 
-    PROVIDER_ADDRESS = "http://127.0.0.1:7545"
-    NETWORK_ID = "5777"
     IPFS_HASH_PREFIX = bytes.fromhex('1220')
 
-    def __init__(self, contract_json_path, account_idx, address, deploy):
-        self._w3 = Web3(HTTPProvider(self.PROVIDER_ADDRESS))
-
-        self.address = self._w3.eth.accounts[account_idx]
-        self._w3.eth.defaultAccount = self.address
+    def __init__(self, contract_json_path, account_idx, contract_address, deploy):
+        super().__init__(account_idx)
 
         self._contract_json_path = contract_json_path
 
-        self._contract, self.contract_address = self._instantiate_contract(address, deploy)
-
-
-    def wait_for_tx(self, tx_hash):
-        receipt = self._w3.eth.waitForTransactionReceipt(tx_hash)
-        return receipt
+        self._contract, self.contract_address = self._instantiate_contract(contract_address, deploy)
 
     def _instantiate_contract(self, address=None, deploy=False):
         with open(self._contract_json_path) as json_file:
