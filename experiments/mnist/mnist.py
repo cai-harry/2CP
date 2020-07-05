@@ -289,8 +289,14 @@ if __name__ == "__main__":
     if QUICK_RUN:
         experiments = [
             {'split_type': 'equal', 'num_trainers': 3},
+            {'split_type': 'size',  'ratios': [1, 4, 4]},
             {'split_type': 'size',  'ratios': [1, 2, 2]},
-            {'split_type': 'flip',  'flip_probs': [0.50, 0, 0]}
+            {'split_type': 'size',  'ratios': [2, 1, 1]},
+            {'split_type': 'size',  'ratios': [4, 1, 1]},
+            {'split_type': 'flip',  'flip_probs': [0.25, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [0.50, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [0.75, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [1.00, 0, 0]}
         ]
         seed = 88
         for exp in experiments:

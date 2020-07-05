@@ -5,10 +5,10 @@
     "num_trainers": 3,
     "ratios": null,
     "flip_probs": null,
-    "contract_address": "0xE859071872fa42276c7b65816D93630B5d89Eeb3",
+    "contract_address": "0xDa05a7d43bBA44a0a71f8260F575d4C0048ed3ee",
     "final_tokens": [
-        650835931301116928,
-        648748248815536512,
-        658989489078521728
+        647712007164955136,
+        661340132355689984,
+        651997923851013120
     ]
 }

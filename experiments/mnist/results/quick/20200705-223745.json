@@ -1,0 +1,18 @@
+{
+    "split_type": "size",
+    "protocol": "crowdsource",
+    "seed": 88,
+    "num_trainers": 3,
+    "ratios": [
+        1,
+        4,
+        4
+    ],
+    "flip_probs": null,
+    "contract_address": "0x4eDf521a2Fec05E15e849D86D65F136d65cf8811",
+    "final_tokens": [
+        0,
+        977794791261355008,
+        968233848611513728
+    ]
+}
