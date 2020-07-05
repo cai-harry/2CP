@@ -1,5 +1,7 @@
+import argparse
 import json
 import threading
+import time
 
 import torch
 import torch.nn as nn
@@ -11,21 +13,57 @@ from utils import print_global_performance, print_token_count
 
 
 class Data:
-    def __init__(self, train):
+    def __init__(self, train, subset=False):
         self._dataset = datasets.MNIST(
             'experiments/mnist/resources',
             train=train)
         self.data = self._dataset.data.float().view(-1, 1, 28, 28) / 255
         self.targets = self._dataset.targets
+        if subset:
+            d, t, *_ = self.split(100)
+            self.data = torch.cat(d)
+            self.targets = torch.cat(t)
 
-    def split(self, n):
+    def split(self, n, ratios=None, flip_probs=None):
+        """
+        Splits the dataset into n chunks with the given ratios and label flip probabilities.
+        """
+        if ratios is None:
+            ratios = [1] * n
+        if flip_probs is None:
+            flip_probs = [0] * n
+        if not n == len(ratios) == len(flip_probs):
+            raise ValueError(f"Lengths of input arguments must match n={n}")
         perm = torch.randperm(len(self.data))
-        chunks = torch.chunk(perm, n)
-        output = []
-        for c in chunks:
-            output.append(self.data[c])
-            output.append(self.targets[c])
-        return output
+        num_chunks = sum(ratios)
+        chunks = torch.chunk(perm, num_chunks)
+
+        chunk_it = 0
+        data = []
+        targets = []
+        for r, p in zip(ratios, flip_probs):
+            include_chunks = list(range(chunk_it, chunk_it+r))
+            idxs = torch.cat([chunks[idxs] for idxs in include_chunks])
+            chunk_it += r
+
+            d = torch.index_select(input=self.data, dim=0, index=idxs)
+            t = self._flip_targets(
+                torch.index_select(
+                    input=self.targets,
+                    dim=0,
+                    index=idxs
+                ), p)
+
+            data.append(d)
+            targets.append(t)
+        return data, targets
+
+    def _flip_targets(self, targets, flip_p):
+        flip_num = int(flip_p * len(targets))
+        flip_idx = torch.randperm(len(targets))[:flip_num]
+        targets[flip_idx] = torch.randint(
+            low=0, high=10, size=(len(flip_idx),))
+        return targets
 
 
 class Model(nn.Module):
@@ -47,157 +85,141 @@ class Model(nn.Module):
         return F.log_softmax(x, dim=1)
 
 
-QUICK_RUN = False
+def _make_clients(split_type, num_trainers, ratios, flip_probs, protocol):
+    if protocol == 'crowdsource':
+        alice_dataset = Data(train=False, subset=QUICK_RUN)
+        alice_data = alice_dataset.data
+        alice_targets = alice_dataset.targets
+        alice = CrowdsourceClient(
+            name="Alice",
+            data=alice_data,
+            targets=alice_targets,
+            model_constructor=Model,
+            model_criterion=F.nll_loss,
+            account_idx=0,
+            contract_address=None,
+            deploy=True
+        )
+        trainers = _make_trainers(
+            split_type=split_type,
+            num_trainers=num_trainers,
+            ratios=ratios,
+            flip_probs=flip_probs,
+            client_constructor=CrowdsourceClient,
+            contract_address=alice.contract_address)
+        alice.set_genesis_model(
+            round_duration=ROUND_DURATION,
+            max_num_updates=len(trainers)
+        )
+    elif protocol == 'consortium':
+        alice = ConsortiumSetupClient(
+            name="Alice",
+            model_constructor=Model,
+            account_idx=0,
+            contract_address=None,
+            deploy=True
+        )
+        trainers = _make_trainers(
+            split_type=split_type,
+            num_trainers=num_trainers,
+            ratios=ratios,
+            flip_probs=flip_probs,
+            client_constructor=ConsortiumClient,
+            contract_address=alice.contract_address)
+        alice.set_genesis_model(
+            round_duration=ROUND_DURATION,
+            max_num_updates=len(trainers)
+        )
+        alice.add_auxiliaries([
+            trainer.address for trainer in trainers
+        ])
+    return alice, trainers
 
-TRAINING_ITERATIONS = 3
-TRAINING_HYPERPARAMS = {
-    'final_round_num': TRAINING_ITERATIONS,
-    'batch_size': 32,
-    'epochs': 1,
-    'learning_rate': 1e-2
-}
-ROUND_DURATION = 1000  # should always end early
 
-
-def _make_equal_trainers(
+def _make_trainers(
+        split_type,
         num_trainers,
+        ratios,
+        flip_probs,
         client_constructor,
         contract_address):
-    if not 2 <= num_trainers <= 6:
-        raise ValueError(
-            f"Expected num_trainers to be between 2 and 6, got {num_trainers}")
-
     # instantiate data
-    if QUICK_RUN:
-        bob_data, bob_targets, \
-            carol_data, carol_targets, \
-            david_data, david_targets, \
-            eve_data, eve_targets, \
-            frank_data, frank_targets, \
-            georgia_data, georgia_targets, \
-            *_ = Data(train=True).split(60)
-    else:
-        bob_data, bob_targets, \
-            carol_data, carol_targets, \
-            david_data, david_targets, \
-            eve_data, eve_targets, \
-            frank_data, frank_targets, \
-            georgia_data, georgia_targets \
-            = Data(train=True).split(6)
+    if split_type == 'equal':
+        data, targets = Data(train=True, subset=QUICK_RUN).split(num_trainers)
+    if split_type == 'size':
+        data, targets = Data(train=True, subset=QUICK_RUN).split(
+            num_trainers, ratios=ratios)
+    if split_type == 'flip':
+        data, targets = Data(train=True, subset=QUICK_RUN).split(
+            num_trainers, flip_probs=flip_probs)
 
     # instantiate clients
-    bob = client_constructor(
-        name="Bob",
-        data=bob_data,
-        targets=bob_targets,
-        model_constructor=Model,
-        model_criterion=F.nll_loss,
-        account_idx=1,
-        contract_address=contract_address,
-        deploy=False
-    )
-    carol = client_constructor(
-        name="Carol",
-        data=carol_data,
-        targets=carol_targets,
-        model_constructor=Model,
-        model_criterion=F.nll_loss,
-        account_idx=2,
-        contract_address=contract_address,
-        deploy=False
-    )
-    david = client_constructor(
-        name="David",
-        data=david_data,
-        targets=david_targets,
-        model_constructor=Model,
-        model_criterion=F.nll_loss,
-        account_idx=3,
-        contract_address=contract_address,
-        deploy=False
-    )
-    eve = client_constructor(
-        name="Eve",
-        data=eve_data,
-        targets=eve_targets,
-        model_constructor=Model,
-        model_criterion=F.nll_loss,
-        account_idx=4,
-        contract_address=contract_address,
-        deploy=False
-    )
-    frank = client_constructor(
-        name="Frank",
-        data=frank_data,
-        targets=frank_targets,
-        model_constructor=Model,
-        model_criterion=F.nll_loss,
-        account_idx=5,
-        contract_address=contract_address,
-        deploy=False
-    )
-    georgia = client_constructor(
-        name="Georgia",
-        data=georgia_data,
-        targets=georgia_targets,
-        model_constructor=Model,
-        model_criterion=F.nll_loss,
-        account_idx=6,
-        contract_address=contract_address,
-        deploy=False
-    )
+    common_args = {
+        'model_constructor': Model,
+        'model_criterion': F.nll_loss,
+        'contract_address': contract_address,
+        'deploy': False
+    }
 
-    trainers = [
-        bob,
-        carol,
-        david,
-        eve,
-        frank,
-        georgia
-    ][:num_trainers]
-
+    trainers = []
+    names = ["Bob", "Carol", "David", "Eve",
+             "Frank", "Georgia", "Henry", "Isabel", "Joe"]
+    for i, name, d, t in zip(range(num_trainers), names, data, targets):
+        trainer = client_constructor(
+            name=name,
+            data=d,
+            targets=t,
+            account_idx=i+1,
+            **common_args
+        )
+        trainers.append(trainer)
     return trainers
 
 
-def run_crowdsource_experiment(
-        num_trainers,
-        seed):
-    """
-    Experiment 1: fairness / variance
-    iid datasets; expecting clients to get similar scores. Varying number of trainers
-    """
-
-    # set up results dict, add details of current experiment
-    results = {}
-    results['num_trainers'] = num_trainers
-    results['seed'] = seed
-
-    # Set up
-    torch.manual_seed(seed)
-
+def _save_results(results):
+    filedir = "experiments/mnist/results/"
     if QUICK_RUN:
-        alice_data, alice_targets, *_ = Data(train=False).split(100)
-    else:
-        alice_data, alice_targets = Data(train=False).split(1)
-    alice = CrowdsourceClient(
-        name="Alice",
-        data=alice_data,
-        targets=alice_targets,
-        model_constructor=Model,
-        model_criterion=F.nll_loss,
-        account_idx=0,
-        contract_address=None,
-        deploy=True
-    )
+        filedir += "quick/"
+    filename = time.strftime("%Y%m%d-%H%M%S") + ".json"
+    filepath = filedir + filename
+    with open(filepath, 'w') as f:
+        json.dump(results, f,
+                  indent=4)
+    print(f"Saved to {filepath}")
+
+
+def run_experiment(
+    split_type,
+    protocol,
+    seed,
+    num_trainers=3,
+    ratios=None,
+    flip_probs=None
+):
+
+    # check args
+    if split_type not in {'equal', 'size', 'flip'}:
+        raise KeyError(f"split_type={split_type} is not a valid option")
+    if protocol not in {'crowdsource', 'consortium'}:
+        raise KeyError(f"protocol={protocol} is not a valid option")
+    if not 2 <= num_trainers <= 9:
+        raise ValueError(
+            f"Expected num_trainers to be between 2 and 9, got {num_trainers}")
+
+    # make results dict, add details of current experiment
+    results = {}
+    results['split_type'] = split_type
+    results['protocol'] = protocol
+    results['seed'] = seed
+    results['num_trainers'] = num_trainers
+    results['ratios'] = ratios
+    results['flip_probs'] = flip_probs
+
+    # set up
+    torch.manual_seed(seed)
+    alice, trainers = _make_clients(
+        split_type, num_trainers, ratios, flip_probs, protocol)
     results['contract_address'] = alice.contract_address
-    trainers = _make_equal_trainers(
-        num_trainers=num_trainers,
-        client_constructor=CrowdsourceClient,
-        contract_address=alice.contract_address)
-    alice.set_genesis_model(
-        round_duration=ROUND_DURATION,
-        max_num_updates=len(trainers)
-    )
 
     # define training threads
     threads = [
@@ -209,13 +231,22 @@ def run_crowdsource_experiment(
     ]
 
     # define evaluation threads
-    threads.append(
-        threading.Thread(
-            target=alice.evaluate_until,
-            args=(TRAINING_ITERATIONS,),
-            daemon=True
+    if protocol == 'crowdsource':
+        threads.append(
+            threading.Thread(
+                target=alice.evaluate_until,
+                args=(TRAINING_ITERATIONS,),
+                daemon=True
+            )
         )
-    )
+    if protocol == 'consortium':
+        threads.extend([
+            threading.Thread(
+                target=trainer.evaluate_until,
+                args=(TRAINING_ITERATIONS,),
+                daemon=True
+            ) for trainer in trainers
+        ])
 
     # run all threads in parallel
     for t in threads:
@@ -226,111 +257,61 @@ def run_crowdsource_experiment(
     results['final_tokens'] = [trainer.get_token_count()[0]
                                for trainer in trainers]
 
-    filename = f"experiments/mnist/results/crowdsource-{num_trainers}-{seed}.json"
-    with open(filename, 'w') as f:
-        json.dump(results, f,
-                  indent=4)
-    print(f"Saved to {filename}")
+    _save_results(results)
 
-    return results
-
-
-def run_consortium_experiment(num_trainers,
-                              seed):
-    """
-    Experiment 1: fairness / variance
-    iid datasets; expecting clients to get similar scores. Varying number of trainers
-    """
-
-    # set up results dict, add details of current experiment
-    results = {}
-    results['num_trainers'] = num_trainers
-    results['seed'] = seed
-
-    # Set up
-    torch.manual_seed(seed)
-    alice = ConsortiumSetupClient(
-        name="Alice",
-        model_constructor=Model,
-        account_idx=0,
-        contract_address=None,
-        deploy=True
-    )
-    results['contract_address'] = alice.contract_address
-    trainers = _make_equal_trainers(
-        num_trainers=num_trainers,
-        client_constructor=ConsortiumClient,
-        contract_address=alice.contract_address)
-    alice.set_genesis_model(
-        round_duration=ROUND_DURATION,
-        max_num_updates=len(trainers)
-    )
-    alice.add_auxiliaries([
-        trainer.address for trainer in trainers
-    ])
-
-    # Training
-    threads = [
-        threading.Thread(
-            target=trainer.train_until,
-            kwargs=TRAINING_HYPERPARAMS,
-            daemon=True
-        ) for trainer in trainers
-    ]
-
-    # Evaluation
-    threads.extend([
-        threading.Thread(
-            target=trainer.evaluate_until,
-            args=(TRAINING_ITERATIONS,),
-            daemon=True
-        ) for trainer in trainers
-    ])
-
-    # Run all threads in parallel
-    for t in threads:
-        t.start()
-    for t in threads:
-        t.join()
-
-    results['final_tokens'] = [trainer.get_token_count()[0]
-                               for trainer in trainers]
-    filename = f"experiments/mnist/results/consortium-{num_trainers}-{seed}.json"
-    with open(filename, 'w') as f:
-        json.dump(results, f,
-                  indent=4)
-    print(f"Saved to {filename}")
     return results
 
 
 if __name__ == "__main__":
-    experiments = [
-        # {'fn': run_crowdsource_experiment, 'args':{'num_trainers': 2, 'seed': 32}},
-        # {'fn': run_crowdsource_experiment, 'args':{'num_trainers': 3, 'seed': 32}},
-        # {'fn': run_crowdsource_experiment, 'args':{'num_trainers': 4, 'seed': 32}},
-        # {'fn': run_crowdsource_experiment, 'args':{'num_trainers': 5, 'seed': 32}},
-        # {'fn': run_crowdsource_experiment, 'args':{'num_trainers': 2, 'seed': 76}},
-        # {'fn': run_crowdsource_experiment, 'args':{'num_trainers': 3, 'seed': 76}},
-        # {'fn': run_crowdsource_experiment, 'args':{'num_trainers': 4, 'seed': 76}},
-        # {'fn': run_crowdsource_experiment, 'args':{'num_trainers': 5, 'seed': 76}},
-        # {'fn': run_crowdsource_experiment, 'args':{'num_trainers': 2, 'seed': 88}},
-        # {'fn': run_crowdsource_experiment, 'args':{'num_trainers': 3, 'seed': 88}},
-        # {'fn': run_crowdsource_experiment, 'args':{'num_trainers': 4, 'seed': 88}},
-        # {'fn': run_crowdsource_experiment, 'args':{'num_trainers': 5, 'seed': 88}},
-        {'fn': run_consortium_experiment,  'args':{'num_trainers': 2, 'seed': 32}},
-        {'fn': run_consortium_experiment,  'args':{'num_trainers': 3, 'seed': 32}},
-        {'fn': run_consortium_experiment,  'args':{'num_trainers': 4, 'seed': 32}},
-        {'fn': run_consortium_experiment,  'args':{'num_trainers': 5, 'seed': 32}},
-        {'fn': run_consortium_experiment,  'args':{'num_trainers': 2, 'seed': 76}},
-        {'fn': run_consortium_experiment,  'args':{'num_trainers': 3, 'seed': 76}},
-        {'fn': run_consortium_experiment,  'args':{'num_trainers': 4, 'seed': 76}},
-        {'fn': run_consortium_experiment,  'args':{'num_trainers': 5, 'seed': 76}},
-        {'fn': run_consortium_experiment,  'args':{'num_trainers': 2, 'seed': 88}},
-        {'fn': run_consortium_experiment,  'args':{'num_trainers': 3, 'seed': 88}},
-        {'fn': run_consortium_experiment,  'args':{'num_trainers': 4, 'seed': 88}},
-        {'fn': run_consortium_experiment,  'args':{'num_trainers': 5, 'seed': 88}}
-    ]
+
+    parser = argparse.ArgumentParser(
+        description="Run experiments on the MNIST dataset using 2CP.")
+    parser.add_argument(
+        '--full',
+        help='Do a full run. Otherwise, does a quick run for testing purposes during development.',
+        action='store_true'
+    )
+    args = parser.parse_args()
+
+    QUICK_RUN = not args.full
     if QUICK_RUN:
-        experiments = experiments[:2]
-    for exp in experiments:
-        exp['fn'](**(exp['args']))
+        TRAINING_ITERATIONS = 1
+    else:
+        TRAINING_ITERATIONS = 3
+    TRAINING_HYPERPARAMS = {
+        'final_round_num': TRAINING_ITERATIONS,
+        'batch_size': 32,
+        'epochs': 1,
+        'learning_rate': 1e-2
+    }
+    ROUND_DURATION = 1000  # should always end early
+
+    if QUICK_RUN:
+        experiments = [
+            {'split_type': 'equal', 'num_trainers': 3},
+            {'split_type': 'size',  'ratios': [1, 2, 2]},
+            {'split_type': 'flip',  'flip_probs': [0.50, 0, 0]}
+        ]
+        seed = 88
+        for exp in experiments:
+            for protocol in ['crowdsource', 'consortium']:
+                run_experiment(protocol=protocol, seed=seed, **exp)
+    else:
+        experiments = [
+            {'split_type': 'equal', 'num_trainers': 2},
+            {'split_type': 'equal', 'num_trainers': 3},
+            {'split_type': 'equal', 'num_trainers': 4},
+            {'split_type': 'equal', 'num_trainers': 5},
+            {'split_type': 'size',  'ratios': [1, 4, 4]},
+            {'split_type': 'size',  'ratios': [1, 2, 2]},
+            {'split_type': 'size',  'ratios': [2, 1, 1]},
+            {'split_type': 'size',  'ratios': [4, 1, 1]},
+            {'split_type': 'flip',  'flip_probs': [0.25, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [0.50, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [0.75, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [1.00, 0, 0]}
+        ]
+        for seed in [32, 76, 88]:
+            for exp in experiments:
+                for protocol in ['crowdsource', 'consortium']:
+                    run_experiment(protocol=protocol, seed=seed, **exp)

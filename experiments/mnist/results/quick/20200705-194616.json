@@ -1,0 +1,18 @@
+{
+    "split_type": "flip",
+    "protocol": "consortium",
+    "seed": 88,
+    "num_trainers": 3,
+    "ratios": null,
+    "flip_probs": [
+        0.5,
+        0,
+        0
+    ],
+    "contract_address": "0x94074C80d1f2edF2fF232997D128F1698215f827",
+    "final_tokens": [
+        0,
+        1370695188641548032,
+        1370670184493064960
+    ]
+}

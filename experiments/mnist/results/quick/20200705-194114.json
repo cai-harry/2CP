@@ -1,0 +1,18 @@
+{
+    "split_type": "flip",
+    "protocol": "crowdsource",
+    "seed": 88,
+    "num_trainers": 3,
+    "ratios": null,
+    "flip_probs": [
+        0.5,
+        0,
+        0
+    ],
+    "contract_address": "0x0bdC8781de105a4Ff1868deae9416617E94deFF4",
+    "final_tokens": [
+        165997400879859936,
+        819827392697334272,
+        787241965532302848
+    ]
+}
