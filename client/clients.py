@@ -192,8 +192,7 @@ class CrowdsourceClient(_GenesisClient):
     def _train_model(self, model, batch_size, epochs, lr):
         train_loader = torch.utils.data.DataLoader(
             sy.BaseDataset(self._data, self._targets),
-            batch_size=batch_size,
-            shuffle=True)
+            batch_size=batch_size)
         model = model  # .send(self._worker)
         model.train()
         optimizer = optim.SGD(model.parameters(), lr=lr)
