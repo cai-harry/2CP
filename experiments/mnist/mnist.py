@@ -162,7 +162,7 @@ def _make_trainers(
             num_trainers, flip_probs=flip_probs)
     if split_type == 'unique_digits':
         dataset_unique = Data(train=True, subset=QUICK_RUN,
-                             exclude_digits=set(range(10))-set(unique_digits))
+                              exclude_digits=set(range(10))-set(unique_digits))
         data_unique = dataset_unique.data
         targets_unique = dataset_unique.targets
         data_others, targets_others = Data(
@@ -192,6 +192,17 @@ def _make_trainers(
         )
         trainers.append(trainer)
     return trainers
+
+
+def _global_accuracy(client):
+    """
+    A hacky function that gets the accuracy rather than the loss.
+    """
+    output = client.predict()
+    pred = output.argmax(dim=2, keepdim=True).squeeze()
+    num_correct = (pred==client._targets).float().sum().item()
+    accuracy = num_correct / len(pred)
+    return accuracy
 
 
 def _save_results(results):
@@ -231,9 +242,12 @@ def run_experiment(
     results['protocol'] = protocol
     results['seed'] = seed
     results['num_trainers'] = num_trainers
-    results['ratios'] = ratios
-    results['flip_probs'] = flip_probs
-    results['unique_digits'] = unique_digits
+    if ratios is not None:
+        results['ratios'] = ratios
+    if flip_probs is not None:
+        results['flip_probs'] = flip_probs
+    if unique_digits is not None:
+        results['unique_digits'] = unique_digits
 
     # set up
     torch.manual_seed(seed)
@@ -274,8 +288,16 @@ def run_experiment(
     for t in threads:
         t.join()
 
+    # get results and record them
+
+    if protocol == 'crowdsource':
+        results['global_loss'] = [alice.evaluate_global(i)
+                                  for i in range(1, TRAINING_ITERATIONS+2)]
+        results['final_global_accuracy'] = _global_accuracy(alice)
+
     results['final_tokens'] = [trainer.get_token_count()[0]
                                for trainer in trainers]
+
 
     _save_results(results)
 
@@ -295,7 +317,7 @@ if __name__ == "__main__":
 
     QUICK_RUN = not args.full
     if QUICK_RUN:
-        TRAINING_ITERATIONS = 1
+        TRAINING_ITERATIONS = 2
     else:
         TRAINING_ITERATIONS = 3
     TRAINING_HYPERPARAMS = {
@@ -308,9 +330,7 @@ if __name__ == "__main__":
 
     if QUICK_RUN:
         experiments = [
-            {'split_type': 'unique_digits', 'unique_digits': [9], 'num_trainers': 2},
-            {'split_type': 'unique_digits', 'unique_digits': [7, 8, 9], 'num_trainers': 2},
-            {'split_type': 'unique_digits', 'unique_digits': [5, 6, 7, 8, 9], 'num_trainers': 2}
+            {'split_type': 'equal', 'num_trainers': 3}
         ]
         seed = 88
         for exp in experiments:
@@ -329,7 +349,10 @@ if __name__ == "__main__":
             {'split_type': 'flip',  'flip_probs': [0.25, 0, 0]},
             {'split_type': 'flip',  'flip_probs': [0.50, 0, 0]},
             {'split_type': 'flip',  'flip_probs': [0.75, 0, 0]},
-            {'split_type': 'flip',  'flip_probs': [1.00, 0, 0]}
+            {'split_type': 'flip',  'flip_probs': [1.00, 0, 0]},
+            {'split_type': 'unique_digits', 'unique_digits': [9], 'num_trainers': 2},
+            {'split_type': 'unique_digits', 'unique_digits': [7, 8, 9], 'num_trainers': 2},
+            {'split_type': 'unique_digits', 'unique_digits': [5, 6, 7, 8, 9], 'num_trainers': 2}
         ]
         for seed in [32, 76, 88]:
             for exp in experiments:

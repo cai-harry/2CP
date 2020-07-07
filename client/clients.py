@@ -132,12 +132,21 @@ class CrowdsourceClient(_GenesisClient):
         current_global_model = self._get_global_model(current_training_round)
         return current_global_model
 
+    @methodtools.lru_cache()
+    def evaluate_global(self, training_round):
+        """
+        Evaluate the global model at the given training round.
+        """
+        model = self._get_global_model(training_round)
+        loss = self._evaluate_model(model)
+        return loss
+
     def evaluate_current_global(self):
         """
         Evaluate the current global model using own data.
         """
         current_training_round = self._contract.currentRound()
-        return self._evaluate_global(current_training_round)
+        return self.evaluate_global(current_training_round)
 
     def predict(self):
         model = self.get_current_global_model()
@@ -167,15 +176,6 @@ class CrowdsourceClient(_GenesisClient):
         models = self._get_models(model_cids)
         avg_model = self._avg_model(models)
         return avg_model
-
-    @methodtools.lru_cache()
-    def _evaluate_global(self, training_round):
-        """
-        Evaluate the global model at the given training round.
-        """
-        model = self._get_global_model(training_round)
-        loss = self._evaluate_model(model)
-        return loss
 
     def _train_single_round(self, round_num, batch_size, epochs, learning_rate):
         """
@@ -291,7 +291,7 @@ class CrowdsourceClient(_GenesisClient):
         The Shapley Value of a coalition of trainers is the marginal loss reduction
         of the average of their models
         """
-        start_loss = self._evaluate_global(training_round)
+        start_loss = self.evaluate_global(training_round)
         models = self._get_models(update_cids)
         avg_model = self._avg_model(models)
         loss = self._evaluate_model(avg_model)
