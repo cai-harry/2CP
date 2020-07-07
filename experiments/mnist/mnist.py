@@ -13,7 +13,7 @@ from utils import print_global_performance, print_token_count
 
 
 class Data:
-    def __init__(self, train, subset=False):
+    def __init__(self, train, subset=False, exclude_digits=None):
         self._dataset = datasets.MNIST(
             'experiments/mnist/resources',
             train=train)
@@ -23,6 +23,11 @@ class Data:
             d, t, *_ = self.split(100)
             self.data = torch.cat(d)
             self.targets = torch.cat(t)
+        if exclude_digits is not None:
+            for digit in exclude_digits:
+                mask = self.targets != digit
+                self.data = self.data[mask]
+                self.targets = self.targets[mask]
 
     def split(self, n, ratios=None, flip_probs=None):
         """
@@ -85,7 +90,7 @@ class Model(nn.Module):
         return F.log_softmax(x, dim=1)
 
 
-def _make_clients(split_type, num_trainers, ratios, flip_probs, protocol):
+def _make_clients(split_type, num_trainers, ratios, flip_probs, unique_digits, protocol):
     if protocol == 'crowdsource':
         alice_dataset = Data(train=False, subset=QUICK_RUN)
         alice_data = alice_dataset.data
@@ -105,6 +110,7 @@ def _make_clients(split_type, num_trainers, ratios, flip_probs, protocol):
             num_trainers=num_trainers,
             ratios=ratios,
             flip_probs=flip_probs,
+            unique_digits=unique_digits,
             client_constructor=CrowdsourceClient,
             contract_address=alice.contract_address)
         alice.set_genesis_model(
@@ -124,6 +130,7 @@ def _make_clients(split_type, num_trainers, ratios, flip_probs, protocol):
             num_trainers=num_trainers,
             ratios=ratios,
             flip_probs=flip_probs,
+            unique_digits=unique_digits,
             client_constructor=ConsortiumClient,
             contract_address=alice.contract_address)
         alice.set_genesis_model(
@@ -141,6 +148,7 @@ def _make_trainers(
         num_trainers,
         ratios,
         flip_probs,
+        unique_digits,
         client_constructor,
         contract_address):
     # instantiate data
@@ -152,6 +160,16 @@ def _make_trainers(
     if split_type == 'flip':
         data, targets = Data(train=True, subset=QUICK_RUN).split(
             num_trainers, flip_probs=flip_probs)
+    if split_type == 'unique_digits':
+        dataset_unique = Data(train=True, subset=QUICK_RUN,
+                             exclude_digits=set(range(10))-set(unique_digits))
+        data_unique = dataset_unique.data
+        targets_unique = dataset_unique.targets
+        data_others, targets_others = Data(
+            train=True, subset=QUICK_RUN, exclude_digits=unique_digits
+        ).split(num_trainers-1)
+        data = [data_unique] + data_others
+        targets = [targets_unique] + targets_others
 
     # instantiate clients
     common_args = {
@@ -194,11 +212,12 @@ def run_experiment(
     seed,
     num_trainers=3,
     ratios=None,
-    flip_probs=None
+    flip_probs=None,
+    unique_digits=None
 ):
 
     # check args
-    if split_type not in {'equal', 'size', 'flip'}:
+    if split_type not in {'equal', 'size', 'flip', 'unique_digits'}:
         raise KeyError(f"split_type={split_type} is not a valid option")
     if protocol not in {'crowdsource', 'consortium'}:
         raise KeyError(f"protocol={protocol} is not a valid option")
@@ -214,11 +233,12 @@ def run_experiment(
     results['num_trainers'] = num_trainers
     results['ratios'] = ratios
     results['flip_probs'] = flip_probs
+    results['unique_digits'] = unique_digits
 
     # set up
     torch.manual_seed(seed)
     alice, trainers = _make_clients(
-        split_type, num_trainers, ratios, flip_probs, protocol)
+        split_type, num_trainers, ratios, flip_probs, unique_digits, protocol)
     results['contract_address'] = alice.contract_address
 
     # define training threads
@@ -288,15 +308,9 @@ if __name__ == "__main__":
 
     if QUICK_RUN:
         experiments = [
-            {'split_type': 'equal', 'num_trainers': 3},
-            {'split_type': 'size',  'ratios': [1, 4, 4]},
-            {'split_type': 'size',  'ratios': [1, 2, 2]},
-            {'split_type': 'size',  'ratios': [2, 1, 1]},
-            {'split_type': 'size',  'ratios': [4, 1, 1]},
-            {'split_type': 'flip',  'flip_probs': [0.25, 0, 0]},
-            {'split_type': 'flip',  'flip_probs': [0.50, 0, 0]},
-            {'split_type': 'flip',  'flip_probs': [0.75, 0, 0]},
-            {'split_type': 'flip',  'flip_probs': [1.00, 0, 0]}
+            {'split_type': 'unique_digits', 'unique_digits': [9], 'num_trainers': 2},
+            {'split_type': 'unique_digits', 'unique_digits': [7, 8, 9], 'num_trainers': 2},
+            {'split_type': 'unique_digits', 'unique_digits': [5, 6, 7, 8, 9], 'num_trainers': 2}
         ]
         seed = 88
         for exp in experiments:
