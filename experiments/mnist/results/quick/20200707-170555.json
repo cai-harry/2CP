@@ -1,0 +1,20 @@
+{
+    "split_type": "unique_digits",
+    "protocol": "consortium",
+    "seed": 88,
+    "num_trainers": 2,
+    "ratios": null,
+    "flip_probs": null,
+    "unique_digits": [
+        5,
+        6,
+        7,
+        8,
+        9
+    ],
+    "contract_address": "0x296bD691D12509a4010466725DE16E059c74f1a3",
+    "final_tokens": [
+        0,
+        0
+    ]
+}

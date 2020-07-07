@@ -1,0 +1,14 @@
+{
+    "split_type": "equal",
+    "protocol": "consortium",
+    "seed": 88,
+    "num_trainers": 3,
+    "ratios": null,
+    "flip_probs": null,
+    "contract_address": "0x2214F015Bd64cf334A653C7fD7785Ac65B166590",
+    "final_tokens": [
+        1856126427650451712,
+        1884493693709373568,
+        1891393914818763648
+    ]
+}
