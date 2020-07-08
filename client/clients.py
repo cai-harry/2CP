@@ -34,8 +34,11 @@ class _BaseClient:
         self._print(
             f"Connected to contract at address {self.contract_address}")
 
-    def get_token_count(self):
-        return self._contract.countTokens(), self._contract.countTotalTokens()
+    def get_token_count(self, address=None, training_round=None):
+        return self._contract.countTokens(address, training_round)
+
+    def get_total_token_count(self, training_round=None):
+        return self._contract.countTotalTokens(training_round)
 
     def wait_for_txs(self, txs):
         receipts = []

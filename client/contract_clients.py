@@ -104,13 +104,17 @@ class CrowdsourceContractClient(_BaseContractClient):
     def secondsRemaining(self):
         return self._contract.functions.secondsRemaining().call()
 
-    def countTokens(self, address=None):
+    def countTokens(self, address=None, training_round=None):
         if address is None:
-            return self._contract.functions.countTokens().call()
-        return self._contract.functions.countTokens(address).call()
+            address = self.address
+        if training_round is None:
+            training_round = self.currentRound()
+        return self._contract.functions.countTokens(address, training_round).call()
 
-    def countTotalTokens(self):
-        return self._contract.functions.countTotalTokens().call()
+    def countTotalTokens(self, training_round=None):
+        if training_round is None:
+            training_round = self.currentRound()
+        return self._contract.functions.countTotalTokens(training_round).call()
 
     def madeContribution(self, address, training_round):
         return self._contract.functions.madecontribution(address, training_round).call()
@@ -156,13 +160,20 @@ class ConsortiumContractClient(_BaseContractClient):
     def auxiliaries(self):
         return self._contract.functions.auxiliaries().call()
 
-    def countTokens(self, address=None):
-        if address is None:
-            return self._contract.functions.countTokens().call()
-        return self._contract.functions.countTokens(address).call()
+    def latestRound(self):
+        return self._contract.functions.latestRound().call()
 
-    def countTotalTokens(self):
-        return self._contract.functions.countTotalTokens().call()
+    def countTokens(self, address=None, training_round=None):
+        if address is None:
+            address = self.address
+        if training_round is None:
+            training_round = self.latestRound()
+        return self._contract.functions.countTokens(address, training_round).call()
+
+    def countTotalTokens(self, training_round=None):
+        if training_round is None:
+            training_round = self.latestRound()
+        return self._contract.functions.countTotalTokens(training_round).call()
 
     def setGenesis(self, model_cid, round_duration, num_trainers):
         cid_bytes = self._to_bytes32(model_cid)

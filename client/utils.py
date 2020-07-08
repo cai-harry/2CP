@@ -4,6 +4,7 @@ def print_global_performance(client):
 
 
 def print_token_count(client):
-    tokens, total_tokens = client.get_token_count()
+    tokens = client.get_token_count()
+    total_tokens = client.get_total_token_count()
     percent = int(100*tokens/total_tokens) if tokens > 0 else 0
     print(f"\t\t{client.name} has {tokens} of {total_tokens} tokens ({percent}%)")

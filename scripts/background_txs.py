@@ -12,7 +12,7 @@ import contract_clients
 FROM_IDX = 9
 TO_IDX = 0
 AMOUNT = 1
-INTERVAL = 15
+INTERVAL = 5
 
 
 class EthClient(contract_clients.BaseEthClient):

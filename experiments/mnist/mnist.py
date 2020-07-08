@@ -20,7 +20,7 @@ class Data:
         self.data = self._dataset.data.float().view(-1, 1, 28, 28) / 255
         self.targets = self._dataset.targets
         if subset:
-            d, t, *_ = self.split(100)
+            d, t, *_ = self.split(200)
             self.data = torch.cat(d)
             self.targets = torch.cat(t)
         if exclude_digits is not None:
@@ -200,9 +200,19 @@ def _global_accuracy(client):
     """
     output = client.predict()
     pred = output.argmax(dim=2, keepdim=True).squeeze()
-    num_correct = (pred==client._targets).float().sum().item()
+    num_correct = (pred == client._targets).float().sum().item()
     accuracy = num_correct / len(pred)
     return accuracy
+
+
+def _token_count_histories(trainers):
+    token_count_history_by_name = {}
+    for trainer in trainers:
+        token_count_history_by_name[trainer.name] = [
+            trainer.get_token_count(training_round=i)
+            for i in range(1, TRAINING_ITERATIONS+1)
+        ]
+    return token_count_history_by_name
 
 
 def _save_results(results):
@@ -254,6 +264,7 @@ def run_experiment(
     alice, trainers = _make_clients(
         split_type, num_trainers, ratios, flip_probs, unique_digits, protocol)
     results['contract_address'] = alice.contract_address
+    results['trainers'] = [trainer.name for trainer in trainers]
 
     # define training threads
     threads = [
@@ -289,15 +300,13 @@ def run_experiment(
         t.join()
 
     # get results and record them
-
     if protocol == 'crowdsource':
         results['global_loss'] = [alice.evaluate_global(i)
                                   for i in range(1, TRAINING_ITERATIONS+2)]
         results['final_global_accuracy'] = _global_accuracy(alice)
-
-    results['final_tokens'] = [trainer.get_token_count()[0]
-                               for trainer in trainers]
-
+    results['token_counts'] = _token_count_histories(trainers)
+    results['total_token_counts'] = [alice.get_total_token_count(i)
+                                     for i in range(1, TRAINING_ITERATIONS+1)]
 
     _save_results(results)
 
@@ -350,9 +359,12 @@ if __name__ == "__main__":
             {'split_type': 'flip',  'flip_probs': [0.50, 0, 0]},
             {'split_type': 'flip',  'flip_probs': [0.75, 0, 0]},
             {'split_type': 'flip',  'flip_probs': [1.00, 0, 0]},
-            {'split_type': 'unique_digits', 'unique_digits': [9], 'num_trainers': 2},
-            {'split_type': 'unique_digits', 'unique_digits': [7, 8, 9], 'num_trainers': 2},
-            {'split_type': 'unique_digits', 'unique_digits': [5, 6, 7, 8, 9], 'num_trainers': 2}
+            {'split_type': 'unique_digits',
+                'unique_digits': [9], 'num_trainers': 2},
+            {'split_type': 'unique_digits', 'unique_digits': [
+                7, 8, 9], 'num_trainers': 2},
+            {'split_type': 'unique_digits', 'unique_digits': [
+                5, 6, 7, 8, 9], 'num_trainers': 2}
         ]
         for seed in [32, 76, 88]:
             for exp in experiments:
