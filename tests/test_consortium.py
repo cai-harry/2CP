@@ -85,8 +85,8 @@ def test_consortium():
     print_token_count(charlie)
     print_token_count(david)
 
-    assert bob.get_token_count()[0] > 0, "Bob ended up with 0 tokens"
-    assert charlie.get_token_count()[0] > 0, "Charlie ended up with 0 tokens"
+    assert bob.get_token_count() > 0, "Bob ended up with 0 tokens"
+    assert charlie.get_token_count() > 0, "Charlie ended up with 0 tokens"
 
     bob_global_model = bob.get_current_global_model()
     charlie_global_model = charlie.get_current_global_model()

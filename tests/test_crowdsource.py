@@ -87,14 +87,14 @@ def test_crowdsource():
     print_token_count(david)
     print_token_count(eve)
 
-    assert bob.get_token_count()[0] > david.get_token_count(
-    )[0], "Bob ended up with fewer tokens than David"
-    assert bob.get_token_count()[0] > eve.get_token_count(
-    )[0], "Bob ended up with fewer tokens than Eve"
-    assert charlie.get_token_count()[0] > david.get_token_count(
-    )[0], "Charlie ended up with fewer tokens than David"
-    assert charlie.get_token_count()[0] > eve.get_token_count(
-    )[0], "Charlie ended up with fewer tokens than Eve"
+    assert bob.get_token_count() > david.get_token_count(
+    ), "Bob ended up with fewer tokens than David"
+    assert bob.get_token_count() > eve.get_token_count(
+    ), "Bob ended up with fewer tokens than Eve"
+    assert charlie.get_token_count() > david.get_token_count(
+    ), "Charlie ended up with fewer tokens than David"
+    assert charlie.get_token_count() > eve.get_token_count(
+    ), "Charlie ended up with fewer tokens than Eve"
 
     alice_global_model = alice.get_current_global_model()
     bob_global_model = bob.get_current_global_model()

@@ -4,7 +4,7 @@ base58
 joblib
 jupyter
 jupyterlab
-ipfshttpclient >= 0.4.13.2  # for compatibility with go-ipfs v0.5.x
+ipfshttpclient
 matplotlib
 methodtools
 more_itertools

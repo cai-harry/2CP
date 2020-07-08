@@ -24,11 +24,11 @@ contract Crowdsource {
     /// @dev The IPFS CIDs of model updates in each round
     mapping(uint256 => bytes32[]) internal updatesInRound;
 
+    /// @dev The round to which each model update belongs
+    mapping(bytes32 => uint256) internal updateRound;
+
     /// @dev The IPFS CIDs of model updates made by each address
     mapping(address => bytes32[]) internal updatesFromAddress;
-
-    /// @dev The rounds in which each address has made a contribution
-    mapping(address => uint256[]) internal roundsContributed;
 
     /// @dev Whether or not each model update has been evaluated
     mapping(bytes32 => bool) internal tokensAssigned;
@@ -63,25 +63,30 @@ contract Crowdsource {
         return updatesInRound[_round];
     }
 
-    /// @return count Token count of the given address.
-    function countTokens(address _address) public view returns (uint256 count) {
+    /// @return count Token count of the given address up to and including the given round.
+    function countTokens(address _address, uint256 _round)
+        external
+        view
+        returns (uint256 count)
+    {
         bytes32[] memory updates = updatesFromAddress[_address];
         for (uint256 i = 0; i < updates.length; i++) {
-            count += tokens[updates[i]];
+            bytes32 update = updates[i];
+            if (updateRound[update] <= _round) {
+                count += tokens[updates[i]];
+            }
         }
     }
 
-    /// @return count Token count of the calling address.
-    function countTokens() external view returns (uint256 count) {
-        count = countTokens(msg.sender);
-    }
-
-    /// @return count Total number of tokens.
-    function countTotalTokens() external view returns (uint256 count) {
+    /// @return count Total number of tokens up to and including the given round.
+    function countTotalTokens(uint256 _round) external view returns (uint256 count) {
         for (uint256 i = 1; i <= currentRound(); i++) {
             bytes32[] memory updates = updatesInRound[i];
             for (uint256 j = 0; j < updates.length; j++) {
-                count += tokens[updates[j]];
+                bytes32 update = updates[j];
+                if (updateRound[update] <= _round){
+                    count += tokens[updates[j]];
+                }
             }
         }
     }
@@ -92,8 +97,9 @@ contract Crowdsource {
         view
         returns (bool)
     {
-        for (uint256 i = 0; i < roundsContributed[_address].length; i++) {
-            if (roundsContributed[_address][i] == _round) {
+        for (uint256 i = 0; i < updatesFromAddress[_address].length; i++) {
+            bytes32 update = updatesFromAddress[_address][i];
+            if (updateRound[update] == _round) {
                 return true;
             }
         }
@@ -140,7 +146,7 @@ contract Crowdsource {
 
         updatesInRound[_round].push(_cid);
         updatesFromAddress[msg.sender].push(_cid);
-        roundsContributed[msg.sender].push(_round);
+        updateRound[_cid] = _round;
 
         if (
             maxNumUpdates > 0 && updatesInRound[_round].length >= maxNumUpdates

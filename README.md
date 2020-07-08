@@ -33,8 +33,6 @@ Use pip to install everything else.
 pip install -r requirements.txt
 ```
 
-Note: as of 22 May 2020, the version of `ipfshttpclient` on PyPI is too old to support `go-ipfs` v0.5.x - so try installing it directly from source instead ([GitHub repo](https://github.com/ipfs-shipyard/py-ipfs-http-client))
-
 #### Adding `/client` to `PYTHONPATH`
 
 Required to run unit tests or experiments. This is really easy with conda. From repo root:

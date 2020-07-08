@@ -30,24 +30,32 @@ contract Consortium {
         return auxAddresses;
     }
 
-    /// @return count Token count of the given address.
-    function countTokens(address _address) public view returns (uint256 count) {
+    /// @return round The index of the latest training round among Crowdsourcing auxiliaries and main.
+    function latestRound() external view returns (uint256 round) {
+        Crowdsource main = Crowdsource(mainAddress);
+        round = main.currentRound();
         for (uint256 i = 0; i < auxAddresses.length; i++) {
             Crowdsource aux = Crowdsource(auxAddresses[i]);
-            count += aux.countTokens(_address);
+            uint256 auxRound = aux.currentRound();
+            if (round < auxRound) {
+                round = auxRound;
+            }
         }
     }
 
-    /// @return count Token count of the calling address.
-    function countTokens() external view returns (uint256 count) {
-        count = countTokens(msg.sender);
-    }
-
-    /// @return count Total number of tokens.
-    function countTotalTokens() external view returns (uint256 count) {
+    /// @return count Token count of the given address up to and including the given round.
+    function countTokens(address _address, uint256 _round) public view returns (uint256 count) {
         for (uint256 i = 0; i < auxAddresses.length; i++) {
             Crowdsource aux = Crowdsource(auxAddresses[i]);
-            count += aux.countTotalTokens();
+            count += aux.countTokens(_address, _round);
+        }
+    }
+
+    /// @return count Total number of tokens up to and including the given round.
+    function countTotalTokens(uint256 _round) external view returns (uint256 count) {
+        for (uint256 i = 0; i < auxAddresses.length; i++) {
+            Crowdsource aux = Crowdsource(auxAddresses[i]);
+            count += aux.countTotalTokens(_round);
         }
     }
 
