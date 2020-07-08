@@ -16,6 +16,7 @@ TRAINING_HYPERPARAMS = {
     'epochs': 2,
     'learning_rate': 0.3,
 }
+EVAL_METHOD = 'step'
 TORCH_SEED = 8888
 
 ROUND_DURATION = 60  # expecting rounds to always end early
@@ -69,7 +70,7 @@ def test_consortium():
     threads.extend([
         threading.Thread(
             target=trainer.evaluate_until,
-            args=(TRAINING_ITERATIONS,),
+            args=(TRAINING_ITERATIONS, EVAL_METHOD),
             daemon=True
         ) for trainer in trainers
     ])

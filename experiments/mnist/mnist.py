@@ -220,6 +220,7 @@ def _save_results(results):
 def run_experiment(
     split_type,
     protocol,
+    eval_method,
     seed,
     num_trainers=3,
     ratios=None,
@@ -240,6 +241,7 @@ def run_experiment(
     results = {}
     results['split_type'] = split_type
     results['protocol'] = protocol
+    results['eval_method'] = eval_method
     results['seed'] = seed
     results['num_trainers'] = num_trainers
     if ratios is not None:
@@ -269,7 +271,7 @@ def run_experiment(
         threads.append(
             threading.Thread(
                 target=alice.evaluate_until,
-                args=(TRAINING_ITERATIONS,),
+                args=(TRAINING_ITERATIONS, eval_method),
                 daemon=True
             )
         )
@@ -277,7 +279,7 @@ def run_experiment(
         threads.extend([
             threading.Thread(
                 target=trainer.evaluate_until,
-                args=(TRAINING_ITERATIONS,),
+                args=(TRAINING_ITERATIONS, eval_method),
                 daemon=True
             ) for trainer in trainers
         ])
@@ -332,10 +334,11 @@ if __name__ == "__main__":
         experiments = [
             {'split_type': 'equal', 'num_trainers': 3}
         ]
+        method = 'step'
         seed = 88
         for exp in experiments:
             for protocol in ['crowdsource', 'consortium']:
-                run_experiment(protocol=protocol, seed=seed, **exp)
+                run_experiment(protocol=protocol, eval_method=method, seed=seed, **exp)
     else:
         experiments = [
             {'split_type': 'equal', 'num_trainers': 2},
@@ -354,7 +357,8 @@ if __name__ == "__main__":
             {'split_type': 'unique_digits', 'unique_digits': [7, 8, 9], 'num_trainers': 2},
             {'split_type': 'unique_digits', 'unique_digits': [5, 6, 7, 8, 9], 'num_trainers': 2}
         ]
+        method = 'step'
         for seed in [32, 76, 88]:
             for exp in experiments:
                 for protocol in ['crowdsource', 'consortium']:
-                    run_experiment(protocol=protocol, seed=seed, **exp)
+                    run_experiment(protocol=protocol, eval_method=method, seed=seed, **exp)
