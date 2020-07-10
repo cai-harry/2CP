@@ -1,0 +1,35 @@
+{
+    "split_type": "unique_digits",
+    "protocol": "consortium",
+    "seed": 32,
+    "num_trainers": 2,
+    "unique_digits": [
+        5,
+        6,
+        7,
+        8,
+        9
+    ],
+    "contract_address": "0x51389031b84beb6CcD3812Bcff01FdC3b1bC4D5d",
+    "trainers": [
+        "Bob",
+        "Carol"
+    ],
+    "token_counts": {
+        "Bob": [
+            0,
+            0,
+            0
+        ],
+        "Carol": [
+            0,
+            0,
+            0
+        ]
+    },
+    "total_token_counts": [
+        0,
+        0,
+        0
+    ]
+}

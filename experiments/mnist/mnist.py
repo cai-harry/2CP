@@ -355,16 +355,21 @@ if __name__ == "__main__":
             {'split_type': 'size',  'ratios': [1, 2, 2]},
             {'split_type': 'size',  'ratios': [2, 1, 1]},
             {'split_type': 'size',  'ratios': [4, 1, 1]},
-            {'split_type': 'flip',  'flip_probs': [0.25, 0, 0]},
-            {'split_type': 'flip',  'flip_probs': [0.50, 0, 0]},
-            {'split_type': 'flip',  'flip_probs': [0.75, 0, 0]},
-            {'split_type': 'flip',  'flip_probs': [1.00, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [0.1, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [0.2, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [0.3, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [0.4, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [0.5, 0, 0]},
             {'split_type': 'unique_digits',
                 'unique_digits': [9], 'num_trainers': 2},
             {'split_type': 'unique_digits', 'unique_digits': [
                 7, 8, 9], 'num_trainers': 2},
             {'split_type': 'unique_digits', 'unique_digits': [
-                5, 6, 7, 8, 9], 'num_trainers': 2}
+                5, 6, 7, 8, 9], 'num_trainers': 2},
+            {'split_type': 'unique_digits',
+                'unique_digits': [9], 'num_trainers': 3},
+            {'split_type': 'unique_digits', 'unique_digits': [
+                5, 6, 7, 8, 9], 'num_trainers': 3}
         ]
         for seed in [32, 76, 88]:
             for exp in experiments:

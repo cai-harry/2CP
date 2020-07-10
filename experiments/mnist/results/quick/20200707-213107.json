@@ -1,0 +1,18 @@
+{
+    "split_type": "equal",
+    "protocol": "crowdsource",
+    "seed": 88,
+    "num_trainers": 3,
+    "contract_address": "0x2E02df5d52B7C8F28a409AfBEc71129a282d1f47",
+    "global_loss": [
+        2.3034379482269287,
+        0.3528861105442047,
+        0.21808943152427673
+    ],
+    "final_global_accuracy": 0.9344,
+    "final_tokens": [
+        1309759780764579840,
+        1340064294636249600,
+        1384602375328540800
+    ]
+}

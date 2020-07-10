@@ -1,0 +1,48 @@
+{
+    "split_type": "unique_digits",
+    "protocol": "crowdsource",
+    "seed": 88,
+    "num_trainers": 3,
+    "unique_digits": [
+        5,
+        6,
+        7,
+        8,
+        9
+    ],
+    "contract_address": "0x6c443efA6Da584dFfd68356aF89B9e0840d41A2C",
+    "trainers": [
+        "Bob",
+        "Carol",
+        "David"
+    ],
+    "global_loss": [
+        2.300541639328003,
+        3.141098976135254,
+        1.5474880933761597,
+        1.0397292375564575
+    ],
+    "final_global_accuracy": 0.646,
+    "token_counts": {
+        "Bob": [
+            3585315942764282368,
+            6445065120855967232,
+            8842479497194290176
+        ],
+        "Carol": [
+            0,
+            213881383339564000,
+            612405449151992800
+        ],
+        "David": [
+            0,
+            0,
+            0
+        ]
+    },
+    "total_token_counts": [
+        3585315942764282368,
+        6658946504195531232,
+        9454884946346282976
+    ]
+}

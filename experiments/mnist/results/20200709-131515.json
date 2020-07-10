@@ -1,0 +1,41 @@
+{
+    "split_type": "unique_digits",
+    "protocol": "consortium",
+    "seed": 76,
+    "num_trainers": 3,
+    "unique_digits": [
+        5,
+        6,
+        7,
+        8,
+        9
+    ],
+    "contract_address": "0xB59b47e5f78FCB7dE24d1f51B73309FB8e5Ec81a",
+    "trainers": [
+        "Bob",
+        "Carol",
+        "David"
+    ],
+    "token_counts": {
+        "Bob": [
+            0,
+            0,
+            0
+        ],
+        "Carol": [
+            5960702069103717376,
+            10692925225943326720,
+            14867519244551658496
+        ],
+        "David": [
+            5960252329707145216,
+            10682528182864188416,
+            14864726051688193536
+        ]
+    },
+    "total_token_counts": [
+        11920954398810862592,
+        21375453408807515136,
+        29732245296239852032
+    ]
+}
