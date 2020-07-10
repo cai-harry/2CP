@@ -117,10 +117,10 @@ class CrowdsourceClient(_GenesisClient):
             tx = self._train_single_round(r, batch_size, epochs, learning_rate)
             self.wait_for_txs([tx])
 
-    def evaluate_until(self, final_round_num):
+    def evaluate_until(self, final_round_num, method):
         for r in range(1, final_round_num+1):
             self.wait_for_round(r + 1)
-            scores = self._evaluate_single_round(r)
+            scores = self._evaluate_single_round(r, method)
             txs = self._set_tokens(scores)
             self.wait_for_txs(txs)
 
@@ -258,7 +258,7 @@ class CrowdsourceClient(_GenesisClient):
                     avg_param += client_param / len(models)
         return avg_model
 
-    def _evaluate_single_round(self, training_round):
+    def _evaluate_single_round(self, training_round, method):
         """
         Provide Shapley Value score for each update in the given training round.
         """
@@ -266,10 +266,15 @@ class CrowdsourceClient(_GenesisClient):
 
         cids = self._get_cids(training_round)
 
-        def characteristic_function(*c):
-            return self._marginal_value(training_round, *c)
-        scores = shapley.values(
-            characteristic_function, cids)
+        if method == 'shapley':
+            def characteristic_function(*c):
+                return self._marginal_value(training_round, *c)
+            scores = shapley.values(
+                characteristic_function, cids)
+        if method == 'step':
+            scores = {}
+            for cid in cids:
+                scores[cid] = self._marginal_value(training_round, cid)
 
         self._print(
             f"Scores in round {training_round} are {list(scores.values())}")
@@ -361,12 +366,12 @@ class ConsortiumClient(_BaseClient):
         for t in threads:
             t.join()
 
-    def evaluate_until(self, final_training_round):
+    def evaluate_until(self, final_training_round, method):
         eval_clients = self._get_eval_clients()
         threads = [
             threading.Thread(
                 target=eval_client.evaluate_until,
-                args=(final_training_round,),
+                args=(final_training_round, method),
                 daemon=True
             ) for eval_client in eval_clients
         ]
