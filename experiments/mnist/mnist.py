@@ -341,7 +341,11 @@ if __name__ == "__main__":
 
     if QUICK_RUN:
         experiments = [
-            {'split_type': 'equal', 'num_trainers': 3}
+            {'split_type': 'equal', 'num_trainers': 3},
+            {'split_type': 'size',  'ratios': [1, 4, 4]},
+            {'split_type': 'flip',  'flip_probs': [0.3, 0, 0]},
+            {'split_type': 'unique_digits',
+                'unique_digits': [9], 'num_trainers': 3},
         ]
         method = 'step'
         seed = 88
