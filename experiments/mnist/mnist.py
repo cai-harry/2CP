@@ -219,12 +219,15 @@ def _save_results(results):
     filedir = "experiments/mnist/results/"
     if QUICK_RUN:
         filedir += "quick/"
-    filename = time.strftime("%Y%m%d-%H%M%S") + ".json"
+    filename = "all.json"
     filepath = filedir + filename
+    with open(filepath) as f:
+        all_results = json.load(f)
+    all_results.append(results)
     with open(filepath, 'w') as f:
-        json.dump(results, f,
+        json.dump(all_results, f,
                   indent=4)
-    print(f"Saved to {filepath}")
+    print(f"{filepath} now has {len(all_results)} results")
 
 
 def run_experiment(
