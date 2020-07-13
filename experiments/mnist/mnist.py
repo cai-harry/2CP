@@ -252,6 +252,8 @@ def run_experiment(
 
     # make results dict, add details of current experiment
     results = {}
+    results['quick_run'] = QUICK_RUN
+    results.update(TRAINING_HYPERPARAMS)
     results['split_type'] = split_type
     results['protocol'] = protocol
     results['eval_method'] = eval_method
