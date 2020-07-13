@@ -357,8 +357,8 @@ if __name__ == "__main__":
                 run_experiment(protocol=protocol, eval_method=method, seed=seed, **exp)
     else:
         experiments = [
-            {'split_type': 'equal', 'num_trainers': 2},
-            {'split_type': 'equal', 'num_trainers': 3},
+            # {'split_type': 'equal', 'num_trainers': 2},
+            # {'split_type': 'equal', 'num_trainers': 3},
             {'split_type': 'equal', 'num_trainers': 4},
             {'split_type': 'equal', 'num_trainers': 5},
             {'split_type': 'size',  'ratios': [1, 4, 4]},
@@ -382,7 +382,7 @@ if __name__ == "__main__":
                 5, 6, 7, 8, 9], 'num_trainers': 3}
         ]
         method = 'step'
-        for seed in [32, 76, 88]:
+        for seed in [88]:
             for exp in experiments:
                 for protocol in ['crowdsource', 'consortium']:
                     run_experiment(protocol=protocol, eval_method=method, seed=seed, **exp)
