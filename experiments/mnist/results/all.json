@@ -33,7 +33,12 @@
             4158454045653343232,
             6352146402001380992
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -62,7 +67,12 @@
             8211369574069976832,
             12554157570004463360
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -104,7 +114,12 @@
             4034223407506942720,
             6186012282967567360
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -139,7 +154,12 @@
             11955718830227852032,
             18357169494032860032
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -187,7 +207,12 @@
             3882077597081660928,
             5991612436870733632
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -228,7 +253,12 @@
             15316809306542078464,
             23672928561766941952
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -282,7 +312,12 @@
             3609666598836580864,
             5686468271414438784
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -329,7 +364,12 @@
             17828765705227852096,
             28130461630721887616
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -376,7 +416,12 @@
             3947205930948257664,
             6096551269292831488
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -416,7 +461,12 @@
             11069917052984237568,
             17424429178237915008
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -463,7 +513,12 @@
             4016674190759658816,
             6170138284564018368
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -503,7 +558,12 @@
             11872832804918289152,
             18271487161517143168
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -550,7 +610,12 @@
             3992711454629897920,
             6141130164265632704
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -590,7 +655,12 @@
             11777184680104255744,
             18144272193312644992
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -637,7 +707,12 @@
             3829294994473457344,
             5981406360864639424
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -677,7 +752,12 @@
             11171368554234504576,
             17508002966642379648
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -724,7 +804,12 @@
             3938080266118049472,
             6063104242086410560
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -764,7 +849,12 @@
             10187066137790679680,
             15592079833149909632
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -811,7 +901,12 @@
             3856165548165639168,
             5958347206314404864
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -851,7 +946,12 @@
             8565073311328888064,
             13056889414787292672
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -898,7 +998,12 @@
             3831290602684020992,
             5928862988948822016
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -938,7 +1043,12 @@
             7357941895723343052,
             11410112529993057228
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -985,7 +1095,12 @@
             3770451635122299200,
             5855784177780151296
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -1025,7 +1140,12 @@
             6990137547254562432,
             10986286371946334976
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -1072,7 +1192,12 @@
             3788867900768915936,
             5867600734035174176
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -1112,7 +1237,12 @@
             6926741242408752320,
             10861738830804824640
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -1151,7 +1281,12 @@
             7295656144618988032,
             10764002710580825600
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -1183,7 +1318,12 @@
             0,
             0
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -1224,7 +1364,12 @@
             4916683137416839680,
             6921266362071037440
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -1258,7 +1403,12 @@
             0,
             0
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -1301,7 +1451,12 @@
             3098668873310089088,
             5059522211551666304
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -1337,7 +1492,12 @@
             0,
             0
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -1382,7 +1542,12 @@
             6551478167374929152,
             9596519738435745280
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -1420,7 +1585,12 @@
             18199985742568969216,
             27577542275190352896
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -1469,7 +1639,12 @@
             4004516273736953344,
             5602982039252916736
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -1511,7 +1686,12 @@
             20980746112763881472,
             29170794878154992640
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -1547,7 +1727,12 @@
             4092034846544265728,
             6270186305046081408
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -1576,7 +1761,12 @@
             8025130406022071808,
             12330509975552558848
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -1618,7 +1808,12 @@
             3990405723452568320,
             6126062656442324608
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -1653,7 +1848,12 @@
             11797179102897644160,
             18135659918189048960
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -1701,7 +1901,12 @@
             3834079347550869248,
             5928106926381588352
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -1742,7 +1947,12 @@
             15139834195375442752,
             23436809360980988096
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -1796,7 +2006,12 @@
             3466590688625971456,
             5525819193571805696
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -1843,7 +2058,12 @@
             17104849728445212224,
             27299918087820212096
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -1890,7 +2110,12 @@
             3944830785195032832,
             6076486388842264704
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -1930,7 +2155,12 @@
             10956342473626136576,
             17247878029942512256
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -1977,7 +2207,12 @@
             3949755609035492096,
             6085670337080955648
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -2017,7 +2252,12 @@
             11637834548950195584,
             17973324716091156096
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -2064,7 +2304,12 @@
             3933058694005012608,
             6062980204820632960
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -2104,7 +2349,12 @@
             11608145877718925312,
             17921919941902160640
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -2151,7 +2401,12 @@
             3729558924833933312,
             5860083277026812160
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -2191,7 +2446,12 @@
             10832652494311332800,
             17086787775158882112
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -2238,7 +2498,12 @@
             3904186695814132608,
             6027069970965385216
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -2278,7 +2543,12 @@
             10146802753210067712,
             15558797255158424320
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -2325,7 +2595,12 @@
             3904782682657241984,
             6015559747815132544
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -2365,7 +2640,12 @@
             8668259948492050016,
             13160372644662856928
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -2412,7 +2692,12 @@
             3823433607816696192,
             5921702459454536256
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -2452,7 +2737,12 @@
             7361417889595031824,
             11412356227636337552
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -2499,7 +2789,12 @@
             3808111548423767040,
             5880394612749417536
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -2539,7 +2834,12 @@
             7128583848476409664,
             11094355672597884864
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -2586,7 +2886,12 @@
             3665095443526903808,
             5722643430034319424
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -2626,7 +2931,12 @@
             6502769291400909712,
             10380041390657425552
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -2665,7 +2975,12 @@
             7740137994289398272,
             11314686611294746624
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -2697,7 +3012,12 @@
             0,
             0
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -2738,7 +3058,12 @@
             4782117873430252032,
             6892726674675941376
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -2772,7 +3097,12 @@
             0,
             0
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -2815,7 +3145,12 @@
             3256946146488189760,
             5243234395980835008
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -2851,7 +3186,12 @@
             0,
             0
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -2896,7 +3236,12 @@
             6620910207430521600,
             9464839597543080448
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -2934,7 +3279,12 @@
             18007545791566372864,
             26923489883542061568
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -2983,7 +3333,12 @@
             3824278573195139584,
             5400722409288088576
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -3025,7 +3380,12 @@
             21375453408807515136,
             29732245296239852032
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -3061,7 +3421,12 @@
             4159025311470031616,
             6351155325770377984
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -3090,7 +3455,12 @@
             8066338822245597696,
             12389489471912383744
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -3132,7 +3502,12 @@
             4018482396999994880,
             6166326324144999040
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -3167,7 +3542,12 @@
             11898955523967742720,
             18286846384406089600
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -3215,7 +3595,12 @@
             3823187818129857408,
             5928066485871871424
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -3256,7 +3641,12 @@
             15075599014759063808,
             23405711640914281344
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -3310,7 +3700,12 @@
             3595283752679825024,
             5662900092949469952
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -3357,7 +3752,12 @@
             17731195561587809984,
             27977196353177229248
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -3404,7 +3804,12 @@
             3970114847024281728,
             6115542029341061632
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -3444,7 +3849,12 @@
             11125344485044479488,
             17487500026822090240
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -3491,7 +3901,12 @@
             3990432664752006336,
             6136089265346527168
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -3531,7 +3946,12 @@
             11787374615669250560,
             18166346803307533312
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -3578,7 +3998,12 @@
             3952893093228339968,
             6094151958823203968
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -3618,7 +4043,12 @@
             11591353625059127808,
             17909692525863647488
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -3665,7 +4095,12 @@
             3808558637897173376,
             5955759267012278272
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -3705,7 +4140,12 @@
             11102714076638221824,
             17428895264863967872
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -3752,7 +4192,12 @@
             3954884693026542720,
             6084711467226346240
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -3792,7 +4237,12 @@
             10283402949571609344,
             15740667760372161664
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -3839,7 +4289,12 @@
             3893919885158538944,
             6007368837793668288
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -3879,7 +4334,12 @@
             8617612540721893504,
             13124036848545074624
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -3926,7 +4386,12 @@
             3828806221485137856,
             5916895598173141376
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -3966,7 +4431,12 @@
             7304210811853409002,
             11337007611989975146
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -4013,7 +4483,12 @@
             3760555962721506624,
             5825866992274920000
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -4053,7 +4528,12 @@
             7017658591270446784,
             10962283611297607488
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -4100,7 +4580,12 @@
             3788207501173019328,
             5863365694880485376
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -4140,7 +4625,12 @@
             6551737993955612352,
             10479574382305145408
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -4179,7 +4669,12 @@
             7892203181982040064,
             11476707860827445760
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -4211,7 +4706,12 @@
             0,
             0
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -4252,7 +4752,12 @@
             5273131102323532288,
             7454370737075805952
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -4286,7 +4791,12 @@
             0,
             0
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -4329,7 +4839,12 @@
             3016210436820983744,
             4943677544593810880
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -4365,7 +4880,12 @@
             0,
             0
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -4410,7 +4930,12 @@
             6717022329568862976,
             9827830463647842560
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -4448,7 +4973,12 @@
             18735423572361468928,
             28315552979707717632
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -4497,7 +5027,12 @@
             6658946504195531232,
             9454884946346282976
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -4539,7 +5074,12 @@
             15548460651189088512,
             21658684857189655040
         ],
-        "eval_method": "shapley"
+        "eval_method": "shapley",
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -4575,7 +5115,12 @@
             3932706058025360128,
             4132206976413726832,
             4206348694860935240
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -4604,7 +5149,12 @@
             3889738321304321280,
             4212006613612174960,
             4340853706002235384
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -4646,7 +5196,12 @@
             5719470530748367360,
             6129055842757225088,
             6296673581004142808
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -4681,7 +5236,12 @@
             11292513638734817280,
             12182368800044059536,
             12544704183936118864
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -4729,7 +5289,12 @@
             6922052562236786176,
             7626782953739166560,
             7798491582274437252
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -4770,7 +5335,12 @@
             20497440636157989376,
             22716749131679534832,
             23278093874454498224
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -4824,7 +5394,12 @@
             7899447500705719040,
             9696225792169571008,
             10020611166954040616
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -4871,7 +5446,12 @@
             31118638634681701632,
             38395168900489807232,
             39777212351560592760
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -4918,7 +5498,12 @@
             4282725393772125440,
             5166502371430397280,
             5305779725313186893
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -4958,7 +5543,12 @@
             8456589758396148992,
             10923335045576095856,
             11256100714206695818
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -5005,7 +5595,12 @@
             5527639538049697792,
             6006129756569862288,
             6155903309583663864
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -5045,7 +5640,12 @@
             10926452577114105600,
             11984432026743889232,
             12320803046226501836
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -5092,7 +5692,12 @@
             5378510028123855872,
             5748214304447174356,
             5839534431695938396
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -5132,7 +5737,12 @@
             10597005248069763328,
             11468641191720962680,
             11709658280014991908
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -5179,7 +5789,12 @@
             4663929864764213760,
             5605205267667770592,
             5767312064766884052
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -5219,7 +5834,12 @@
             9210316866636276224,
             11270169392228126560,
             11618170887231826828
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -5266,7 +5886,12 @@
             5561795979738235392,
             5947711303830146688,
             6095338940620422272
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -5306,7 +5931,12 @@
             9742404103279113728,
             10279728412628173799,
             10470688894391059847
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -5353,7 +5983,12 @@
             5357661366462707456,
             5767974346876144352,
             5943469569087028448
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -5393,7 +6028,12 @@
             8060138702392578176,
             8566952913999557536,
             8814553976058960000
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -5440,7 +6080,12 @@
             5129729777574539264,
             5572265267372131424,
             5777450934052467424
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -5480,7 +6125,12 @@
             6409648805856705024,
             7010984688997268992,
             7320345997810364064
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -5527,7 +6177,12 @@
             4846479743719100800,
             5363989144563674784,
             5606457769870757904
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -5567,7 +6222,12 @@
             5848006784915924096,
             6605260223150253312,
             6997829303145408640
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -5614,7 +6274,12 @@
             4166540026664733760,
             5035506919026374720,
             5289365842938423056
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -5654,7 +6319,12 @@
             4474851369857788224,
             5922765791416168384,
             6379556506872177280
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -5693,7 +6363,12 @@
             1033558011054992640,
             2234573245048523008,
             2234573245048523008
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -5725,7 +6400,12 @@
             0,
             0,
             0
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -5766,7 +6446,12 @@
             0,
             0,
             0
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -5800,7 +6485,12 @@
             0,
             1132520675659179648,
             1305214881896972608
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -5843,7 +6533,12 @@
             0,
             0,
             0
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -5879,7 +6574,12 @@
             0,
             2333621978759765568,
             2954129219055175766
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -5924,7 +6624,12 @@
             1502079129219055232,
             1502079129219055232,
             1502079129219055232
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -5962,7 +6667,12 @@
             3961073189973831168,
             9415770068764686336,
             11020866453647613312
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -6011,7 +6721,12 @@
             0,
             0,
             0
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -6053,7 +6768,12 @@
             2141658484935760384,
             6714587666094302976,
             9457407549023627968
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -6113,7 +6833,12 @@
             5019055485725402752,
             11043420851230621312,
             11410236090421676623
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -6166,7 +6891,12 @@
             23847314476966858496,
             52708923876285553536,
             54681183308362961380
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -6232,7 +6962,12 @@
             4212152004241943296,
             12845609158277511680,
             13404396384954452592
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -6291,7 +7026,12 @@
             23638196110725403264,
             72359528094530106240,
             75685859471559525176
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -6363,7 +7103,12 @@
             1754880428314208960,
             13024061501026153664,
             13961028218269348232
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -6410,7 +7155,12 @@
             4260903209447860672,
             4991467535495758016,
             5277986094355583136
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -6450,7 +7200,12 @@
             4651918172836303744,
             5894046396017074560,
             6425214916467666592
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -6497,7 +7252,12 @@
             4055908292531966944,
             4958107754588126880,
             5269891455769538624
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -6537,7 +7297,12 @@
             4179539591073989760,
             5841513425111770496,
             6474172398447990336
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -6584,7 +7349,12 @@
             3776683896780014112,
             4963918685913085984,
             5363354876637458848
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -6624,7 +7394,12 @@
             3773217022418975944,
             5902399092912673992,
             6744497001171112072
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -6671,7 +7446,12 @@
             3874218046665191448,
             4991394191980361752,
             5448786169290542424
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -6711,7 +7491,12 @@
             3848210632801055888,
             5958944529294967568,
             7038022398948669328
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -6758,7 +7543,12 @@
             3767042785882949888,
             4940090805292129664,
             5545521125197410688
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -6798,6 +7588,11 @@
             3710054963827133127,
             5927833884954452551,
             7442266255617141703
-        ]
+        ],
+        "quick_run": false,
+        "final_round_num": 3,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     }
 ]

@@ -34,7 +34,12 @@
         "total_token_counts": [
             5599520623683929600,
             6058751821517944496
-        ]
+        ],
+        "quick_run": true,
+        "final_round_num": 2,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "equal",
@@ -65,7 +70,12 @@
         "total_token_counts": [
             11098012536764145152,
             12060504555702209728
-        ]
+        ],
+        "quick_run": true,
+        "final_round_num": 2,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -107,7 +117,12 @@
         "total_token_counts": [
             3947282463312149024,
             5039707005023956256
-        ]
+        ],
+        "quick_run": true,
+        "final_round_num": 2,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "size",
@@ -143,7 +158,12 @@
         "total_token_counts": [
             7991643905639648480,
             10956114277243614288
-        ]
+        ],
+        "quick_run": true,
+        "final_round_num": 2,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -185,7 +205,12 @@
         "total_token_counts": [
             5065281808376312320,
             5479276329278945984
-        ]
+        ],
+        "quick_run": true,
+        "final_round_num": 2,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "flip",
@@ -221,7 +246,12 @@
         "total_token_counts": [
             6396979898214340072,
             7001862615346908456
-        ]
+        ],
+        "quick_run": true,
+        "final_round_num": 2,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -261,7 +291,12 @@
         "total_token_counts": [
             1647542119026184192,
             1647542119026184192
-        ]
+        ],
+        "quick_run": true,
+        "final_round_num": 2,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     },
     {
         "split_type": "unique_digits",
@@ -295,6 +330,11 @@
         "total_token_counts": [
             4004313349723815936,
             10138822197914123264
-        ]
+        ],
+        "quick_run": true,
+        "final_round_num": 2,
+        "batch_size": 32,
+        "epochs": 1,
+        "learning_rate": 0.01
     }
 ]
