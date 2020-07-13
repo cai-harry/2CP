@@ -1,27 +1,22 @@
 """
-Script to combine all results into one file
+Script to change 'method' keys to 'eval_method'
 
-Also fills in missing fields like 'method'
+For consistency
 """
 
-from glob import glob
 import json
-import os
 
 MNIST_RESULTS_DIR = "experiments/mnist/results/"
 MNIST_QUICK_RESULTS_DIR = "experiments/mnist/results/quick/"
 
-results = []
 
-for filename in glob(MNIST_RESULTS_DIR + "*.json"):
-    with open(filename) as f:
-        result = json.load(f)
-    if 'method' not in result:
-        result['method'] = 'shapley'
-    results.append(result)
+with open(MNIST_RESULTS_DIR + "all.json") as f:
+    results = json.load(f)
 
-for filename in glob(MNIST_RESULTS_DIR + "*.json"):
-    os.remove(filename)
+for r in results:
+    if 'method' in r:
+        r['eval_method'] = r['method']
+        del r['method']
 
 with open(MNIST_RESULTS_DIR + "all.json", 'w') as f:
     json.dump(results, f,
