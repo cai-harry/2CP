@@ -359,27 +359,36 @@ if __name__ == "__main__":
         experiments = [
             # {'split_type': 'equal', 'num_trainers': 2},
             # {'split_type': 'equal', 'num_trainers': 3},
-            {'split_type': 'equal', 'num_trainers': 4},
-            {'split_type': 'equal', 'num_trainers': 5},
-            {'split_type': 'size',  'ratios': [1, 4, 4]},
-            {'split_type': 'size',  'ratios': [1, 2, 2]},
-            {'split_type': 'size',  'ratios': [2, 1, 1]},
-            {'split_type': 'size',  'ratios': [4, 1, 1]},
-            {'split_type': 'flip',  'flip_probs': [0.1, 0, 0]},
-            {'split_type': 'flip',  'flip_probs': [0.2, 0, 0]},
-            {'split_type': 'flip',  'flip_probs': [0.3, 0, 0]},
-            {'split_type': 'flip',  'flip_probs': [0.4, 0, 0]},
-            {'split_type': 'flip',  'flip_probs': [0.5, 0, 0]},
-            {'split_type': 'unique_digits',
-                'unique_digits': [9], 'num_trainers': 2},
-            {'split_type': 'unique_digits', 'unique_digits': [
-                7, 8, 9], 'num_trainers': 2},
-            {'split_type': 'unique_digits', 'unique_digits': [
-                5, 6, 7, 8, 9], 'num_trainers': 2},
-            {'split_type': 'unique_digits',
-                'unique_digits': [9], 'num_trainers': 3},
-            {'split_type': 'unique_digits', 'unique_digits': [
-                5, 6, 7, 8, 9], 'num_trainers': 3}
+            # {'split_type': 'equal', 'num_trainers': 4},
+            # {'split_type': 'equal', 'num_trainers': 5},
+            # {'split_type': 'equal', 'num_trainers': 6},
+            # {'split_type': 'equal', 'num_trainers': 7},
+            # {'split_type': 'equal', 'num_trainers': 8},
+            # {'split_type': 'equal', 'num_trainers': 9},
+            # {'split_type': 'size',  'ratios': [1, 4, 4]},
+            # {'split_type': 'size',  'ratios': [1, 2, 2]},
+            # {'split_type': 'size',  'ratios': [2, 1, 1]},
+            # {'split_type': 'size',  'ratios': [4, 1, 1]},
+            # {'split_type': 'flip',  'flip_probs': [0.1, 0, 0]},
+            # {'split_type': 'flip',  'flip_probs': [0.2, 0, 0]},
+            # {'split_type': 'flip',  'flip_probs': [0.3, 0, 0]},
+            # {'split_type': 'flip',  'flip_probs': [0.4, 0, 0]},
+            # {'split_type': 'flip',  'flip_probs': [0.5, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [0.6, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [0.7, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [0.8, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [0.9, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [1.0, 0, 0]}
+            # {'split_type': 'unique_digits',
+            #     'unique_digits': [9], 'num_trainers': 2},
+            # {'split_type': 'unique_digits', 'unique_digits': [
+            #     7, 8, 9], 'num_trainers': 2},
+            # {'split_type': 'unique_digits', 'unique_digits': [
+            #     5, 6, 7, 8, 9], 'num_trainers': 2},
+            # {'split_type': 'unique_digits',
+            #     'unique_digits': [9], 'num_trainers': 3},
+            # {'split_type': 'unique_digits', 'unique_digits': [
+            #     5, 6, 7, 8, 9], 'num_trainers': 3}
         ]
         method = 'step'
         for seed in [88]:
