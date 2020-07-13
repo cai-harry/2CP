@@ -1,22 +1,22 @@
 [
     {
-        "split_type": "equal",
-        "protocol": "crowdsource",
-        "eval_method": "step",
-        "seed": 88,
-        "num_trainers": 3,
+        "batch_size": 32,
         "contract_address": "0x4837a0952D97533633323FF0a496373D35d4da8c",
-        "trainers": [
-            "Bob",
-            "Carol",
-            "David"
-        ],
+        "epochs": 1,
+        "eval_method": "step",
+        "final_global_accuracy": 0.9311,
+        "final_round_num": 2,
         "global_loss": [
             2.302611827850342,
             0.4089137613773346,
             0.23693010210990906
         ],
-        "final_global_accuracy": 0.9311,
+        "learning_rate": 0.01,
+        "num_trainers": 3,
+        "protocol": "crowdsource",
+        "quick_run": true,
+        "seed": 88,
+        "split_type": "equal",
         "token_counts": {
             "Bob": [
                 1922517478466033920,
@@ -35,24 +35,24 @@
             5599520623683929600,
             6058751821517944496
         ],
-        "quick_run": true,
-        "final_round_num": 2,
-        "batch_size": 32,
-        "epochs": 1,
-        "learning_rate": 0.01
-    },
-    {
-        "split_type": "equal",
-        "protocol": "consortium",
-        "eval_method": "step",
-        "seed": 88,
-        "num_trainers": 3,
-        "contract_address": "0x68e14C01e2137f941108048655f73E482e658199",
         "trainers": [
             "Bob",
             "Carol",
             "David"
-        ],
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x68e14C01e2137f941108048655f73E482e658199",
+        "epochs": 1,
+        "eval_method": "step",
+        "final_round_num": 2,
+        "learning_rate": 0.01,
+        "num_trainers": 3,
+        "protocol": "consortium",
+        "quick_run": true,
+        "seed": 88,
+        "split_type": "equal",
         "token_counts": {
             "Bob": [
                 3680957257747650304,
@@ -71,35 +71,35 @@
             11098012536764145152,
             12060504555702209728
         ],
-        "quick_run": true,
-        "final_round_num": 2,
-        "batch_size": 32,
-        "epochs": 1,
-        "learning_rate": 0.01
-    },
-    {
-        "split_type": "size",
-        "protocol": "crowdsource",
-        "eval_method": "step",
-        "seed": 88,
-        "num_trainers": 3,
-        "ratios": [
-            1,
-            4,
-            4
-        ],
-        "contract_address": "0x1Da08B49A8ef7c4C6983f7F7eD537fAaA023418B",
         "trainers": [
             "Bob",
             "Carol",
             "David"
-        ],
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x1Da08B49A8ef7c4C6983f7F7eD537fAaA023418B",
+        "epochs": 1,
+        "eval_method": "step",
+        "final_global_accuracy": 0.927,
+        "final_round_num": 2,
         "global_loss": [
             2.302611827850342,
             0.6380360722541809,
             0.24504517018795013
         ],
-        "final_global_accuracy": 0.927,
+        "learning_rate": 0.01,
+        "num_trainers": 3,
+        "protocol": "crowdsource",
+        "quick_run": true,
+        "ratios": [
+            1,
+            4,
+            4
+        ],
+        "seed": 88,
+        "split_type": "size",
         "token_counts": {
             "Bob": [
                 224975109100341792,
@@ -118,29 +118,29 @@
             3947282463312149024,
             5039707005023956256
         ],
-        "quick_run": true,
-        "final_round_num": 2,
-        "batch_size": 32,
-        "epochs": 1,
-        "learning_rate": 0.01
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David"
+        ]
     },
     {
-        "split_type": "size",
-        "protocol": "consortium",
+        "batch_size": 32,
+        "contract_address": "0x13eFe0b0c8F4FcA3754a98c56902d4b267049300",
+        "epochs": 1,
         "eval_method": "step",
-        "seed": 88,
+        "final_round_num": 2,
+        "learning_rate": 0.01,
         "num_trainers": 3,
+        "protocol": "consortium",
+        "quick_run": true,
         "ratios": [
             1,
             4,
             4
         ],
-        "contract_address": "0x13eFe0b0c8F4FcA3754a98c56902d4b267049300",
-        "trainers": [
-            "Bob",
-            "Carol",
-            "David"
-        ],
+        "seed": 88,
+        "split_type": "size",
         "token_counts": {
             "Bob": [
                 406078338623046880,
@@ -159,35 +159,35 @@
             7991643905639648480,
             10956114277243614288
         ],
-        "quick_run": true,
-        "final_round_num": 2,
-        "batch_size": 32,
-        "epochs": 1,
-        "learning_rate": 0.01
-    },
-    {
-        "split_type": "flip",
-        "protocol": "crowdsource",
-        "eval_method": "step",
-        "seed": 88,
-        "num_trainers": 3,
-        "flip_probs": [
-            0.3,
-            0,
-            0
-        ],
-        "contract_address": "0x65413a28bEA74ea31baC88856596396D638d6F54",
         "trainers": [
             "Bob",
             "Carol",
             "David"
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x65413a28bEA74ea31baC88856596396D638d6F54",
+        "epochs": 1,
+        "eval_method": "step",
+        "final_global_accuracy": 0.9259,
+        "final_round_num": 2,
+        "flip_probs": [
+            0.3,
+            0,
+            0
         ],
         "global_loss": [
             2.2991905212402344,
             0.47722217440605164,
             0.28369107842445374
         ],
-        "final_global_accuracy": 0.9259,
+        "learning_rate": 0.01,
+        "num_trainers": 3,
+        "protocol": "crowdsource",
+        "quick_run": true,
+        "seed": 88,
+        "split_type": "flip",
         "token_counts": {
             "Bob": [
                 1382354557514190592,
@@ -206,29 +206,29 @@
             5065281808376312320,
             5479276329278945984
         ],
-        "quick_run": true,
-        "final_round_num": 2,
-        "batch_size": 32,
-        "epochs": 1,
-        "learning_rate": 0.01
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David"
+        ]
     },
     {
-        "split_type": "flip",
-        "protocol": "consortium",
+        "batch_size": 32,
+        "contract_address": "0x64f6040b5E7f76DA2355F20F8AD9012262EcAEA1",
+        "epochs": 1,
         "eval_method": "step",
-        "seed": 88,
-        "num_trainers": 3,
+        "final_round_num": 2,
         "flip_probs": [
             0.3,
             0,
             0
         ],
-        "contract_address": "0x64f6040b5E7f76DA2355F20F8AD9012262EcAEA1",
-        "trainers": [
-            "Bob",
-            "Carol",
-            "David"
-        ],
+        "learning_rate": 0.01,
+        "num_trainers": 3,
+        "protocol": "consortium",
+        "quick_run": true,
+        "seed": 88,
+        "split_type": "flip",
         "token_counts": {
             "Bob": [
                 2659602344036102144,
@@ -247,33 +247,30 @@
             6396979898214340072,
             7001862615346908456
         ],
-        "quick_run": true,
-        "final_round_num": 2,
-        "batch_size": 32,
-        "epochs": 1,
-        "learning_rate": 0.01
-    },
-    {
-        "split_type": "unique_digits",
-        "protocol": "crowdsource",
-        "eval_method": "step",
-        "seed": 88,
-        "num_trainers": 3,
-        "unique_digits": [
-            9
-        ],
-        "contract_address": "0x741A59C440d25D8CBfA6DB329417B1f727b25915",
         "trainers": [
             "Bob",
             "Carol",
             "David"
-        ],
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x741A59C440d25D8CBfA6DB329417B1f727b25915",
+        "epochs": 1,
+        "eval_method": "step",
+        "final_global_accuracy": 0.8418,
+        "final_round_num": 2,
         "global_loss": [
             2.307565927505493,
             0.9069818258285522,
             0.5201074481010437
         ],
-        "final_global_accuracy": 0.8418,
+        "learning_rate": 0.01,
+        "num_trainers": 3,
+        "protocol": "crowdsource",
+        "quick_run": true,
+        "seed": 88,
+        "split_type": "unique_digits",
         "token_counts": {
             "Bob": [
                 0,
@@ -292,27 +289,27 @@
             1647542119026184192,
             1647542119026184192
         ],
-        "quick_run": true,
-        "final_round_num": 2,
-        "batch_size": 32,
-        "epochs": 1,
-        "learning_rate": 0.01
-    },
-    {
-        "split_type": "unique_digits",
-        "protocol": "consortium",
-        "eval_method": "step",
-        "seed": 88,
-        "num_trainers": 3,
-        "unique_digits": [
-            9
-        ],
-        "contract_address": "0x4Ceb67B95270531BAa693488c12b70a8A58acEA4",
         "trainers": [
             "Bob",
             "Carol",
             "David"
         ],
+        "unique_digits": [
+            9
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x4Ceb67B95270531BAa693488c12b70a8A58acEA4",
+        "epochs": 1,
+        "eval_method": "step",
+        "final_round_num": 2,
+        "learning_rate": 0.01,
+        "num_trainers": 3,
+        "protocol": "consortium",
+        "quick_run": true,
+        "seed": 88,
+        "split_type": "unique_digits",
         "token_counts": {
             "Bob": [
                 0,
@@ -331,10 +328,13 @@
             4004313349723815936,
             10138822197914123264
         ],
-        "quick_run": true,
-        "final_round_num": 2,
-        "batch_size": 32,
-        "epochs": 1,
-        "learning_rate": 0.01
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David"
+        ],
+        "unique_digits": [
+            9
+        ]
     }
 ]

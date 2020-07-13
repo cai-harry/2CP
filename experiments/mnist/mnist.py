@@ -226,7 +226,8 @@ def _save_results(results):
     all_results.append(results)
     with open(filepath, 'w') as f:
         json.dump(all_results, f,
-                  indent=4)
+                  indent=4,
+                  sort_keys=True)
     print(f"{filepath} now has {len(all_results)} results")
 
 
