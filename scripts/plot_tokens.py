@@ -35,17 +35,19 @@ def counts(results):
     for r in results:
         n = r['num_trainers']
         names = NAMES[:n]
-        total_counts = np.array(r['total_token_counts']) / token_unit
-        round_idxs = range(1, len(total_counts) + 1)
+        round_idxs = range(0, r['final_round_num']+1)
+        max_count = 0
         for name in names:
             counts = np.array(r['token_counts'][name]) / token_unit
+            counts = np.insert(counts, 0, 0)  # insert a 0 at the start of counts, as all trainers start with 0 tokens
             plt.plot(
                 round_idxs,
                 counts,
                 label=name,
                 marker='.')
+            max_count = max(max_count, np.max(counts))
         plt.xticks(round_idxs)
-        plt.ylim(0, max(total_counts))
+        plt.ylim(0, max_count)
         plt.xlabel("Training round")
         plt.ylabel("Tokens (1e18)")
         plt.legend()
@@ -98,7 +100,7 @@ def make_filepath(r, plot_type):
 if __name__ == "__main__":
     try:
         r = load_results({
-            'seed': 88,
+            'final_round_num': 5,
             'eval_method': 'step',
         })
         counts(r)
