@@ -163,7 +163,7 @@ class CrowdsourceClient(_GenesisClient):
         return torch.stack(predictions)
 
     def wait_for_round(self, n):
-        self._print(f"Waiting for round {n}...")
+        self._print(f"Waiting for round {n} ({self._contract.secondsRemaining()} seconds remaining)...")
         while(self._contract.currentRound() < n):
             time.sleep(self.CURRENT_ROUND_POLL_INTERVAL)
         self._print(f"Round {n} started")

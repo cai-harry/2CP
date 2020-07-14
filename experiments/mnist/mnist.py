@@ -336,7 +336,7 @@ if __name__ == "__main__":
     if QUICK_RUN:
         TRAINING_ITERATIONS = 2
     else:
-        TRAINING_ITERATIONS = 3
+        TRAINING_ITERATIONS = 5
     TRAINING_HYPERPARAMS = {
         'final_round_num': TRAINING_ITERATIONS,
         'batch_size': 32,
@@ -360,23 +360,21 @@ if __name__ == "__main__":
                 run_experiment(protocol=protocol, eval_method=method, seed=seed, **exp)
     else:
         experiments = [
-            # {'split_type': 'equal', 'num_trainers': 2},
-            # {'split_type': 'equal', 'num_trainers': 3},
-            # {'split_type': 'equal', 'num_trainers': 4},
-            # {'split_type': 'equal', 'num_trainers': 5},
-            # {'split_type': 'equal', 'num_trainers': 6},
-            # {'split_type': 'equal', 'num_trainers': 7},
-            # {'split_type': 'equal', 'num_trainers': 8},
-            # {'split_type': 'equal', 'num_trainers': 9},
-            # {'split_type': 'size',  'ratios': [1, 4, 4]},
-            # {'split_type': 'size',  'ratios': [1, 2, 2]},
-            # {'split_type': 'size',  'ratios': [2, 1, 1]},
-            # {'split_type': 'size',  'ratios': [4, 1, 1]},
-            # {'split_type': 'flip',  'flip_probs': [0.1, 0, 0]},
-            # {'split_type': 'flip',  'flip_probs': [0.2, 0, 0]},
-            # {'split_type': 'flip',  'flip_probs': [0.3, 0, 0]},
-            # {'split_type': 'flip',  'flip_probs': [0.4, 0, 0]},
-            # {'split_type': 'flip',  'flip_probs': [0.5, 0, 0]},
+            {'split_type': 'equal', 'num_trainers': 2},
+            {'split_type': 'equal', 'num_trainers': 3},
+            {'split_type': 'equal', 'num_trainers': 4},
+            {'split_type': 'equal', 'num_trainers': 5},
+            {'split_type': 'equal', 'num_trainers': 6},
+            {'split_type': 'equal', 'num_trainers': 7},
+            {'split_type': 'size',  'ratios': [1, 4, 4]},
+            {'split_type': 'size',  'ratios': [1, 2, 2]},
+            {'split_type': 'size',  'ratios': [2, 1, 1]},
+            {'split_type': 'size',  'ratios': [4, 1, 1]},
+            {'split_type': 'flip',  'flip_probs': [0.1, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [0.2, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [0.3, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [0.4, 0, 0]},
+            {'split_type': 'flip',  'flip_probs': [0.5, 0, 0]},
             {'split_type': 'flip',  'flip_probs': [0.6, 0, 0]},
             {'split_type': 'flip',  'flip_probs': [0.7, 0, 0]},
             {'split_type': 'flip',  'flip_probs': [0.8, 0, 0]},
@@ -394,7 +392,8 @@ if __name__ == "__main__":
             #     5, 6, 7, 8, 9], 'num_trainers': 3}
         ]
         method = 'step'
-        for seed in [88]:
-            for exp in experiments:
-                for protocol in ['crowdsource', 'consortium']:
-                    run_experiment(protocol=protocol, eval_method=method, seed=seed, **exp)
+        seed = 89
+        for exp in experiments:
+            for protocol in ['crowdsource', 'consortium']:
+                print(f"Starting experiment with args: {exp}")
+                run_experiment(protocol=protocol, eval_method=method, seed=seed, **exp)
