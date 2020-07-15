@@ -58,6 +58,7 @@ def counts(results, percent=True):
             plt.ylabel("Tokens (percent of total)")
         else:
             plt.ylabel("Tokens")
+        plt.title(r['protocol'].capitalize())
         plt.legend()
         plt.savefig(make_filepath(r, 'counts'))
         plt.clf()
