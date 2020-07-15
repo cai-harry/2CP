@@ -30,26 +30,34 @@ def pie(results):
         plt.clf()
 
 
-def counts(results):
-    token_unit = 1e18
+def counts(results, percent=True):
     for r in results:
         n = r['num_trainers']
         names = NAMES[:n]
         round_idxs = range(0, r['final_round_num']+1)
-        max_count = 0
-        for name in names:
-            counts = np.array(r['token_counts'][name]) / token_unit
+        total_count = r['total_token_counts'][-1]
+        if r['split_type'] == 'equal':
+            details = [''] * len(names)
+        if r['split_type'] == 'size':
+            details = [f" (ratio={ratio})" for ratio in r['ratios']]
+        if r['split_type'] == 'flip':
+            details = [f" (prob={prob})" for prob in r['flip_probs']]
+        for name, detail in zip(names, details):
+            counts = np.array(r['token_counts'][name])
             counts = np.insert(counts, 0, 0)  # insert a 0 at the start of counts, as all trainers start with 0 tokens
+            if percent:
+                counts = 100 * (counts / total_count)
             plt.plot(
                 round_idxs,
                 counts,
-                label=name,
+                label=name + detail,
                 marker='.')
-            max_count = max(max_count, np.max(counts))
         plt.xticks(round_idxs)
-        plt.ylim(0, max_count)
         plt.xlabel("Training round")
-        plt.ylabel("Tokens (1e18)")
+        if percent:
+            plt.ylabel("Tokens (percent of total)")
+        else:
+            plt.ylabel("Tokens")
         plt.legend()
         plt.savefig(make_filepath(r, 'counts'))
         plt.clf()
@@ -88,7 +96,8 @@ def make_filepath(r, plot_type):
         path += "-sizes-"
         path += '-'.join([str(k) for k in r['ratios']])
     if r['split_type'] == 'flip':
-        path += f"-flip-prob-{r['flip_probs'][0]}"
+        path += f"-flip-prob-"
+        path += '-'.join([str(p) for p in r['flip_probs']])
     if r['split_type'] == 'unique_digits':
         path += "-unique-"
         path += f"{r['num_trainers']}-trainers-"
