@@ -39,9 +39,9 @@ def counts(results, percent=True):
         if r['split_type'] == 'equal':
             details = [''] * len(names)
         if r['split_type'] == 'size':
-            details = [f" (ratio={ratio})" for ratio in r['ratios']]
+            details = [f" (size={ratio})" for ratio in r['ratios']]
         if r['split_type'] == 'flip':
-            details = [f" (prob={prob})" for prob in r['flip_probs']]
+            details = [f" (flip={prob})" for prob in r['flip_probs']]
         for name, detail in zip(names, details):
             counts = np.array(r['token_counts'][name])
             counts = np.insert(counts, 0, 0)  # insert a 0 at the start of counts, as all trainers start with 0 tokens
