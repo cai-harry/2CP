@@ -48,13 +48,13 @@ contract Crowdsource {
 
     /// @return round The index of the current training round.
     function currentRound() public view returns (uint256 round) {
-        uint256 timeElapsed = now - genesisTimestamp;
-        round = 1 + ((timeElapsed + timeSkipped) / roundDuration);
+        uint256 timeElapsed = timeSkipped + now - genesisTimestamp;
+        round = 1 + (timeElapsed / roundDuration);
     }
 
     /// @return remaining The number of seconds remaining in the current training round.
     function secondsRemaining() public view returns (uint256 remaining) {
-        uint256 timeElapsed = now - genesisTimestamp;
+        uint256 timeElapsed = timeSkipped + now - genesisTimestamp;
         remaining = roundDuration - (timeElapsed % roundDuration);
     }
 
