@@ -5,8 +5,7 @@ import methodtools
 
 import syft as sy
 import torch
-from torch import nn, optim
-from torch.nn import functional as F
+import pyvacy
 
 from ipfs_client import IPFSClient
 from contract_clients import CrowdsourceContractClient, ConsortiumContractClient
@@ -192,13 +191,25 @@ class CrowdsourceClient(_GenesisClient):
         tx = self._record_model(uploaded_cid, round_num)
         return tx
 
-    def _train_model(self, model, batch_size, epochs, lr):
+    def _train_model(self, model, batch_size, epochs, lr, dp=False):
         train_loader = torch.utils.data.DataLoader(
             sy.BaseDataset(self._data, self._targets),
             batch_size=batch_size)
         model = model  # .send(self._worker)
         model.train()
-        optimizer = optim.SGD(model.parameters(), lr=lr)
+        if dp:
+            optimizer = pyvacy.optim.DPSGD(
+                params=model.parameters(), 
+                lr=lr,
+                batch_size=batch_size,
+                l2_norm_clip=1,
+                noise_multiplier=1.1
+            )
+        else:
+            optimizer = torch.optim.SGD(
+                params=model.parameters(),
+                lr=lr
+            )
         for epoch in range(epochs):
             for data, labels in train_loader:
                 optimizer.zero_grad()

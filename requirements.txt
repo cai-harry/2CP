@@ -11,6 +11,7 @@ more_itertools
 numpy
 pandas  # required to read covid hackathon data
 pytest
+pyvacy
 scipy
 syft
 # torch: pip install torch is not supported on windows, use conda instead
