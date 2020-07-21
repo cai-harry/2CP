@@ -336,5 +336,431 @@
         "unique_digits": [
             9
         ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x7187B0cb5Cf07Ccc6d20E0716aaeD38cDD7BFF48",
+        "digit_counts": {
+            "Bob": [
+                34,
+                39,
+                27
+            ],
+            "Carol": [
+                1,
+                34,
+                32,
+                23,
+                10
+            ],
+            "David": [
+                19,
+                29,
+                21,
+                31
+            ]
+        },
+        "disjointness": 1.0,
+        "epochs": 1,
+        "eval_method": "step",
+        "final_global_accuracy": 0.12,
+        "final_round_num": 2,
+        "global_loss": [
+            2.299130439758301,
+            2.297744035720825,
+            2.2963976860046387
+        ],
+        "learning_rate": 0.01,
+        "num_trainers": 3,
+        "protocol": "crowdsource",
+        "quick_run": true,
+        "seed": 88,
+        "split_type": "noniid",
+        "token_counts": {
+            "Bob": [
+                4035234451293945,
+                7966041564941406
+            ],
+            "Carol": [
+                409126281738281,
+                929594039916991
+            ],
+            "David": [
+                0,
+                0
+            ]
+        },
+        "total_token_counts": [
+            4444360733032226,
+            8895635604858397
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David"
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0xa13E2ecd7F188931c9C8ccc2e39b9a0021c51168",
+        "digit_counts": {
+            "Bob": [
+                34,
+                39,
+                27
+            ],
+            "Carol": [
+                1,
+                34,
+                32,
+                23,
+                10
+            ],
+            "David": [
+                19,
+                29,
+                21,
+                31
+            ]
+        },
+        "disjointness": 1.0,
+        "epochs": 1,
+        "eval_method": "step",
+        "final_round_num": 2,
+        "learning_rate": 0.01,
+        "num_trainers": 3,
+        "protocol": "consortium",
+        "quick_run": true,
+        "seed": 88,
+        "split_type": "noniid",
+        "token_counts": {
+            "Bob": [
+                0,
+                0
+            ],
+            "Carol": [
+                0,
+                0
+            ],
+            "David": [
+                0,
+                0
+            ]
+        },
+        "total_token_counts": [
+            0,
+            0
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David"
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x6b52ec0CbE30f17cA9D66Ff5c552a4A8270d4C40",
+        "digit_counts": {
+            "Bob": [
+                17,
+                27,
+                22,
+                7,
+                7,
+                5,
+                5,
+                3,
+                3,
+                4
+            ],
+            "Carol": [
+                1,
+                3,
+                20,
+                23,
+                18,
+                10,
+                6,
+                9,
+                10
+            ],
+            "David": [
+                3,
+                1,
+                6,
+                2,
+                4,
+                5,
+                17,
+                21,
+                15,
+                26
+            ]
+        },
+        "disjointness": 0.5,
+        "epochs": 1,
+        "eval_method": "step",
+        "final_global_accuracy": 0.1,
+        "final_round_num": 2,
+        "global_loss": [
+            2.299130439758301,
+            2.2985358238220215,
+            2.297970771789551
+        ],
+        "learning_rate": 0.01,
+        "num_trainers": 3,
+        "protocol": "crowdsource",
+        "quick_run": true,
+        "seed": 88,
+        "split_type": "noniid",
+        "token_counts": {
+            "Bob": [
+                2688407897949219,
+                5351543426513672
+            ],
+            "Carol": [
+                0,
+                0
+            ],
+            "David": [
+                0,
+                0
+            ]
+        },
+        "total_token_counts": [
+            2688407897949219,
+            5351543426513672
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David"
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x5BA6D0eE64d1A50b29fCCa3B954E5Daac41404e9",
+        "digit_counts": {
+            "Bob": [
+                18,
+                23,
+                13,
+                8,
+                8,
+                10,
+                3,
+                6,
+                4,
+                7
+            ],
+            "Carol": [
+                3,
+                17,
+                25,
+                16,
+                16,
+                6,
+                4,
+                13
+            ],
+            "David": [
+                1,
+                1,
+                1,
+                6,
+                9,
+                7,
+                16,
+                20,
+                15,
+                24
+            ]
+        },
+        "disjointness": 0.5,
+        "epochs": 1,
+        "eval_method": "step",
+        "final_round_num": 2,
+        "learning_rate": 0.01,
+        "num_trainers": 3,
+        "protocol": "consortium",
+        "quick_run": true,
+        "seed": 88,
+        "split_type": "noniid",
+        "token_counts": {
+            "Bob": [
+                4909038543701172,
+                9587049484252930
+            ],
+            "Carol": [
+                8225440979003906,
+                16243457794189453
+            ],
+            "David": [
+                6953716278076172,
+                13634443283081055
+            ]
+        },
+        "total_token_counts": [
+            20088195800781250,
+            39464950561523438
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David"
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0xF5aBA617741587ADD16BE7B5eB44c4E5E79514AA",
+        "digit_counts": {
+            "Bob": [
+                5,
+                6,
+                12,
+                13,
+                17,
+                12,
+                8,
+                7,
+                9,
+                11
+            ],
+            "Carol": [
+                5,
+                8,
+                17,
+                12,
+                14,
+                21,
+                8,
+                15
+            ],
+            "David": [
+                2,
+                3,
+                7,
+                16,
+                5,
+                3,
+                12,
+                22,
+                15,
+                15
+            ]
+        },
+        "disjointness": 0.0,
+        "epochs": 1,
+        "eval_method": "step",
+        "final_global_accuracy": 0.1,
+        "final_round_num": 2,
+        "global_loss": [
+            2.299130439758301,
+            2.298945188522339,
+            2.298867702484131
+        ],
+        "learning_rate": 0.01,
+        "num_trainers": 3,
+        "protocol": "crowdsource",
+        "quick_run": true,
+        "seed": 88,
+        "split_type": "noniid",
+        "token_counts": {
+            "Bob": [
+                1390457153320312,
+                2715826034545898
+            ],
+            "Carol": [
+                538110733032226,
+                950098037719726
+            ],
+            "David": [
+                0,
+                0
+            ]
+        },
+        "total_token_counts": [
+            1928567886352538,
+            3665924072265624
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David"
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x9a052501E703169f8B43dB58bF2C980358f8CEb9",
+        "digit_counts": {
+            "Bob": [
+                6,
+                6,
+                6,
+                11,
+                15,
+                11,
+                11,
+                10,
+                9,
+                15
+            ],
+            "Carol": [
+                2,
+                3,
+                17,
+                16,
+                7,
+                17,
+                9,
+                11,
+                18
+            ],
+            "David": [
+                5,
+                4,
+                5,
+                12,
+                5,
+                10,
+                5,
+                17,
+                15,
+                22
+            ]
+        },
+        "disjointness": 0.0,
+        "epochs": 1,
+        "eval_method": "step",
+        "final_round_num": 2,
+        "learning_rate": 0.01,
+        "num_trainers": 3,
+        "protocol": "consortium",
+        "quick_run": true,
+        "seed": 88,
+        "split_type": "noniid",
+        "token_counts": {
+            "Bob": [
+                8340597152709960,
+                16113758087158202
+            ],
+            "Carol": [
+                11595726013183594,
+                22567749023437500
+            ],
+            "David": [
+                7450103759765624,
+                14342069625854491
+            ]
+        },
+        "total_token_counts": [
+            27386426925659178,
+            53023576736450193
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David"
+        ]
     }
 ]

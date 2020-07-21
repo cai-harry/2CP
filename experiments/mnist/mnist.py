@@ -20,18 +20,23 @@ class Data:
         self.data = self._dataset.data.float().view(-1, 1, 28, 28) / 255
         self.targets = self._dataset.targets
         if subset:
-            d, t, *_ = self.split(200)
-            self.data = torch.cat(d)
-            self.targets = torch.cat(t)
+            perm = torch.randperm(len(self.data) // 200)
+            self.data = self.data[perm]
+            self.targets = self.targets[perm]
         if exclude_digits is not None:
             for digit in exclude_digits:
                 mask = self.targets != digit
                 self.data = self.data[mask]
                 self.targets = self.targets[mask]
 
-    def split(self, n, ratios=None, flip_probs=None):
+    def split(self, n, ratios=None, flip_probs=None, disjointness=0):
         """
         Splits the dataset into n chunks with the given ratios and label flip probabilities.
+
+        n: Number of clients
+        ratios: List of size ratios for the split
+        flip_probs: List of proportions of label flipping
+        disjointness: 0-1 disjointness proportion; 0 = random split, 1 = disjoint split by class
         """
         if ratios is None:
             ratios = [1] * n
@@ -39,7 +44,26 @@ class Data:
             flip_probs = [0] * n
         if not n == len(ratios) == len(flip_probs):
             raise ValueError(f"Lengths of input arguments must match n={n}")
-        perm = torch.randperm(len(self.data))
+
+        # sort indices by class
+        sorted_targets, sorted_idxs = torch.sort(self.targets)
+        perm = sorted_idxs.clone()
+
+        print(f"\tsorted_targets={sorted_targets}")
+        print(f"\t(counts)={torch.unique(sorted_targets, return_counts=True)}")
+
+        # take sorted indices and shuffle a proportion of them
+        shuffle_proportion = 1 - disjointness
+        shuffle_num = int(shuffle_proportion * len(sorted_idxs))
+        shuffle_idxs = torch.randperm(len(sorted_idxs))[:shuffle_num]
+        sorted_shuffle_idxs, _ = torch.sort(shuffle_idxs)
+        for i, j in zip(sorted_shuffle_idxs, shuffle_idxs):
+            perm[i] = sorted_idxs[j]
+
+        print(f"\tperm_targets={self.targets[perm]}")
+        print(f"\t(counts)={torch.unique(self.targets[perm], return_counts=True)}")
+
+        # split into chunks
         num_chunks = sum(ratios)
         chunks = torch.chunk(perm, num_chunks)
 
@@ -90,7 +114,14 @@ class Model(nn.Module):
         return F.log_softmax(x, dim=1)
 
 
-def _make_clients(split_type, num_trainers, ratios, flip_probs, unique_digits, protocol):
+def _make_clients(split_type,
+                  num_trainers,
+                  ratios,
+                  flip_probs,
+                  disjointness,
+                  unique_digits,
+                  protocol
+                  ):
     if protocol == 'crowdsource':
         alice_dataset = Data(train=False, subset=QUICK_RUN)
         alice_data = alice_dataset.data
@@ -110,6 +141,7 @@ def _make_clients(split_type, num_trainers, ratios, flip_probs, unique_digits, p
             num_trainers=num_trainers,
             ratios=ratios,
             flip_probs=flip_probs,
+            disjointness=disjointness,
             unique_digits=unique_digits,
             client_constructor=CrowdsourceClient,
             contract_address=alice.contract_address)
@@ -130,6 +162,7 @@ def _make_clients(split_type, num_trainers, ratios, flip_probs, unique_digits, p
             num_trainers=num_trainers,
             ratios=ratios,
             flip_probs=flip_probs,
+            disjointness=disjointness,
             unique_digits=unique_digits,
             client_constructor=ConsortiumClient,
             contract_address=alice.contract_address)
@@ -148,6 +181,7 @@ def _make_trainers(
         num_trainers,
         ratios,
         flip_probs,
+        disjointness,
         unique_digits,
         client_constructor,
         contract_address):
@@ -160,6 +194,9 @@ def _make_trainers(
     if split_type == 'flip':
         data, targets = Data(train=True, subset=QUICK_RUN).split(
             num_trainers, flip_probs=flip_probs)
+    if split_type == 'noniid':
+        data, targets = Data(train=True, subset=QUICK_RUN).split(
+            num_trainers, disjointness=disjointness)
     if split_type == 'unique_digits':
         dataset_unique = Data(train=True, subset=QUICK_RUN,
                               exclude_digits=set(range(10))-set(unique_digits))
@@ -190,6 +227,7 @@ def _make_trainers(
             account_idx=i+1,
             **common_args
         )
+        print(f"\t{name} counts: {torch.unique(t, return_counts=True)}")
         trainers.append(trainer)
     return trainers
 
@@ -203,6 +241,16 @@ def _global_accuracy(client):
     num_correct = (pred == client._targets).float().sum().item()
     accuracy = num_correct / len(pred)
     return accuracy
+
+def _digit_counts(trainers):
+    digit_counts_by_name = {}
+    for trainer in trainers:
+        digit_counts = [0]*10
+        digits, counts = torch.unique(trainer._targets, return_counts=True)  # hacky
+        for digit, count in zip(digits, counts):
+            digit_counts[digit] = count.item()
+        digit_counts_by_name[trainer.name] = digit_counts
+    return digit_counts_by_name
 
 
 def _token_count_histories(trainers):
@@ -239,11 +287,12 @@ def run_experiment(
     num_trainers=3,
     ratios=None,
     flip_probs=None,
+    disjointness=0,
     unique_digits=None
 ):
 
     # check args
-    if split_type not in {'equal', 'size', 'flip', 'unique_digits'}:
+    if split_type not in {'equal', 'size', 'flip', 'noniid', 'unique_digits'}:
         raise KeyError(f"split_type={split_type} is not a valid option")
     if protocol not in {'crowdsource', 'consortium'}:
         raise KeyError(f"protocol={protocol} is not a valid option")
@@ -264,15 +313,17 @@ def run_experiment(
         results['ratios'] = ratios
     if flip_probs is not None:
         results['flip_probs'] = flip_probs
+    results['disjointness'] = disjointness
     if unique_digits is not None:
         results['unique_digits'] = unique_digits
 
     # set up
     torch.manual_seed(seed)
     alice, trainers = _make_clients(
-        split_type, num_trainers, ratios, flip_probs, unique_digits, protocol)
+        split_type, num_trainers, ratios, flip_probs, disjointness, unique_digits, protocol)
     results['contract_address'] = alice.contract_address
     results['trainers'] = [trainer.name for trainer in trainers]
+    results['digit_counts'] = _digit_counts(trainers)
 
     # define training threads
     threads = [
@@ -334,7 +385,7 @@ if __name__ == "__main__":
 
     QUICK_RUN = not args.full
     if QUICK_RUN:
-        TRAINING_ITERATIONS = 2
+        TRAINING_ITERATIONS = 1
     else:
         TRAINING_ITERATIONS = 5
     TRAINING_HYPERPARAMS = {
@@ -347,57 +398,29 @@ if __name__ == "__main__":
 
     if QUICK_RUN:
         experiments = [
-            {'split_type': 'equal', 'num_trainers': 3},
-            {'split_type': 'size',  'ratios': [1, 4, 4]},
-            {'split_type': 'flip',  'flip_probs': [0.3, 0, 0]},
-            {'split_type': 'unique_digits',
-                'unique_digits': [9], 'num_trainers': 3},
+            {'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.0},
+            {'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.5},
+            {'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 1.0},
         ]
         method = 'step'
         seed = 88
         for exp in experiments:
             for protocol in ['crowdsource', 'consortium']:
-                run_experiment(protocol=protocol, eval_method=method, seed=seed, **exp)
+                run_experiment(protocol=protocol,
+                               eval_method=method, seed=seed, **exp)
     else:
         experiments = [
-            # {'split_type': 'equal', 'num_trainers': 2},
-            # {'split_type': 'equal', 'num_trainers': 3},
-            # {'split_type': 'equal', 'num_trainers': 4},
-            # {'split_type': 'equal', 'num_trainers': 5},
-            # {'split_type': 'equal', 'num_trainers': 6},
-            # {'split_type': 'equal', 'num_trainers': 7},
-            # {'split_type': 'size',  'ratios': [1, 4, 4]},
-            # {'split_type': 'size',  'ratios': [1, 2, 2]},
-            # {'split_type': 'size',  'ratios': [2, 1, 1]},
-            # {'split_type': 'size',  'ratios': [4, 1, 1]},
-            # {'split_type': 'flip',  'flip_probs': [0.1, 0, 0]},
-            # {'split_type': 'flip',  'flip_probs': [0.2, 0, 0]},
-            # {'split_type': 'flip',  'flip_probs': [0.3, 0, 0]},
-            # {'split_type': 'flip',  'flip_probs': [0.4, 0, 0]},
-            # {'split_type': 'flip',  'flip_probs': [0.5, 0, 0]},
-            # {'split_type': 'flip',  'flip_probs': [0.6, 0, 0]},
-            # {'split_type': 'flip',  'flip_probs': [0.7, 0, 0]},
-            # {'split_type': 'flip',  'flip_probs': [0.8, 0, 0]},
-            # {'split_type': 'flip',  'flip_probs': [0.9, 0, 0]},
-            # {'split_type': 'flip',  'flip_probs': [1.0, 0, 0]},
-            # {'split_type': 'unique_digits',
-            #     'unique_digits': [9], 'num_trainers': 2},
-            # {'split_type': 'unique_digits', 'unique_digits': [
-            #     7, 8, 9], 'num_trainers': 2},
-            # {'split_type': 'unique_digits', 'unique_digits': [
-            #     5, 6, 7, 8, 9], 'num_trainers': 2},
-            # {'split_type': 'unique_digits',
-            #     'unique_digits': [9], 'num_trainers': 3},
-            # {'split_type': 'unique_digits', 'unique_digits': [
-            #     5, 6, 7, 8, 9], 'num_trainers': 3}
-            # {'split_type': 'size', 'num_trainers': 5, 'ratios': [5, 4, 3, 2, 1]},
-            # {'split_type': 'flip', 'num_trainers': 5, 'flip_probs': [0, 0.1, 0.2, 0.3, 0.4]},
-            # {'split_type': 'flip', 'num_trainers': 6, 'flip_probs': [0, 0.1, 0.2, 0.3, 0.4, 0.5]}
-            {'split_type': 'size', 'num_trainers': 6, 'ratios': [6, 5, 4, 3, 2, 1]}
+            {'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.0},
+            {'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.2},
+            {'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.4},
+            {'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.6},
+            {'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.8},
+            {'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 1.0},
         ]
         method = 'step'
         seed = 89
         for exp in experiments:
             for protocol in ['crowdsource', 'consortium']:
                 print(f"Starting experiment with args: {exp}")
-                run_experiment(protocol=protocol, eval_method=method, seed=seed, **exp)
+                run_experiment(protocol=protocol,
+                               eval_method=method, seed=seed, **exp)
