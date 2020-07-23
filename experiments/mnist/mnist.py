@@ -8,6 +8,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torchvision import datasets, transforms
 
+from pyvacy.analysis import epsilon
+
 from clients import CrowdsourceClient, ConsortiumSetupClient, ConsortiumClient
 from utils import print_global_performance, print_token_count
 
@@ -61,7 +63,8 @@ class Data:
             perm[i] = sorted_idxs[j]
 
         print(f"\tperm_targets={self.targets[perm]}")
-        print(f"\t(counts)={torch.unique(self.targets[perm], return_counts=True)}")
+        print(
+            f"\t(counts)={torch.unique(self.targets[perm], return_counts=True)}")
 
         # split into chunks
         num_chunks = sum(ratios)
@@ -186,7 +189,7 @@ def _make_trainers(
         client_constructor,
         contract_address):
     # instantiate data
-    if split_type == 'equal':
+    if split_type == 'equal' or split_type == 'dp':
         data, targets = Data(train=True, subset=QUICK_RUN).split(num_trainers)
     if split_type == 'size':
         data, targets = Data(train=True, subset=QUICK_RUN).split(
@@ -242,11 +245,13 @@ def _global_accuracy(client):
     accuracy = num_correct / len(pred)
     return accuracy
 
+
 def _digit_counts(trainers):
     digit_counts_by_name = {}
     for trainer in trainers:
         digit_counts = [0]*10
-        digits, counts = torch.unique(trainer._targets, return_counts=True)  # hacky
+        digits, counts = torch.unique(
+            trainer._targets, return_counts=True)  # hacky
         for digit, count in zip(digits, counts):
             digit_counts[digit] = count.item()
         digit_counts_by_name[trainer.name] = digit_counts
@@ -288,11 +293,12 @@ def run_experiment(
     ratios=None,
     flip_probs=None,
     disjointness=0,
+    dp_params=None,
     unique_digits=None
 ):
 
     # check args
-    if split_type not in {'equal', 'size', 'flip', 'noniid', 'unique_digits'}:
+    if split_type not in {'equal', 'size', 'flip', 'noniid', 'unique_digits', 'dp'}:
         raise KeyError(f"split_type={split_type} is not a valid option")
     if protocol not in {'crowdsource', 'consortium'}:
         raise KeyError(f"protocol={protocol} is not a valid option")
@@ -314,6 +320,14 @@ def run_experiment(
     if flip_probs is not None:
         results['flip_probs'] = flip_probs
     results['disjointness'] = disjointness
+    if dp_params is not None:
+        results.update(dp_params)
+        results['epsilon'] = epsilon(
+            N=60000//num_trainers,   # MNIST train set has 60000 examples
+            batch_size=TRAINING_HYPERPARAMS['batch_size'],
+            iterations=TRAINING_HYPERPARAMS['epochs'],
+            noise_multiplier=dp_params['noise_multiplier'],
+            delta=dp_params['delta'])  # TODO dependent on client data size
     if unique_digits is not None:
         results['unique_digits'] = unique_digits
 
@@ -326,10 +340,18 @@ def run_experiment(
     results['digit_counts'] = _digit_counts(trainers)
 
     # define training threads
+    if dp_params is not None:
+        train_hyperparams = {
+            **TRAINING_HYPERPARAMS,
+            'dp_params': dp_params
+        }
+    else:
+        train_hyperparams = TRAINING_HYPERPARAMS
+
     threads = [
         threading.Thread(
             target=trainer.train_until,
-            kwargs=TRAINING_HYPERPARAMS,
+            kwargs=train_hyperparams,
             daemon=True
         ) for trainer in trainers
     ]
@@ -398,9 +420,15 @@ if __name__ == "__main__":
 
     if QUICK_RUN:
         experiments = [
-            {'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.0},
-            {'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.5},
-            {'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 1.0},
+            {
+                'split_type': 'dp', 
+                'num_trainers': 3, 
+                'dp_params': {
+                    'l2_norm_clip': 1, 
+                    'noise_multiplier': 1.1,
+                    'delta': 1e-5,
+                },
+            },
         ]
         method = 'step'
         seed = 88

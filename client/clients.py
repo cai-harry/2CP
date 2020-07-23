@@ -5,7 +5,7 @@ import methodtools
 
 import syft as sy
 import torch
-import pyvacy
+import pyvacy.optim
 
 from ipfs_client import IPFSClient
 from contract_clients import CrowdsourceContractClient, ConsortiumContractClient
@@ -109,11 +109,17 @@ class CrowdsourceClient(_GenesisClient):
         )
         # train loader is defined each time training is run
 
-    def train_until(self, final_round_num, batch_size, epochs, learning_rate):
+    def train_until(self, final_round_num, batch_size, epochs, learning_rate, dp_params=None):
         start_round = self._contract.currentRound()
         for r in range(start_round, final_round_num+1):
             self.wait_for_round(r)
-            tx = self._train_single_round(r, batch_size, epochs, learning_rate)
+            tx = self._train_single_round(
+                r,
+                batch_size,
+                epochs,
+                learning_rate,
+                dp_params
+            )
             self.wait_for_txs([tx])
 
     def evaluate_until(self, final_round_num, method):
@@ -152,7 +158,7 @@ class CrowdsourceClient(_GenesisClient):
 
     def predict(self):
         model = self.get_current_global_model()
-        model = model  # .send(self._worker)
+        # model = model.send(self._worker)
         predictions = []
         with torch.no_grad():
             for data, labels in self._test_loader:
@@ -162,7 +168,8 @@ class CrowdsourceClient(_GenesisClient):
         return torch.stack(predictions)
 
     def wait_for_round(self, n):
-        self._print(f"Waiting for round {n} ({self._contract.secondsRemaining()} seconds remaining)...")
+        self._print(
+            f"Waiting for round {n} ({self._contract.secondsRemaining()} seconds remaining)...")
         while(self._contract.currentRound() < n):
             time.sleep(self.CURRENT_ROUND_POLL_INTERVAL)
         self._print(f"Round {n} started")
@@ -179,31 +186,33 @@ class CrowdsourceClient(_GenesisClient):
         avg_model = self._avg_model(models)
         return avg_model
 
-    def _train_single_round(self, round_num, batch_size, epochs, learning_rate):
+    def _train_single_round(self, round_num, batch_size, epochs, learning_rate, dp_params):
         """
         Run a round of training using own data, upload and record the contribution.
         """
         model = self.get_current_global_model()
         self._print(f"Training model, round {round_num}...")
-        model = self._train_model(model, batch_size, epochs, learning_rate)
+        model = self._train_model(
+            model, batch_size, epochs, learning_rate, dp_params)
         uploaded_cid = self._upload_model(model)
         self._print(f"Adding model update...")
         tx = self._record_model(uploaded_cid, round_num)
         return tx
 
-    def _train_model(self, model, batch_size, epochs, lr, dp=False):
+    def _train_model(self, model, batch_size, epochs, lr, dp_params):
         train_loader = torch.utils.data.DataLoader(
             sy.BaseDataset(self._data, self._targets),
             batch_size=batch_size)
-        model = model  # .send(self._worker)
+        # model = model.send(self._worker)
         model.train()
-        if dp:
+        if dp_params is not None:
             optimizer = pyvacy.optim.DPSGD(
-                params=model.parameters(), 
+                params=model.parameters(),
                 lr=lr,
-                batch_size=batch_size,
-                l2_norm_clip=1,
-                noise_multiplier=1.1
+                microbatch_size=1,
+                minibatch_size=batch_size,
+                l2_norm_clip=dp_params['l2_norm_clip'],
+                noise_multiplier=dp_params['noise_multiplier']
             )
         else:
             optimizer = torch.optim.SGD(
@@ -217,7 +226,7 @@ class CrowdsourceClient(_GenesisClient):
                 loss = self._criterion(pred, labels)
                 loss.backward()
                 optimizer.step()
-        model  # .get()
+        # model.get()
         return model
 
     def _evaluate_model(self, model):
@@ -228,8 +237,8 @@ class CrowdsourceClient(_GenesisClient):
             for data, labels in self._test_loader:
                 pred = model(data)
                 total_loss += self._criterion(pred, labels
-                                              ).item() 
-                                              #).get().item()
+                                              ).item()
+                # ).get().item()
         avg_loss = total_loss / len(self._test_loader)
         return avg_loss
 
