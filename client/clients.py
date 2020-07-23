@@ -209,8 +209,7 @@ class CrowdsourceClient(_GenesisClient):
             optimizer = pyvacy.optim.DPSGD(
                 params=model.parameters(),
                 lr=lr,
-                microbatch_size=1,
-                minibatch_size=batch_size,
+                batch_size=batch_size,
                 l2_norm_clip=dp_params['l2_norm_clip'],
                 noise_multiplier=dp_params['noise_multiplier']
             )
@@ -372,12 +371,12 @@ class ConsortiumClient(_BaseClient):
                                               contract_address=self._contract.main())
         self._aux_clients = {}  # cache, updated every time self._get_aux_clients() is called
 
-    def train_until(self, final_round_num, batch_size, epochs, learning_rate):
+    def train_until(self, final_round_num, batch_size, epochs, learning_rate, dp_params):
         train_clients = self._get_train_clients()
         threads = [
             threading.Thread(
                 target=train_client.train_until,
-                args=(final_round_num, batch_size, epochs, learning_rate),
+                args=(final_round_num, batch_size, epochs, learning_rate, dp_params),
                 daemon=True
             ) for train_client in train_clients
         ]

@@ -8,7 +8,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torchvision import datasets, transforms
 
-from pyvacy.analysis import epsilon
+from pyvacy.analysis import moments_accountant as epsilon
 
 from clients import CrowdsourceClient, ConsortiumSetupClient, ConsortiumClient
 from utils import print_global_performance, print_token_count
@@ -325,9 +325,10 @@ def run_experiment(
         results['epsilon'] = epsilon(
             N=60000//num_trainers,   # MNIST train set has 60000 examples
             batch_size=TRAINING_HYPERPARAMS['batch_size'],
-            iterations=TRAINING_HYPERPARAMS['epochs'],
             noise_multiplier=dp_params['noise_multiplier'],
-            delta=dp_params['delta'])  # TODO dependent on client data size
+            epochs=TRAINING_HYPERPARAMS['epochs'],
+            delta=dp_params['delta']
+        )  # TODO dependent on client data size
     if unique_digits is not None:
         results['unique_digits'] = unique_digits
 
@@ -421,13 +422,13 @@ if __name__ == "__main__":
     if QUICK_RUN:
         experiments = [
             {
-                'split_type': 'dp', 
-                'num_trainers': 3, 
+                'split_type': 'dp',
+                'num_trainers': 3,
                 'dp_params': {
-                    'l2_norm_clip': 1, 
+                    'l2_norm_clip': 1.0,
                     'noise_multiplier': 1.1,
-                    'delta': 1e-5,
-                },
+                    'delta': 1e-5
+                }
             },
         ]
         method = 'step'
