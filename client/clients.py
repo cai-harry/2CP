@@ -39,6 +39,9 @@ class _BaseClient:
     def get_total_token_count(self, training_round=None):
         return self._contract.countTotalTokens(training_round)
 
+    def get_gas_used(self):
+        return self._contract.get_gas_used()
+
     def wait_for_txs(self, txs):
         receipts = []
         if txs:
@@ -121,6 +124,7 @@ class CrowdsourceClient(_GenesisClient):
                 dp_params
             )
             self.wait_for_txs([tx])
+        self._print(f"Done training. Gas used: {self.get_gas_used()}")
 
     def evaluate_until(self, final_round_num, method):
         for r in range(1, final_round_num+1):
@@ -128,6 +132,7 @@ class CrowdsourceClient(_GenesisClient):
             scores = self._evaluate_single_round(r, method)
             txs = self._set_tokens(scores)
             self.wait_for_txs(txs)
+        self._print(f"Done evaluating. Gas used: {self.get_gas_used()}")
 
     def is_evaluator(self):
         return self._contract.evaluator() == self._contract.address
@@ -413,6 +418,12 @@ class ConsortiumClient(_BaseClient):
         self._main_client.wait_for_round(n)
         for client in self._get_aux_clients():
             client.wait_for_round(n)
+
+    def get_gas_used(self):
+        gas_used = self._main_client.get_gas_used()
+        for aux in self._get_aux_clients():
+            gas_used += aux.get_gas_used()
+        return gas_used
 
     def _get_aux_clients(self):
         """

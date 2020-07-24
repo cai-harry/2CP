@@ -16,11 +16,17 @@ class BaseEthClient:
 
         self.address = self._w3.eth.accounts[account_idx]
         self._w3.eth.defaultAccount = self.address
+
+        self.txs = []
     
     def wait_for_tx(self, tx_hash):
         receipt = self._w3.eth.waitForTransactionReceipt(tx_hash)
         return receipt
 
+    def get_gas_used(self):
+        receipts = [self._w3.eth.getTransactionReceipt(tx) for tx in self.txs]
+        gas_amounts = [receipt['gasUsed'] for receipt in receipts]
+        return sum(gas_amounts)
 
 class _BaseContractClient(BaseEthClient):
     """
@@ -49,6 +55,7 @@ class _BaseContractClient(BaseEthClient):
                         abi=abi,
                         bytecode=bytecode
                     ).constructor().transact()
+                    self.txs.append(tx_hash)
                     tx_receipt = self.wait_for_tx(tx_hash)
                     address = tx_receipt.contractAddress
                 else:
@@ -123,20 +130,26 @@ class CrowdsourceContractClient(_BaseContractClient):
         cid_bytes = self._to_bytes32(model_cid)
         self._contract.functions.setGenesis(
             cid_bytes, round_duration, max_num_updates).call()
-        return self._contract.functions.setGenesis(cid_bytes, round_duration, max_num_updates).transact()
+        tx = self._contract.functions.setGenesis(cid_bytes, round_duration, max_num_updates).transact()
+        self.txs.append(tx)
+        return tx
 
     def addModelUpdate(self, model_cid, training_round):
         cid_bytes = self._to_bytes32(model_cid)
         self._contract.functions.addModelUpdate(
             cid_bytes, training_round).call()
-        return self._contract.functions.addModelUpdate(
+        tx = self._contract.functions.addModelUpdate(
             cid_bytes, training_round).transact()
+        self.txs.append(tx)
+        return tx
 
     def setTokens(self, model_cid, num_tokens):
         cid_bytes = self._to_bytes32(model_cid)
         self._contract.functions.setTokens(cid_bytes, num_tokens).call()
-        return self._contract.functions.setTokens(
+        tx = self._contract.functions.setTokens(
             cid_bytes, num_tokens).transact()
+        self.txs.append(tx)
+        return tx
 
 
 class ConsortiumContractClient(_BaseContractClient):
@@ -179,8 +192,12 @@ class ConsortiumContractClient(_BaseContractClient):
         cid_bytes = self._to_bytes32(model_cid)
         self._contract.functions.setGenesis(
             cid_bytes, round_duration, num_trainers).call()
-        return self._contract.functions.setGenesis(cid_bytes, round_duration, num_trainers).transact()
+        tx = self._contract.functions.setGenesis(cid_bytes, round_duration, num_trainers).transact()
+        self.txs.append(tx)
+        return tx
 
     def addAux(self, evaluator):
         self._contract.functions.addAux(evaluator).call()
-        return self._contract.functions.addAux(evaluator).transact()
+        tx = self._contract.functions.addAux(evaluator).transact()
+        self.txs.append(tx)
+        return tx

@@ -917,5 +917,180 @@
             "Carol",
             "David"
         ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x1a81819998aA009D167B71275dC4a4Ae743E7A57",
+        "delta": 1e-05,
+        "digit_counts": {
+            "Bob": [
+                15,
+                11,
+                11,
+                11,
+                11,
+                9,
+                8,
+                7,
+                8,
+                9
+            ],
+            "Carol": [
+                7,
+                15,
+                7,
+                12,
+                11,
+                7,
+                11,
+                14,
+                6,
+                10
+            ],
+            "David": [
+                12,
+                13,
+                10,
+                11,
+                10,
+                7,
+                10,
+                8,
+                7,
+                12
+            ]
+        },
+        "disjointness": 0,
+        "epochs": 1,
+        "epsilon": [
+            5.602602833505279,
+            5.602602833505279,
+            5.602602833505279
+        ],
+        "eval_method": "step",
+        "final_global_accuracy": 0.14,
+        "final_round_num": 1,
+        "gas_used": {
+            "Alice": 1206477,
+            "Bob": 141891,
+            "Carol": 117768,
+            "David": 132756
+        },
+        "global_loss": [
+            2.299130439758301,
+            2.297274112701416
+        ],
+        "l2_norm_clip": 1.0,
+        "learning_rate": 0.01,
+        "noise_multiplier": 1.1,
+        "num_trainers": 3,
+        "protocol": "crowdsource",
+        "quick_run": true,
+        "seed": 88,
+        "split_type": "dp",
+        "token_counts": {
+            "Bob": [
+                729084014892578
+            ],
+            "Carol": [
+                3711700439453125
+            ],
+            "David": [
+                141143798828125
+            ]
+        },
+        "total_token_counts": [
+            4581928253173828
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David"
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x68B898BFaDA23B08262C93d0e93959cC74a42781",
+        "delta": 1e-05,
+        "digit_counts": {
+            "Bob": [
+                10,
+                12,
+                6,
+                10,
+                12,
+                11,
+                9,
+                10,
+                7,
+                13
+            ],
+            "Carol": [
+                13,
+                13,
+                13,
+                16,
+                10,
+                4,
+                9,
+                6,
+                6,
+                10
+            ],
+            "David": [
+                11,
+                14,
+                9,
+                8,
+                10,
+                8,
+                11,
+                13,
+                8,
+                8
+            ]
+        },
+        "disjointness": 0,
+        "epochs": 1,
+        "epsilon": [
+            5.602602833505279,
+            5.602602833505279,
+            5.602602833505279
+        ],
+        "eval_method": "step",
+        "final_round_num": 1,
+        "gas_used": {
+            "Alice": 5462241,
+            "Bob": 555667,
+            "Carol": 513298,
+            "David": 537409
+        },
+        "l2_norm_clip": 1.0,
+        "learning_rate": 0.01,
+        "noise_multiplier": 1.1,
+        "num_trainers": 3,
+        "protocol": "consortium",
+        "quick_run": true,
+        "seed": 88,
+        "split_type": "dp",
+        "token_counts": {
+            "Bob": [
+                1540184020996093
+            ],
+            "Carol": [
+                3517627716064452
+            ],
+            "David": [
+                4163980484008789
+            ]
+        },
+        "total_token_counts": [
+            9221792221069334
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David"
+        ]
     }
 ]

@@ -268,6 +268,14 @@ def _token_count_histories(trainers):
     return token_count_history_by_name
 
 
+def _gas_used(alice, trainers):
+    gas_used_by_name = {}
+    gas_used_by_name[alice.name] = alice.get_gas_used()
+    for trainer in trainers:
+        gas_used_by_name[trainer.name] = trainer.get_gas_used()
+    return gas_used_by_name
+
+
 def _save_results(results):
     filedir = "experiments/mnist/results/"
     if QUICK_RUN:
@@ -393,6 +401,7 @@ def run_experiment(
     results['token_counts'] = _token_count_histories(trainers)
     results['total_token_counts'] = [alice.get_total_token_count(i)
                                      for i in range(1, TRAINING_ITERATIONS+1)]
+    results['gas_used'] = _gas_used(alice, trainers)
 
     _save_results(results)
 
