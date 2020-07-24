@@ -322,13 +322,6 @@ def run_experiment(
     results['disjointness'] = disjointness
     if dp_params is not None:
         results.update(dp_params)
-        results['epsilon'] = epsilon(
-            N=60000//num_trainers,   # MNIST train set has 60000 examples
-            batch_size=TRAINING_HYPERPARAMS['batch_size'],
-            noise_multiplier=dp_params['noise_multiplier'],
-            epochs=TRAINING_HYPERPARAMS['epochs'],
-            delta=dp_params['delta']
-        )  # TODO dependent on client data size
     if unique_digits is not None:
         results['unique_digits'] = unique_digits
 
@@ -339,6 +332,17 @@ def run_experiment(
     results['contract_address'] = alice.contract_address
     results['trainers'] = [trainer.name for trainer in trainers]
     results['digit_counts'] = _digit_counts(trainers)
+    if dp_params is not None:
+        results['epsilon'] = [
+            epsilon(
+                N=trainer.data_length,
+                batch_size=TRAINING_HYPERPARAMS['batch_size'],
+                noise_multiplier=dp_params['noise_multiplier'],
+                epochs=TRAINING_HYPERPARAMS['epochs'],
+                delta=dp_params['delta']
+            )
+            for trainer in trainers
+        ]
 
     # define training threads
     if dp_params is not None:

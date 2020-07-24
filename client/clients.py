@@ -359,6 +359,7 @@ class ConsortiumClient(_BaseClient):
                          ConsortiumContractClient,
                          account_idx,
                          contract_address)
+        self.data_length = min(len(data), len(targets))
         self._data = data
         self._targets = targets
         self._criterion = model_criterion
@@ -371,7 +372,7 @@ class ConsortiumClient(_BaseClient):
                                               contract_address=self._contract.main())
         self._aux_clients = {}  # cache, updated every time self._get_aux_clients() is called
 
-    def train_until(self, final_round_num, batch_size, epochs, learning_rate, dp_params):
+    def train_until(self, final_round_num, batch_size, epochs, learning_rate, dp_params=None):
         train_clients = self._get_train_clients()
         threads = [
             threading.Thread(
