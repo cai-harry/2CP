@@ -1,6 +1,7 @@
 import os
 import joblib
 import matplotlib.pyplot as plt
+import threading
 
 import torch
 import torch.nn as nn
@@ -14,7 +15,7 @@ class CovidData:
     def __init__(self):
         self._df = joblib.load(
             os.path.join(os.path.dirname(__file__),
-                         "resources", "covid_data.bin")
+                        "covid_data.bin")
         )
         X, y = self._split_into_lists(
             data=self._df.drop(['ICU'], 1),
@@ -75,39 +76,96 @@ alice_data, alice_targets, bob_data, bob_targets, \
          eve_data, eve_targets = CovidData().split(5)
 
 # These clients will evaluate
-alice = CrowdsourceClient("Alice", alice_data, alice_targets, CovdModel, F.mse_loss, 0)
+alice = CrowdsourceClient(
+    "Alice", 
+    alice_data, 
+    alice_targets, 
+    CovidModel, 
+    F.mse_loss, 
+    0,
+    None,
+    True
+)
 
 # These clients will train
-bob = CrowdsourceClient("Bob", bob_data, bob_targets, CovdModel, F.mse_loss, 1)
-charlie = CrowdsourceClient("Charlie", charlie_data, charlie_targets, CovdModel, F.mse_loss, 2)
-david = CrowdsourceClient("David", david_data, david_targets, CovdModel, F.mse_loss, 3)
-eve = CrowdsourceClient("Eve", eve_data, eve_targets, CovdModel, F.mse_loss, 4)
+bob = CrowdsourceClient(
+    "Bob", 
+    bob_data, 
+    bob_targets, 
+    CovidModel, 
+    F.mse_loss, 
+    1, 
+    alice.contract_address, 
+    False
+)
+charlie = CrowdsourceClient(
+    "Charlie", 
+    charlie_data, 
+    charlie_targets, 
+    CovidModel, 
+    F.mse_loss, 
+    2, 
+    alice.contract_address, 
+    False
+)
+david = CrowdsourceClient(
+    "David", 
+    david_data, 
+    david_targets, 
+    CovidModel, 
+    F.mse_loss, 
+    3, 
+    alice.contract_address, 
+    False
+)
+eve = CrowdsourceClient(
+    "Eve", 
+    eve_data, 
+    eve_targets, 
+    CovidModel, 
+    F.mse_loss, 
+    4, 
+    alice.contract_address, 
+    False
+)
+trainers = [bob, charlie, david, eve]
 
 TRAINING_ITERATIONS = 16
 TRAINING_HYPERPARAMETERS = {
-    'epochs': 64,
-    'learning_rate': 1e-2, 
-    'criterion': F.mse_loss
+    'final_round_num': TRAINING_ITERATIONS,
+    'batch_size': 8,
+    'epochs': 10,
+    'learning_rate': 1e-2
 }
 
-tx = alice.set_genesis_model(10)
-alice.wait_for_txs([tx])
+alice.set_genesis_model(
+    round_duration=120,
+    max_num_updates=4
+)
 
-for i in range(1, TRAINING_ITERATIONS+1):
-    print(f"\nIteration {i}")
-    
-    txb = bob._train_single_round(**TRAINING_HYPERPARAMETERS)
-    txc = charlie._train_single_round(**TRAINING_HYPERPARAMETERS)
-    txd = david._train_single_round(**TRAINING_HYPERPARAMETERS)
-    txe = eve._train_single_round(**TRAINING_HYPERPARAMETERS)
-    alice.wait_for_txs([txb, txc, txd, txe])
-    print_global_performance(alice)
+threads = [
+    threading.Thread(
+        target=trainer.train_until,
+        kwargs=TRAINING_HYPERPARAMETERS,
+        daemon=True
+    ) for trainer in trainers
+]
 
-for i in range(1, TRAINING_ITERATIONS+1):
-    print(f"\nEvaluating iteration {i}")
-    txs = alice.evaluate_until(i)
+# define evaluation threads
+threads.append(
+    threading.Thread(
+        target=alice.evaluate_until,
+        args=(TRAINING_ITERATIONS, 'step'),
+        daemon=True
+    )
+)
 
-alice.wait_for_txs(txs)
+# run all threads in parallel
+for t in threads:
+    t.start()
+for t in threads:
+    t.join()
+
 print_token_count(alice)
 print_token_count(bob)
 print_token_count(charlie)
