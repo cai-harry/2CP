@@ -42,10 +42,18 @@ def counts(results, percent=True):
             details = [f" (size={ratio})" for ratio in r['ratios']]
         if r['split_type'] == 'flip':
             details = [f" (flip={prob})" for prob in r['flip_probs']]
+        if r['split_type'] == 'unique_digits':
+            details = [f" (others)"] * len(names)
+            details[0] = [f" ({','.join(r['unique_digits'])})"]
+        if r['split_type'] == 'noniid':
+            details = [f" (disj={r['disjointness']})"] * len(names)
+        if r['split_type'] == 'dp':
+            details = [f" (eps={eps})" for eps in r['epsilon']]
+            
         for name, detail in zip(names, details):
             counts = np.array(r['token_counts'][name])
             counts = np.insert(counts, 0, 0)  # insert a 0 at the start of counts, as all trainers start with 0 tokens
-            if percent:
+            if percent and total_count > 0:
                 counts = 100 * (counts / total_count)
             plt.plot(
                 round_idxs,
@@ -62,29 +70,7 @@ def counts(results, percent=True):
         plt.legend()
         plt.savefig(make_filepath(r, 'counts'))
         plt.clf()
-
-
-def shares(results):
-    for r in results:
-        n = r['num_trainers']
-        names = NAMES[:n]
-        total_counts = np.array(r['total_token_counts'])
-        round_idxs = range(1, len(total_counts) + 1)
-        for name in names:
-            counts = np.array(r['token_counts'][name])
-            shares = 100 * (counts / total_counts)
-            plt.plot(
-                round_idxs,
-                shares,
-                label=name,
-                marker='.')
-        plt.xticks(round_idxs)
-        plt.ylim(0, 100)
-        plt.xlabel("Training round")
-        plt.ylabel("Share of model (%)")
-        plt.legend()
-        plt.savefig(make_filepath(r, 'shares'))
-        plt.clf()
+        
 
 def make_filepath(r, plot_type):
     path = PLOTS_DIR
@@ -103,6 +89,12 @@ def make_filepath(r, plot_type):
         path += "-unique-"
         path += f"{r['num_trainers']}-trainers-"
         path += '-'.join([str(k) for k in r['unique_digits']])
+    if r['split_type'] == 'noniid':
+        path += "-noniid-"
+        path += f"{r['disjointness']}"
+    if r['split_type'] == 'dp':
+        path += "-dp-"
+        raise NotImplementedError()
     path += ".png"
     return path
 
