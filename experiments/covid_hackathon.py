@@ -36,22 +36,6 @@ class CovidData:
         return output
 
 
-    def _split_into_lists(self, data, labels):
-        record_list = list()
-        result_list = list()
-        for _, row in data.iterrows():
-            record_list.append(row)
-        for row in labels:
-            converted_label = float(row)
-            result_list.append(converted_label)
-        return record_list, result_list
-
-    def _convert_to_tensor(self, data):
-        tensors = []
-        for record in data:
-            tensors.append(torch.tensor(record))
-        return torch.stack(tensors)
-
 
 class CovidModel(nn.Module):
     def __init__(self):
