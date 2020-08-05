@@ -10,5 +10,8 @@
     },
     "terminal.integrated.env.windows": {
         "PYTHONPATH": "${env:PYTHONPATH};${workspaceFolder}/client",
-    }
+    },
+    "python.linting.pylintArgs": [
+        "--generated-members=numpy.* ,torch.*"
+    ]
 }
