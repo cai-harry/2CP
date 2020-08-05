@@ -1,6 +1,6 @@
 import argparse
 
-from experiments.mnist.mnist import *
+from experiments.runner import ExperimentRunner
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -25,6 +25,13 @@ if __name__ == "__main__":
     }
     ROUND_DURATION = 1800  # should always end early
 
+    runner = ExperimentRunner(
+        QUICK_RUN,
+        TRAINING_ITERATIONS,
+        TRAINING_HYPERPARAMS,
+        ROUND_DURATION
+    )
+
     if QUICK_RUN:
         experiments = [
             {
@@ -42,21 +49,27 @@ if __name__ == "__main__":
         seed = 88
         for exp in experiments:
             for protocol in ['crowdsource', 'consortium']:
-                run_experiment(protocol=protocol,
+                runner.run_experiment(protocol=protocol,
                                eval_method=method, seed=seed, **exp)
     else:
         experiments = [
-            {'dataset': 'covid', 'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.0},
-            {'dataset': 'covid', 'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.2},
-            {'dataset': 'covid', 'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.4},
-            {'dataset': 'covid', 'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.6},
-            {'dataset': 'covid', 'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.8},
-            {'dataset': 'covid', 'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 1.0},
+            {'dataset': 'covid', 'split_type': 'noniid',
+                'num_trainers': 3, 'disjointness': 0.0},
+            {'dataset': 'covid', 'split_type': 'noniid',
+                'num_trainers': 3, 'disjointness': 0.2},
+            {'dataset': 'covid', 'split_type': 'noniid',
+                'num_trainers': 3, 'disjointness': 0.4},
+            {'dataset': 'covid', 'split_type': 'noniid',
+                'num_trainers': 3, 'disjointness': 0.6},
+            {'dataset': 'covid', 'split_type': 'noniid',
+                'num_trainers': 3, 'disjointness': 0.8},
+            {'dataset': 'covid', 'split_type': 'noniid',
+                'num_trainers': 3, 'disjointness': 1.0},
         ]
         method = 'step'
         seed = 89
         for exp in experiments:
             for protocol in ['crowdsource', 'consortium']:
                 print(f"Starting experiment with args: {exp}")
-                run_experiment(protocol=protocol,
+                runner.run_experiment(protocol=protocol,
                                eval_method=method, seed=seed, **exp)
