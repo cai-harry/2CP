@@ -3,6 +3,7 @@ import json
 import threading
 import time
 import os
+import pandas as pd
 
 import torch
 import torch.nn as nn
@@ -110,16 +111,18 @@ class MNISTData(_Data):
 
 class CovidData(_Data):
     def __init__(self, train, subset=False):
-        # TODO: do something with train and subset parameters
-        self._df = joblib.load(
-            "experiments/covid/resources/covid_data.bin"
-        )
+        # TODO: dataset is too small to subset, so subset argument is unused
+        data_dir = "experiments/covid/resources/"
+        if train:
+            self._df = pd.read_csv(data_dir + "train.csv")
+        else:
+            self._df = pd.read_csv(data_dir + "test.csv")
         X, y = self._split_into_lists(
             data=self._df.drop(['ICU'], 1),
             labels=self._df['ICU']
         )
         self.data = self._convert_to_tensor(X)
-        self.targets = self._convert_to_tensor(y)  # .unsqueeze(dim=-1)
+        self.targets = self._convert_to_tensor(y)
         assert len(self.data) == len(self.targets), \
             f"Data and targets have different lengths {len(self.data)} and {len(self.targets)}"
 

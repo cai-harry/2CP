@@ -20,10 +20,10 @@ if __name__ == "__main__":
     TRAINING_HYPERPARAMS = {
         'final_round_num': TRAINING_ITERATIONS,
         'batch_size': 8,
-        'epochs': 10,
+        'epochs': 16,
         'learning_rate': 1e-2
     }
-    ROUND_DURATION = 1800  # should always end early
+    ROUND_DURATION = 300  # should always end early
 
     runner = ExperimentRunner(
         QUICK_RUN,
@@ -34,37 +34,32 @@ if __name__ == "__main__":
 
     if QUICK_RUN:
         experiments = [
-            {
-                'dataset': 'covid',
-                'split_type': 'dp',
-                'num_trainers': 3,
-                'dp_params': {
-                    'l2_norm_clip': 1.0,
-                    'noise_multiplier': 1.1,
-                    'delta': 1e-5
-                }
-            },
+            {'dataset': 'covid', 'split_type': 'noniid',
+                'num_trainers': 3, 'disjointness': 0.0},
+            {'dataset': 'covid', 'split_type': 'noniid',
+                'num_trainers': 3, 'disjointness': 0.5},
+            {'dataset': 'covid', 'split_type': 'noniid',
+                'num_trainers': 3, 'disjointness': 1.0},
         ]
         method = 'step'
         seed = 88
         for exp in experiments:
             for protocol in ['crowdsource', 'consortium']:
                 runner.run_experiment(protocol=protocol,
-                               eval_method=method, seed=seed, **exp)
+                                      eval_method=method, seed=seed, **exp)
     else:
         experiments = [
-            {'dataset': 'covid', 'split_type': 'noniid',
-                'num_trainers': 3, 'disjointness': 0.0},
-            {'dataset': 'covid', 'split_type': 'noniid',
-                'num_trainers': 3, 'disjointness': 0.2},
-            {'dataset': 'covid', 'split_type': 'noniid',
-                'num_trainers': 3, 'disjointness': 0.4},
-            {'dataset': 'covid', 'split_type': 'noniid',
-                'num_trainers': 3, 'disjointness': 0.6},
-            {'dataset': 'covid', 'split_type': 'noniid',
-                'num_trainers': 3, 'disjointness': 0.8},
-            {'dataset': 'covid', 'split_type': 'noniid',
-                'num_trainers': 3, 'disjointness': 1.0},
+            {'dataset': 'covid', 'split_type': 'size', 'num_trainers': 6, 'ratios': [1,2,3,4,5,6]},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0.1,0,0,0]},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0.2,0,0,0]},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0.3,0,0,0]},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0.4,0,0,0]},
+            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 2},
+            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 3},
+            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 4},
+            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 5},
+            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 6},
+
         ]
         method = 'step'
         seed = 89
@@ -72,4 +67,4 @@ if __name__ == "__main__":
             for protocol in ['crowdsource', 'consortium']:
                 print(f"Starting experiment with args: {exp}")
                 runner.run_experiment(protocol=protocol,
-                               eval_method=method, seed=seed, **exp)
+                                      eval_method=method, seed=seed, **exp)
