@@ -82,11 +82,13 @@ class _Data:
         return data, targets
 
     def _flip_targets(self, targets, flip_p):
+        num_classes = len(torch.unique(targets))
         flip_num = int(flip_p * len(targets))
         flip_idx = torch.randperm(len(targets))[:flip_num]
         flipped_labels = torch.randint(
-            low=0, high=10, size=(len(flip_idx),), dtype=targets.dtype)
-        targets[flip_idx] = flipped_labels
+            low=0, high=num_classes, size=(len(flip_idx),), dtype=targets.dtype)
+        for i, label in zip(flip_idx, flipped_labels):
+            targets[i] = label
         return targets
 
 

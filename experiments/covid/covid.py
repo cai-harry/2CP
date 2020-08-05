@@ -23,7 +23,7 @@ if __name__ == "__main__":
         'epochs': 16,
         'learning_rate': 1e-2
     }
-    ROUND_DURATION = 300  # should always end early
+    ROUND_DURATION = 900  # should always end early
 
     runner = ExperimentRunner(
         QUICK_RUN,
@@ -34,12 +34,7 @@ if __name__ == "__main__":
 
     if QUICK_RUN:
         experiments = [
-            {'dataset': 'covid', 'split_type': 'noniid',
-                'num_trainers': 3, 'disjointness': 0.0},
-            {'dataset': 'covid', 'split_type': 'noniid',
-                'num_trainers': 3, 'disjointness': 0.5},
-            {'dataset': 'covid', 'split_type': 'noniid',
-                'num_trainers': 3, 'disjointness': 1.0},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0.1,0,0,0]},
         ]
         method = 'step'
         seed = 88
@@ -50,16 +45,15 @@ if __name__ == "__main__":
     else:
         experiments = [
             {'dataset': 'covid', 'split_type': 'size', 'num_trainers': 6, 'ratios': [1,2,3,4,5,6]},
-            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0.1,0,0,0]},
-            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0.2,0,0,0]},
-            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0.3,0,0,0]},
-            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0.4,0,0,0]},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.1]},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.2]},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.3]},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.4]},
             {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 2},
             {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 3},
             {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 4},
             {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 5},
             {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 6},
-
         ]
         method = 'step'
         seed = 89
