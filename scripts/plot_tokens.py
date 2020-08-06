@@ -3,14 +3,21 @@ import json
 import matplotlib.pyplot as plt
 import numpy as np
 
-RESULTS_FILE = "experiments/mnist/results/all.json"
-PLOTS_DIR = "experiments/mnist/results/plots/"
+RESULTS_FILE = {
+    'mnist': "experiments/mnist/results/all.json",
+    'covid': "experiments/covid/results/all.json",
+}
+PLOTS_DIR = {
+    'mnist': "experiments/mnist/results/plots/",
+    'covid': "experiments/covid/results/plots/",
+}
 NAMES = ["Bob", "Carol", "David", "Eve",
          "Frank", "Georgia", "Henry", "Isabel", "Joe"]
 
 
 def load_results(filters):
-    with open(RESULTS_FILE) as f:
+    assert 'dataset' in filters, "Must specify dataset"
+    with open(RESULTS_FILE[filters['dataset']]) as f:
         results = json.load(f)
     for key, value in filters.items():
         results = [r for r in results if r[key] == value]
@@ -73,7 +80,7 @@ def counts(results, percent=True):
         
 
 def make_filepath(r, plot_type):
-    path = PLOTS_DIR
+    path = PLOTS_DIR[r['dataset']]
     path += f"{plot_type}-"
     path += r['protocol']
     if r['split_type'] == 'equal':
@@ -102,8 +109,7 @@ def make_filepath(r, plot_type):
 if __name__ == "__main__":
     try:
         r = load_results({
-            'final_round_num': 5,
-            'eval_method': 'step',
+            'dataset': 'covid',
         })
         counts(r)
 
