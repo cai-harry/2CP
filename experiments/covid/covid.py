@@ -45,16 +45,17 @@ if __name__ == "__main__":
     else:
         experiments = [
             # {'dataset': 'covid', 'split_type': 'size', 'num_trainers': 6, 'ratios': [1,2,3,4,5,6]},
-            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 2},
-            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 3},
-            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 4},
-            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 5},
-            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 6},
-            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.5]},
-            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.4]},
-            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.3]},
-            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.2]},
-            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.1]},
+            # {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 2},
+            # {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 3},
+            # {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 4},
+            # {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 5},
+            # {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 6},
+            # {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.5]},
+            # {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.4]},
+            # {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.3]},
+            # {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.2]},
+            # {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.1]},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 5, 'flip_probs': [0,0.1,0.2,0.3,0.4]},
         ]
         method = 'step'
         seed = 89
