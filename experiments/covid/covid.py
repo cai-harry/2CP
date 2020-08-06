@@ -23,7 +23,7 @@ if __name__ == "__main__":
         'epochs': 16,
         'learning_rate': 1e-2
     }
-    ROUND_DURATION = 900  # should always end early
+    ROUND_DURATION = 1200  # should always end early
 
     runner = ExperimentRunner(
         QUICK_RUN,
@@ -44,16 +44,17 @@ if __name__ == "__main__":
                                       eval_method=method, seed=seed, **exp)
     else:
         experiments = [
-            {'dataset': 'covid', 'split_type': 'size', 'num_trainers': 6, 'ratios': [1,2,3,4,5,6]},
-            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.1]},
-            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.2]},
-            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.3]},
-            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.4]},
+            # {'dataset': 'covid', 'split_type': 'size', 'num_trainers': 6, 'ratios': [1,2,3,4,5,6]},
             {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 2},
             {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 3},
             {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 4},
             {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 5},
             {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 6},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.5]},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.4]},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.3]},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.2]},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.1]},
         ]
         method = 'step'
         seed = 89
