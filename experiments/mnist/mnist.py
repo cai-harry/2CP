@@ -54,12 +54,11 @@ if __name__ == "__main__":
                                eval_method=method, seed=seed, **exp)
     else:
         experiments = [
-            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.0},
-            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.2},
-            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.4},
-            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.6},
-            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 0.8},
-            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 3, 'disjointness': 1.0},
+            # {'dataset': 'mnist', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.1]},
+            # {'dataset': 'mnist', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.2]},
+            {'dataset': 'mnist', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.3]},
+            {'dataset': 'mnist', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.4]},
+            {'dataset': 'mnist', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.5]},
         ]
         method = 'step'
         seed = 89

@@ -38,7 +38,8 @@
         "trainers": [
             "Bob",
             "Carol"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -72,7 +73,8 @@
         "trainers": [
             "Bob",
             "Carol"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -119,7 +121,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -159,7 +162,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -212,7 +216,8 @@
             "Carol",
             "David",
             "Eve"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -258,7 +263,8 @@
             "Carol",
             "David",
             "Eve"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -317,7 +323,8 @@
             "David",
             "Eve",
             "Frank"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -369,7 +376,8 @@
             "David",
             "Eve",
             "Frank"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -421,7 +429,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -466,7 +475,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -518,7 +528,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -563,7 +574,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -615,7 +627,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -660,7 +673,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -712,7 +726,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -757,7 +772,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -809,7 +825,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -854,7 +871,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -906,7 +924,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -951,7 +970,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1003,7 +1023,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1048,7 +1069,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1100,7 +1122,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1145,7 +1168,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1197,7 +1221,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1242,7 +1267,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1286,7 +1312,8 @@
         ],
         "unique_digits": [
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1323,7 +1350,8 @@
         ],
         "unique_digits": [
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1369,7 +1397,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1408,7 +1437,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1456,7 +1486,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1497,7 +1528,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1547,7 +1579,8 @@
         ],
         "unique_digits": [
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1590,7 +1623,8 @@
         ],
         "unique_digits": [
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1644,7 +1678,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1691,7 +1726,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1732,7 +1768,8 @@
         "trainers": [
             "Bob",
             "Carol"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1766,7 +1803,8 @@
         "trainers": [
             "Bob",
             "Carol"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1813,7 +1851,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1853,7 +1892,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1906,7 +1946,8 @@
             "Carol",
             "David",
             "Eve"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -1952,7 +1993,8 @@
             "Carol",
             "David",
             "Eve"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2011,7 +2053,8 @@
             "David",
             "Eve",
             "Frank"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2063,7 +2106,8 @@
             "David",
             "Eve",
             "Frank"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2115,7 +2159,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2160,7 +2205,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2212,7 +2258,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2257,7 +2304,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2309,7 +2357,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2354,7 +2403,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2406,7 +2456,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2451,7 +2502,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2503,7 +2555,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2548,7 +2601,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2600,7 +2654,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2645,7 +2700,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2697,7 +2753,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2742,7 +2799,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2794,7 +2852,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2839,7 +2898,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2891,7 +2951,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2936,7 +2997,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -2980,7 +3042,8 @@
         ],
         "unique_digits": [
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3017,7 +3080,8 @@
         ],
         "unique_digits": [
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3063,7 +3127,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3102,7 +3167,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3150,7 +3216,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3191,7 +3258,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3241,7 +3309,8 @@
         ],
         "unique_digits": [
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3284,7 +3353,8 @@
         ],
         "unique_digits": [
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3338,7 +3408,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3385,7 +3456,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3426,7 +3498,8 @@
         "trainers": [
             "Bob",
             "Carol"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3460,7 +3533,8 @@
         "trainers": [
             "Bob",
             "Carol"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3507,7 +3581,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3547,7 +3622,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3600,7 +3676,8 @@
             "Carol",
             "David",
             "Eve"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3646,7 +3723,8 @@
             "Carol",
             "David",
             "Eve"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3705,7 +3783,8 @@
             "David",
             "Eve",
             "Frank"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3757,7 +3836,8 @@
             "David",
             "Eve",
             "Frank"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3809,7 +3889,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3854,7 +3935,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3906,7 +3988,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -3951,7 +4034,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4003,7 +4087,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4048,7 +4133,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4100,7 +4186,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4145,7 +4232,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4197,7 +4285,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4242,7 +4331,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4294,7 +4384,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4339,7 +4430,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4391,7 +4483,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4436,7 +4529,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4488,7 +4582,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4533,7 +4628,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4585,7 +4681,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4630,7 +4727,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4674,7 +4772,8 @@
         ],
         "unique_digits": [
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4711,7 +4810,8 @@
         ],
         "unique_digits": [
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4757,7 +4857,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4796,7 +4897,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4844,7 +4946,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4885,7 +4988,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4935,7 +5039,8 @@
         ],
         "unique_digits": [
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -4978,7 +5083,8 @@
         ],
         "unique_digits": [
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5032,7 +5138,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5079,7 +5186,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5120,7 +5228,8 @@
         "trainers": [
             "Bob",
             "Carol"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5154,7 +5263,8 @@
         "trainers": [
             "Bob",
             "Carol"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5201,7 +5311,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5241,7 +5352,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5294,7 +5406,8 @@
             "Carol",
             "David",
             "Eve"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5340,7 +5453,8 @@
             "Carol",
             "David",
             "Eve"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5399,7 +5513,8 @@
             "David",
             "Eve",
             "Frank"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5451,7 +5566,8 @@
             "David",
             "Eve",
             "Frank"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5503,7 +5619,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5548,7 +5665,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5600,7 +5718,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5645,7 +5764,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5697,7 +5817,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5742,7 +5863,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5794,7 +5916,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5839,7 +5962,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5891,7 +6015,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5936,7 +6061,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -5988,7 +6114,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6033,7 +6160,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6085,7 +6213,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6130,7 +6259,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6182,7 +6312,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6227,7 +6358,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6279,7 +6411,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6324,7 +6457,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6368,7 +6502,8 @@
         ],
         "unique_digits": [
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6405,7 +6540,8 @@
         ],
         "unique_digits": [
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6451,7 +6587,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6490,7 +6627,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6538,7 +6676,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6579,7 +6718,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6629,7 +6769,8 @@
         ],
         "unique_digits": [
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6672,7 +6813,8 @@
         ],
         "unique_digits": [
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6726,7 +6868,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6773,7 +6916,8 @@
             7,
             8,
             9
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6838,7 +6982,8 @@
             "Eve",
             "Frank",
             "Georgia"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6896,7 +7041,8 @@
             "Eve",
             "Frank",
             "Georgia"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -6967,7 +7113,8 @@
             "Frank",
             "Georgia",
             "Henry"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7031,7 +7178,8 @@
             "Frank",
             "Georgia",
             "Henry"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7108,7 +7256,8 @@
             "Georgia",
             "Henry",
             "Isabel"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7160,7 +7309,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7205,7 +7355,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7257,7 +7408,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7302,7 +7454,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7354,7 +7507,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7399,7 +7553,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7451,7 +7606,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7496,7 +7652,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7548,7 +7705,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7593,7 +7751,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7642,7 +7801,8 @@
         "trainers": [
             "Bob",
             "Carol"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7682,7 +7842,8 @@
         "trainers": [
             "Bob",
             "Carol"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7739,7 +7900,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7787,7 +7949,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7852,7 +8015,8 @@
             "Carol",
             "David",
             "Eve"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7908,7 +8072,8 @@
             "Carol",
             "David",
             "Eve"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -7981,7 +8146,8 @@
             "David",
             "Eve",
             "Frank"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -8045,7 +8211,8 @@
             "David",
             "Eve",
             "Frank"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -8126,7 +8293,8 @@
             "Eve",
             "Frank",
             "Georgia"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -8198,7 +8366,8 @@
             "Eve",
             "Frank",
             "Georgia"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -8287,7 +8456,8 @@
             "Frank",
             "Georgia",
             "Henry"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -8367,7 +8537,8 @@
             "Frank",
             "Georgia",
             "Henry"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -8429,7 +8600,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -8482,7 +8654,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -8544,7 +8717,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -8597,7 +8771,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -8659,7 +8834,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -8712,7 +8888,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -8774,7 +8951,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -8827,7 +9005,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -8889,7 +9068,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -8942,7 +9122,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -9004,7 +9185,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -9057,7 +9239,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -9119,7 +9302,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -9172,7 +9356,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -9234,7 +9419,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -9287,7 +9473,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -9349,7 +9536,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -9402,7 +9590,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -9464,7 +9653,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -9517,7 +9707,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -9579,7 +9770,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -9632,7 +9824,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -9694,7 +9887,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -9747,7 +9941,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -9809,7 +10004,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -9862,7 +10058,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -9924,7 +10121,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -9977,7 +10175,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -10057,7 +10256,8 @@
             "David",
             "Eve",
             "Frank"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -10128,7 +10328,8 @@
             "David",
             "Eve",
             "Frank"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -10208,7 +10409,8 @@
             "David",
             "Eve",
             "Frank"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -10279,7 +10481,8 @@
             "David",
             "Eve",
             "Frank"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -10376,7 +10579,8 @@
             "Georgia",
             "Henry",
             "Isabel"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -10456,7 +10660,8 @@
             "David",
             "Eve",
             "Frank"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -10527,7 +10732,8 @@
             "David",
             "Eve",
             "Frank"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -10607,7 +10813,8 @@
             "David",
             "Eve",
             "Frank"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -10678,7 +10885,8 @@
             "David",
             "Eve",
             "Frank"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -10767,7 +10975,8 @@
             "Eve",
             "Frank",
             "Georgia"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -10847,7 +11056,8 @@
             "Eve",
             "Frank",
             "Georgia"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -10936,7 +11146,8 @@
             "Eve",
             "Frank",
             "Georgia"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -11016,7 +11227,8 @@
             "Eve",
             "Frank",
             "Georgia"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -11112,7 +11324,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -11199,7 +11412,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -11295,7 +11509,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -11382,7 +11597,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -11478,7 +11694,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -11565,7 +11782,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -11661,7 +11879,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -11748,7 +11967,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -11844,7 +12064,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -11931,7 +12152,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -12027,7 +12249,8 @@
             "Bob",
             "Carol",
             "David"
-        ]
+        ],
+        "dataset": "mnist"
     },
     {
         "batch_size": 32,
@@ -12114,6 +12337,1262 @@
             "Bob",
             "Carol",
             "David"
+        ],
+        "dataset": "mnist"
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x6408B2096ce457592C924E3fdBEE8157bde55360",
+        "dataset": "mnist",
+        "digit_counts": {
+            "Bob": [
+                1490,
+                1672,
+                1514,
+                1507,
+                1471,
+                1344,
+                1487,
+                1556,
+                1440,
+                1519
+            ],
+            "Carol": [
+                1503,
+                1706,
+                1486,
+                1498,
+                1440,
+                1369,
+                1508,
+                1588,
+                1472,
+                1430
+            ],
+            "David": [
+                1476,
+                1698,
+                1452,
+                1575,
+                1484,
+                1336,
+                1460,
+                1577,
+                1470,
+                1472
+            ],
+            "Eve": [
+                1431,
+                1646,
+                1505,
+                1566,
+                1470,
+                1386,
+                1453,
+                1522,
+                1504,
+                1517
+            ]
+        },
+        "disjointness": 0,
+        "epochs": 1,
+        "eval_method": "step",
+        "final_global_accuracy": 0.9606,
+        "final_round_num": 5,
+        "flip_probs": [
+            0,
+            0,
+            0,
+            0.1
+        ],
+        "gas_used": {
+            "Alice": 2215054,
+            "Bob": 574373,
+            "Carol": 631718,
+            "David": 595238,
+            "Eve": 595250
+        },
+        "global_loss": [
+            2.3031561374664307,
+            0.5458577275276184,
+            0.3102668225765228,
+            0.2268238067626953,
+            0.17770004272460938,
+            0.14609898626804352
+        ],
+        "learning_rate": 0.01,
+        "num_trainers": 4,
+        "protocol": "crowdsource",
+        "quick_run": false,
+        "seed": 89,
+        "split_type": "flip",
+        "token_counts": {
+            "Bob": [
+                1747015416622161920,
+                1983861774206161568,
+                2071360170841217104,
+                2124202176928520264,
+                2158146470785141052
+            ],
+            "Carol": [
+                1668420016765594368,
+                1806098580360412480,
+                1831445246934890628,
+                1843586370348930240,
+                1846849143505096316
+            ],
+            "David": [
+                1654914259910583552,
+                1798799037933349664,
+                1815380811691284234,
+                1815380811691284234,
+                1815380811691284234
+            ],
+            "Eve": [
+                1599127948284149248,
+                1728645443916320880,
+                1728645443916320880,
+                1728645443916320880,
+                1728645443916320880
+            ]
+        },
+        "total_token_counts": [
+            6669477641582489088,
+            7317404836416244592,
+            7446831673383712846,
+            7511814802885055618,
+            7549021869897842482
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David",
+            "Eve"
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x8798ee157abC92D6d60CcC7b03600Cc7e749cE7B",
+        "dataset": "mnist",
+        "digit_counts": {
+            "Bob": [
+                1490,
+                1672,
+                1514,
+                1507,
+                1471,
+                1344,
+                1487,
+                1556,
+                1440,
+                1519
+            ],
+            "Carol": [
+                1503,
+                1706,
+                1486,
+                1498,
+                1440,
+                1369,
+                1508,
+                1588,
+                1472,
+                1430
+            ],
+            "David": [
+                1476,
+                1698,
+                1452,
+                1575,
+                1484,
+                1336,
+                1460,
+                1577,
+                1470,
+                1472
+            ],
+            "Eve": [
+                1431,
+                1646,
+                1505,
+                1566,
+                1470,
+                1386,
+                1453,
+                1522,
+                1504,
+                1517
+            ]
+        },
+        "disjointness": 0,
+        "epochs": 1,
+        "eval_method": "step",
+        "final_round_num": 5,
+        "flip_probs": [
+            0,
+            0,
+            0,
+            0.1
+        ],
+        "gas_used": {
+            "Alice": 6430515,
+            "Bob": 3337793,
+            "Carol": 3337829,
+            "David": 3304583,
+            "Eve": 3313754
+        },
+        "learning_rate": 0.01,
+        "num_trainers": 4,
+        "protocol": "consortium",
+        "quick_run": false,
+        "seed": 89,
+        "split_type": "flip",
+        "token_counts": {
+            "Bob": [
+                4670321941375732224,
+                5202097266912460148,
+                5419501185417175104,
+                5546929106116294676,
+                5625692993402480897
+            ],
+            "Carol": [
+                4427812993526458624,
+                4737288653850555296,
+                4806520998477935664,
+                4845108985900878778,
+                4862162113189697138
+            ],
+            "David": [
+                4442008078098297344,
+                4793157339096069568,
+                4860736399888992540,
+                4883540168404579394,
+                4892362222075462572
+            ],
+            "Eve": [
+                4719141781330108928,
+                5155015289783478096,
+                5155015289783478096,
+                5155015289783478096,
+                5155015289783478096
+            ]
+        },
+        "total_token_counts": [
+            18259284794330597120,
+            19887558549642563108,
+            20241773873567581404,
+            20430593550205230944,
+            20535232618451118703
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David",
+            "Eve"
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x5d41183F088c4d89619d0feaC1C7272550Ebfc7A",
+        "dataset": "mnist",
+        "digit_counts": {
+            "Bob": [
+                1490,
+                1672,
+                1514,
+                1507,
+                1471,
+                1344,
+                1487,
+                1556,
+                1440,
+                1519
+            ],
+            "Carol": [
+                1503,
+                1706,
+                1486,
+                1498,
+                1440,
+                1369,
+                1508,
+                1588,
+                1472,
+                1430
+            ],
+            "David": [
+                1476,
+                1698,
+                1452,
+                1575,
+                1484,
+                1336,
+                1460,
+                1577,
+                1470,
+                1472
+            ],
+            "Eve": [
+                1417,
+                1633,
+                1507,
+                1573,
+                1473,
+                1390,
+                1463,
+                1535,
+                1512,
+                1497
+            ]
+        },
+        "disjointness": 0,
+        "epochs": 1,
+        "eval_method": "step",
+        "final_global_accuracy": 0.9587,
+        "final_round_num": 5,
+        "flip_probs": [
+            0,
+            0,
+            0,
+            0.2
+        ],
+        "gas_used": {
+            "Alice": 2215006,
+            "Bob": 589349,
+            "Carol": 565250,
+            "David": 628484,
+            "Eve": 613484
+        },
+        "global_loss": [
+            2.3029634952545166,
+            0.6582587957382202,
+            0.33561596274375916,
+            0.2465641051530838,
+            0.19392792880535126,
+            0.1592605710029602
+        ],
+        "learning_rate": 0.01,
+        "num_trainers": 4,
+        "protocol": "crowdsource",
+        "quick_run": false,
+        "seed": 89,
+        "split_type": "flip",
+        "token_counts": {
+            "Bob": [
+                1668777227401733376,
+                1989686757326126080,
+                2086768001317977888,
+                2147973895072936992,
+                2189796045422554000
+            ],
+            "Carol": [
+                1594891726970672640,
+                1807924062013626144,
+                1815279155969619796,
+                1815279155969619796,
+                1815279155969619796
+            ],
+            "David": [
+                1596988499164581376,
+                1845705956220626912,
+                1889639049768447960,
+                1908901736140251244,
+                1918598726391792382
+            ],
+            "Eve": [
+                1189900279045104896,
+                1252503871917724528,
+                1252503871917724528,
+                1252503871917724528,
+                1252503871917724528
+            ]
+        },
+        "total_token_counts": [
+            6050557732582092288,
+            6895820647478103664,
+            7044190078973770172,
+            7124658659100532560,
+            7176177799701690706
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David",
+            "Eve"
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0xe1202ee91fd1B579F4786869fD86f84385a98465",
+        "dataset": "mnist",
+        "digit_counts": {
+            "Bob": [
+                1490,
+                1672,
+                1514,
+                1507,
+                1471,
+                1344,
+                1487,
+                1556,
+                1440,
+                1519
+            ],
+            "Carol": [
+                1503,
+                1706,
+                1486,
+                1498,
+                1440,
+                1369,
+                1508,
+                1588,
+                1472,
+                1430
+            ],
+            "David": [
+                1476,
+                1698,
+                1452,
+                1575,
+                1484,
+                1336,
+                1460,
+                1577,
+                1470,
+                1472
+            ],
+            "Eve": [
+                1417,
+                1633,
+                1507,
+                1573,
+                1473,
+                1390,
+                1463,
+                1535,
+                1512,
+                1497
+            ]
+        },
+        "disjointness": 0,
+        "epochs": 1,
+        "eval_method": "step",
+        "final_round_num": 5,
+        "flip_probs": [
+            0,
+            0,
+            0,
+            0.2
+        ],
+        "gas_used": {
+            "Alice": 6430527,
+            "Bob": 3322877,
+            "Carol": 3386027,
+            "David": 3290090,
+            "Eve": 3179249
+        },
+        "learning_rate": 0.01,
+        "num_trainers": 4,
+        "protocol": "consortium",
+        "quick_run": false,
+        "seed": 89,
+        "split_type": "flip",
+        "token_counts": {
+            "Bob": [
+                4050021946430206336,
+                4769644707441329984,
+                4985304266214370752,
+                5128688231110572840,
+                5233874619007110624
+            ],
+            "Carol": [
+                3831056416034698368,
+                4327162563800811648,
+                4363988786935806157,
+                4375849485397338749,
+                4380899295210838200
+            ],
+            "David": [
+                3882232666015624960,
+                4481530934572219776,
+                4610822528600692688,
+                4679077953100204408,
+                4724154129624366698
+            ],
+            "Eve": [
+                3509763836860656640,
+                3807653844356536768,
+                3807653844356536768,
+                3807653844356536768,
+                3807653844356536768
+            ]
+        },
+        "total_token_counts": [
+            15273074865341186304,
+            17385992050170898176,
+            17767769426107406365,
+            17991269513964652765,
+            18146581888198852290
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David",
+            "Eve"
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x5B2a495Dbe8f76A1D82151b03ef503e571248E8C",
+        "dataset": "mnist",
+        "digit_counts": {
+            "Bob": [
+                1490,
+                1672,
+                1514,
+                1507,
+                1471,
+                1344,
+                1487,
+                1556,
+                1440,
+                1519
+            ],
+            "Carol": [
+                1503,
+                1706,
+                1486,
+                1498,
+                1440,
+                1369,
+                1508,
+                1588,
+                1472,
+                1430
+            ],
+            "David": [
+                1476,
+                1698,
+                1452,
+                1575,
+                1484,
+                1336,
+                1460,
+                1577,
+                1470,
+                1472
+            ],
+            "Eve": [
+                1426,
+                1634,
+                1521,
+                1554,
+                1449,
+                1404,
+                1458,
+                1547,
+                1514,
+                1493
+            ]
+        },
+        "disjointness": 0,
+        "epochs": 1,
+        "eval_method": "step",
+        "final_global_accuracy": 0.9587,
+        "final_round_num": 5,
+        "flip_probs": [
+            0,
+            0,
+            0,
+            0.3
+        ],
+        "gas_used": {
+            "Alice": 2234338,
+            "Bob": 604373,
+            "Carol": 589361,
+            "David": 613484,
+            "Eve": 589373
+        },
+        "global_loss": [
+            2.305135488510132,
+            0.5927942395210266,
+            0.3270720839500427,
+            0.24457448720932007,
+            0.1949867159128189,
+            0.16177912056446075
+        ],
+        "learning_rate": 0.01,
+        "num_trainers": 4,
+        "protocol": "crowdsource",
+        "quick_run": false,
+        "seed": 89,
+        "split_type": "flip",
+        "token_counts": {
+            "Bob": [
+                1766152918338775552,
+                2056380748748779200,
+                2163489773869514368,
+                2234227851033210656,
+                2284838318824767968
+            ],
+            "Carol": [
+                1690541028976440320,
+                1888077735900878784,
+                1932635337114333984,
+                1958312287926673768,
+                1972718745470046876
+            ],
+            "David": [
+                1656620323657989376,
+                1864801436662673824,
+                1912538111209869256,
+                1940830096602439752,
+                1962940931320190300
+            ],
+            "Eve": [
+                1118968725204467712,
+                1118968725204467712,
+                1118968725204467712,
+                1118968725204467712,
+                1118968725204467712
+            ]
+        },
+        "total_token_counts": [
+            6232282996177672960,
+            6928228646516799520,
+            7127631947398185320,
+            7252338960766791888,
+            7339466720819472856
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David",
+            "Eve"
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0xCe429c33674ec415cBE8934BaB27B100579733d6",
+        "dataset": "mnist",
+        "digit_counts": {
+            "Bob": [
+                1490,
+                1672,
+                1514,
+                1507,
+                1471,
+                1344,
+                1487,
+                1556,
+                1440,
+                1519
+            ],
+            "Carol": [
+                1503,
+                1706,
+                1486,
+                1498,
+                1440,
+                1369,
+                1508,
+                1588,
+                1472,
+                1430
+            ],
+            "David": [
+                1476,
+                1698,
+                1452,
+                1575,
+                1484,
+                1336,
+                1460,
+                1577,
+                1470,
+                1472
+            ],
+            "Eve": [
+                1426,
+                1634,
+                1521,
+                1554,
+                1449,
+                1404,
+                1458,
+                1547,
+                1514,
+                1493
+            ]
+        },
+        "disjointness": 0,
+        "epochs": 1,
+        "eval_method": "step",
+        "final_round_num": 5,
+        "flip_probs": [
+            0,
+            0,
+            0,
+            0.3
+        ],
+        "gas_used": {
+            "Alice": 6430527,
+            "Bob": 3312584,
+            "Carol": 3321140,
+            "David": 3348521,
+            "Eve": 3176606
+        },
+        "learning_rate": 0.01,
+        "num_trainers": 4,
+        "protocol": "consortium",
+        "quick_run": false,
+        "seed": 89,
+        "split_type": "flip",
+        "token_counts": {
+            "Bob": [
+                3726373910903930624,
+                4396748423576354944,
+                4645814239978790240,
+                4815346926450729328,
+                4943720728158950760
+            ],
+            "Carol": [
+                3482107937335968064,
+                3963318079710006752,
+                4087420105934143104,
+                4169006109237670936,
+                4226414784789085428
+            ],
+            "David": [
+                3444563865661620896,
+                3978671759366988928,
+                4129267811775207312,
+                4224659562110900672,
+                4301995590329170016
+            ],
+            "Eve": [
+                3296132206916809216,
+                3296132206916809216,
+                3296132206916809216,
+                3296132206916809216,
+                3296132206916809216
+            ]
+        },
+        "total_token_counts": [
+            13949177920818328800,
+            15634870469570159840,
+            16158634364604949872,
+            16505144804716110152,
+            16768263310194015420
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David",
+            "Eve"
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0xffF0Fe451C9BD49D5C301B123188Ea62C4080423",
+        "dataset": "mnist",
+        "digit_counts": {
+            "Bob": [
+                1490,
+                1672,
+                1514,
+                1507,
+                1471,
+                1344,
+                1487,
+                1556,
+                1440,
+                1519
+            ],
+            "Carol": [
+                1503,
+                1706,
+                1486,
+                1498,
+                1440,
+                1369,
+                1508,
+                1588,
+                1472,
+                1430
+            ],
+            "David": [
+                1476,
+                1698,
+                1452,
+                1575,
+                1484,
+                1336,
+                1460,
+                1577,
+                1470,
+                1472
+            ],
+            "Eve": [
+                1414,
+                1610,
+                1520,
+                1567,
+                1457,
+                1435,
+                1459,
+                1554,
+                1522,
+                1462
+            ]
+        },
+        "disjointness": 0,
+        "epochs": 1,
+        "eval_method": "step",
+        "final_global_accuracy": 0.9605,
+        "final_round_num": 5,
+        "flip_probs": [
+            0,
+            0,
+            0,
+            0.4
+        ],
+        "gas_used": {
+            "Alice": 2234314,
+            "Bob": 613496,
+            "Carol": 589361,
+            "David": 613472,
+            "Eve": 580250
+        },
+        "global_loss": [
+            2.307123899459839,
+            0.6863498091697693,
+            0.32024553418159485,
+            0.23970656096935272,
+            0.19119800627231598,
+            0.161635160446167
+        ],
+        "learning_rate": 0.01,
+        "num_trainers": 4,
+        "protocol": "crowdsource",
+        "quick_run": false,
+        "seed": 89,
+        "split_type": "flip",
+        "token_counts": {
+            "Bob": [
+                1779773890972137472,
+                2187444239854812672,
+                2305684506893158016,
+                2384640902280807552,
+                2440541088581085264
+            ],
+            "Carol": [
+                1723682761192321792,
+                2044272184371948288,
+                2102958679199218792,
+                2133359819650650068,
+                2151645421981811568
+            ],
+            "David": [
+                1673757195472717312,
+                1997910946607589760,
+                2055150508880615272,
+                2091127559542655984,
+                2116004362702369728
+            ],
+            "Eve": [
+                503690719604492160,
+                503690719604492160,
+                503690719604492160,
+                503690719604492160,
+                503690719604492160
+            ]
+        },
+        "total_token_counts": [
+            5680904567241668736,
+            6733318090438842880,
+            6967484414577484240,
+            7112819001078605764,
+            7211881592869758720
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David",
+            "Eve"
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0xaf7070431809E9767cDa457DDB89ea0EC71084b8",
+        "dataset": "mnist",
+        "digit_counts": {
+            "Bob": [
+                1490,
+                1672,
+                1514,
+                1507,
+                1471,
+                1344,
+                1487,
+                1556,
+                1440,
+                1519
+            ],
+            "Carol": [
+                1503,
+                1706,
+                1486,
+                1498,
+                1440,
+                1369,
+                1508,
+                1588,
+                1472,
+                1430
+            ],
+            "David": [
+                1476,
+                1698,
+                1452,
+                1575,
+                1484,
+                1336,
+                1460,
+                1577,
+                1470,
+                1472
+            ],
+            "Eve": [
+                1414,
+                1610,
+                1520,
+                1567,
+                1457,
+                1435,
+                1459,
+                1554,
+                1522,
+                1462
+            ]
+        },
+        "disjointness": 0,
+        "epochs": 1,
+        "eval_method": "step",
+        "final_round_num": 5,
+        "flip_probs": [
+            0,
+            0,
+            0,
+            0.4
+        ],
+        "gas_used": {
+            "Alice": 6430515,
+            "Bob": 3336779,
+            "Carol": 3309446,
+            "David": 3327692,
+            "Eve": 3127238
+        },
+        "learning_rate": 0.01,
+        "num_trainers": 4,
+        "protocol": "consortium",
+        "quick_run": false,
+        "seed": 89,
+        "split_type": "flip",
+        "token_counts": {
+            "Bob": [
+                3508190035820007424,
+                4510054022073745856,
+                4795173749327659728,
+                4991758406162262080,
+                5140556827187538256
+            ],
+            "Carol": [
+                3395701587200164864,
+                4204826235771179264,
+                4363828063011169496,
+                4469297811388969480,
+                4546988502144813596
+            ],
+            "David": [
+                3339805543422698752,
+                4194073587656020864,
+                4380720704793929792,
+                4504981696605682112,
+                4601814255118369800
+            ],
+            "Eve": [
+                1491417765617370624,
+                1491417765617370624,
+                1491417765617370624,
+                1491417765617370624,
+                1491417765617370624
+            ]
+        },
+        "total_token_counts": [
+            11735114932060241664,
+            14400371611118316608,
+            15031140282750129640,
+            15457455679774284296,
+            15780777350068092276
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David",
+            "Eve"
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x13058b1F9Fe5c6B81e373c0Ab529BE288d70CA81",
+        "dataset": "mnist",
+        "digit_counts": {
+            "Bob": [
+                1490,
+                1672,
+                1514,
+                1507,
+                1471,
+                1344,
+                1487,
+                1556,
+                1440,
+                1519
+            ],
+            "Carol": [
+                1503,
+                1706,
+                1486,
+                1498,
+                1440,
+                1369,
+                1508,
+                1588,
+                1472,
+                1430
+            ],
+            "David": [
+                1476,
+                1698,
+                1452,
+                1575,
+                1484,
+                1336,
+                1460,
+                1577,
+                1470,
+                1472
+            ],
+            "Eve": [
+                1446,
+                1605,
+                1527,
+                1563,
+                1472,
+                1431,
+                1477,
+                1549,
+                1484,
+                1446
+            ]
+        },
+        "disjointness": 0,
+        "epochs": 1,
+        "eval_method": "step",
+        "final_global_accuracy": 0.9506,
+        "final_round_num": 5,
+        "flip_probs": [
+            0,
+            0,
+            0,
+            0.5
+        ],
+        "gas_used": {
+            "Alice": 2234326,
+            "Bob": 604361,
+            "Carol": 604349,
+            "David": 613496,
+            "Eve": 574361
+        },
+        "global_loss": [
+            2.3014914989471436,
+            0.8220906257629395,
+            0.3769665062427521,
+            0.28690582513809204,
+            0.22904613614082336,
+            0.19039137661457062
+        ],
+        "learning_rate": 0.01,
+        "num_trainers": 4,
+        "protocol": "crowdsource",
+        "quick_run": false,
+        "seed": 89,
+        "split_type": "flip",
+        "token_counts": {
+            "Bob": [
+                1711374819278716928,
+                2208585292100906240,
+                2349984809756278864,
+                2450817003846168384,
+                2524937510490417344
+            ],
+            "Carol": [
+                1674758434295654400,
+                2102436542510986432,
+                2182203203439712624,
+                2229904219508171184,
+                2258243530988693340
+            ],
+            "David": [
+                1646104991436004608,
+                2071298778057098368,
+                2153022378683090192,
+                2207282766699790936,
+                2246263280510902384
+            ],
+            "Eve": [
+                194189786911010752,
+                194189786911010752,
+                194189786911010752,
+                194189786911010752,
+                194189786911010752
+            ]
+        },
+        "total_token_counts": [
+            5226428031921386688,
+            6576510399580001792,
+            6879400178790092432,
+            7082193776965141256,
+            7223634108901023820
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David",
+            "Eve"
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x20ce198F107ff841C2be8f0622c89E243443CB8C",
+        "dataset": "mnist",
+        "digit_counts": {
+            "Bob": [
+                1490,
+                1672,
+                1514,
+                1507,
+                1471,
+                1344,
+                1487,
+                1556,
+                1440,
+                1519
+            ],
+            "Carol": [
+                1503,
+                1706,
+                1486,
+                1498,
+                1440,
+                1369,
+                1508,
+                1588,
+                1472,
+                1430
+            ],
+            "David": [
+                1476,
+                1698,
+                1452,
+                1575,
+                1484,
+                1336,
+                1460,
+                1577,
+                1470,
+                1472
+            ],
+            "Eve": [
+                1446,
+                1605,
+                1527,
+                1563,
+                1472,
+                1431,
+                1477,
+                1549,
+                1484,
+                1446
+            ]
+        },
+        "disjointness": 0,
+        "epochs": 1,
+        "eval_method": "step",
+        "final_round_num": 5,
+        "flip_probs": [
+            0,
+            0,
+            0,
+            0.5
+        ],
+        "gas_used": {
+            "Alice": 6430527,
+            "Bob": 3342752,
+            "Carol": 3327716,
+            "David": 3339446,
+            "Eve": 3091397
+        },
+        "learning_rate": 0.01,
+        "num_trainers": 4,
+        "protocol": "consortium",
+        "quick_run": false,
+        "seed": 89,
+        "split_type": "flip",
+        "token_counts": {
+            "Bob": [
+                3361999750137329152,
+                4642261266708374016,
+                4992734313011169408,
+                5247660860419273360,
+                5447012528777122480
+            ],
+            "Carol": [
+                3293287992477416960,
+                4412631511688232384,
+                4631806373596191376,
+                4787212342023849464,
+                4900286421179771400
+            ],
+            "David": [
+                3268171787261962752,
+                4422070473432540736,
+                4673279970884322960,
+                4855248630046844320,
+                4994015187025070032
+            ],
+            "Eve": [
+                568352222442626944,
+                568352222442626944,
+                568352222442626944,
+                568352222442626944,
+                568352222442626944
+            ]
+        },
+        "total_token_counts": [
+            10491811752319335808,
+            14045315474271774080,
+            14866172879934310688,
+            15458474054932594088,
+            15909666359424590856
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David",
+            "Eve"
         ]
     }
 ]

@@ -109,7 +109,8 @@ def make_filepath(r, plot_type):
 if __name__ == "__main__":
     try:
         r = load_results({
-            'dataset': 'covid',
+            'seed': 89,
+            'dataset': 'mnist',
         })
         counts(r)
 
