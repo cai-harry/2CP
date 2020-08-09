@@ -33,12 +33,12 @@ Use pip to install everything else.
 pip install -r requirements.txt
 ```
 
-#### Adding `/client` to `PYTHONPATH`
+#### Adding `/2cp` to `PYTHONPATH`
 
 Required to run unit tests or experiments. This is really easy with conda. From repo root:
 
 ```
-conda develop client
+conda develop 2cp
 ```
 
 VSCode should already be set up correctly; see `.vscode/settings.json` and `.env`. (Followed [these instructions](https://binx.io/blog/2020/03/05/setting-python-source-folders-vscode/))
