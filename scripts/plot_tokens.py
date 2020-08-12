@@ -110,7 +110,7 @@ if __name__ == "__main__":
     try:
         r = load_results({
             'seed': 89,
-            'dataset': 'mnist',
+            'dataset': 'covid',
         })
         counts(r)
 
