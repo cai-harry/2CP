@@ -207,6 +207,7 @@ class ExperimentRunner:
         flip_probs=None,
         disjointness=0,
         dp_params=None,
+        using_dp=None,
         unique_digits=None
     ):
 
@@ -236,6 +237,8 @@ class ExperimentRunner:
         results['disjointness'] = disjointness
         if dp_params is not None:
             results.update(dp_params)
+        if using_dp is not None:
+            results['using_dp'] = using_dp
         if unique_digits is not None:
             results['unique_digits'] = unique_digits
 
@@ -262,21 +265,19 @@ class ExperimentRunner:
             ]
 
         # define training threads
-        if dp_params is not None:
-            train_hyperparams = {
-                **self.TRAINING_HYPERPARAMS,
-                'dp_params': dp_params
-            }
-        else:
+        threads = []
+        for trainer, dp in zip(trainers, using_dp):
             train_hyperparams = self.TRAINING_HYPERPARAMS
+            if dp:
+                train_hyperparams['dp_params'] = dp_params
+            threads.append(
+                threading.Thread(
+                    target=trainer.train_until,
+                    kwargs=train_hyperparams,
+                    daemon=True
+                )
+            )
 
-        threads = [
-            threading.Thread(
-                target=trainer.train_until,
-                kwargs=train_hyperparams,
-                daemon=True
-            ) for trainer in trainers
-        ]
 
         # define evaluation threads
         if protocol == 'crowdsource':

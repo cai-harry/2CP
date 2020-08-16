@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
     QUICK_RUN = not args.full
     if QUICK_RUN:
-        TRAINING_ITERATIONS = 5
+        TRAINING_ITERATIONS = 3
     else:
         TRAINING_ITERATIONS = 16
     TRAINING_HYPERPARAMS = {
@@ -23,6 +23,12 @@ if __name__ == "__main__":
         'epochs': 16,
         'learning_rate': 1e-2
     }
+    DP_PARAMS = {
+        'l2_norm_clip': 0.7,
+        'noise_multiplier': 2.0,
+        'delta': 1e-5
+    }
+
     ROUND_DURATION = 1200  # should always end early
 
     runner = ExperimentRunner(
@@ -33,7 +39,29 @@ if __name__ == "__main__":
     )
 
     if QUICK_RUN:
-        experiments = []
+        experiments = [
+            {
+                'dataset': 'covid',
+                'split_type': 'dp',
+                'num_trainers': 4,
+                'dp_params': DP_PARAMS,
+                'using_dp': [True, True, True, True]
+            },
+            {
+                'dataset': 'covid',
+                'split_type': 'dp',
+                'num_trainers': 4,
+                'dp_params': DP_PARAMS,
+                'using_dp': [False, True, True, True]
+            },
+            {
+                'dataset': 'covid',
+                'split_type': 'dp',
+                'num_trainers': 4,
+                'dp_params': DP_PARAMS,
+                'using_dp': [True, False, False, False]
+            },
+        ]
         method = 'step'
         seed = 88
         for exp in experiments:
@@ -42,10 +70,14 @@ if __name__ == "__main__":
                                       eval_method=method, seed=seed, **exp)
     else:
         experiments = [
-            {'dataset': 'covid', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.2},
-            {'dataset': 'covid', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.4},
-            {'dataset': 'covid', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.6},
-            {'dataset': 'covid', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.8},
+            {'dataset': 'covid', 'split_type': 'noniid',
+                'num_trainers': 4, 'disjointness': 0.2},
+            {'dataset': 'covid', 'split_type': 'noniid',
+                'num_trainers': 4, 'disjointness': 0.4},
+            {'dataset': 'covid', 'split_type': 'noniid',
+                'num_trainers': 4, 'disjointness': 0.6},
+            {'dataset': 'covid', 'split_type': 'noniid',
+                'num_trainers': 4, 'disjointness': 0.8},
         ]
         method = 'step'
         seed = 89

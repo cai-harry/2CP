@@ -6,6 +6,7 @@ import methodtools
 import syft as sy
 import torch
 import pyvacy.optim
+from pyvacy.analysis import moments_accountant as epsilon
 
 from ipfs_client import IPFSClient
 from contract_clients import CrowdsourceContractClient, ConsortiumContractClient
@@ -211,6 +212,14 @@ class CrowdsourceClient(_GenesisClient):
         # model = model.send(self._worker)
         model.train()
         if dp_params is not None:
+            eps = epsilon(
+                    N=self.data_length,
+                    batch_size=batch_size,
+                    noise_multiplier=dp_params['noise_multiplier'],
+                    epochs=epochs,
+                    delta=dp_params['delta']
+            )
+            self._print(f"DP enabled, eps={eps} delta={dp_params['delta']}")
             optimizer = pyvacy.optim.DPSGD(
                 params=model.parameters(),
                 lr=lr,

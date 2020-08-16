@@ -24,6 +24,11 @@ if __name__ == "__main__":
         'epochs': 1,
         'learning_rate': 1e-2
     }
+    DP_PARAMS = {
+        'l2_norm_clip': 1.0,
+        'noise_multiplier': 1.1,
+        'delta': 1e-5
+    }
     ROUND_DURATION = 1800  # should always end early
  
     runner = ExperimentRunner(
@@ -38,12 +43,23 @@ if __name__ == "__main__":
             {
                 'dataset': 'mnist',
                 'split_type': 'dp',
-                'num_trainers': 3,
-                'dp_params': {
-                    'l2_norm_clip': 1.0,
-                    'noise_multiplier': 1.1,
-                    'delta': 1e-5
-                }
+                'num_trainers': 4,
+                'dp_params': DP_PARAMS,
+                'using_dp': [True, True, True, True]
+            },
+            {
+                'dataset': 'mnist',
+                'split_type': 'dp',
+                'num_trainers': 4,
+                'dp_params': DP_PARAMS,
+                'using_dp': [False, True, True, True]
+            },
+            {
+                'dataset': 'mnist',
+                'split_type': 'dp',
+                'num_trainers': 4,
+                'dp_params': DP_PARAMS,
+                'using_dp': [True, False, False, False]
             },
         ]
         method = 'step'
