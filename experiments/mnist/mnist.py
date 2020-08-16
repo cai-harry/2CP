@@ -70,11 +70,27 @@ if __name__ == "__main__":
                                eval_method=method, seed=seed, **exp)
     else:
         experiments = [
-            # {'dataset': 'mnist', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.1]},
-            # {'dataset': 'mnist', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.2]},
-            {'dataset': 'mnist', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.3]},
-            {'dataset': 'mnist', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.4]},
-            {'dataset': 'mnist', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.5]},
+            {
+                'dataset': 'mnist',
+                'split_type': 'dp',
+                'num_trainers': 4,
+                'dp_params': DP_PARAMS,
+                'using_dp': [True, True, True, True]
+            },
+            {
+                'dataset': 'mnist',
+                'split_type': 'dp',
+                'num_trainers': 4,
+                'dp_params': DP_PARAMS,
+                'using_dp': [False, True, True, True]
+            },
+            {
+                'dataset': 'mnist',
+                'split_type': 'dp',
+                'num_trainers': 4,
+                'dp_params': DP_PARAMS,
+                'using_dp': [True, False, False, False]
+            },
         ]
         method = 'step'
         seed = 89

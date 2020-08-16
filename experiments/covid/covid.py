@@ -70,14 +70,27 @@ if __name__ == "__main__":
                                       eval_method=method, seed=seed, **exp)
     else:
         experiments = [
-            {'dataset': 'covid', 'split_type': 'noniid',
-                'num_trainers': 4, 'disjointness': 0.2},
-            {'dataset': 'covid', 'split_type': 'noniid',
-                'num_trainers': 4, 'disjointness': 0.4},
-            {'dataset': 'covid', 'split_type': 'noniid',
-                'num_trainers': 4, 'disjointness': 0.6},
-            {'dataset': 'covid', 'split_type': 'noniid',
-                'num_trainers': 4, 'disjointness': 0.8},
+            {
+                'dataset': 'covid',
+                'split_type': 'dp',
+                'num_trainers': 4,
+                'dp_params': DP_PARAMS,
+                'using_dp': [True, True, True, True]
+            },
+            {
+                'dataset': 'covid',
+                'split_type': 'dp',
+                'num_trainers': 4,
+                'dp_params': DP_PARAMS,
+                'using_dp': [False, True, True, True]
+            },
+            {
+                'dataset': 'covid',
+                'split_type': 'dp',
+                'num_trainers': 4,
+                'dp_params': DP_PARAMS,
+                'using_dp': [True, False, False, False]
+            },
         ]
         method = 'step'
         seed = 89

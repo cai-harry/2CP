@@ -2,6 +2,7 @@
     {
         "batch_size": 32,
         "contract_address": "0x53176249C840618Aacb9048728130e7556865433",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9688,
@@ -38,12 +39,12 @@
         "trainers": [
             "Bob",
             "Carol"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x63C5A09f4eae40CD9EAc8f38AF2557FfFCcaAc5C",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -73,12 +74,12 @@
         "trainers": [
             "Bob",
             "Carol"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xb8BeaD0B179125980276A93685136edBEe2DFC97",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9552,
@@ -121,12 +122,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xC59E1733dc5405B282Db44a8CDDd544220C1D94b",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -162,12 +163,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x962D210CFDF10ba1B111bBb227f5525c4E797535",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9421,
@@ -216,12 +217,12 @@
             "Carol",
             "David",
             "Eve"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x923C899BF68fcF6aC3bF36FB179E455e4f3D8964",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -263,12 +264,12 @@
             "Carol",
             "David",
             "Eve"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x56e4219cE8774F21FF30816807cb217C227109ED",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9334,
@@ -323,12 +324,12 @@
             "David",
             "Eve",
             "Frank"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xC227F77D29d1AfC0186b7E18a7927336b7Ebb04C",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -376,12 +377,12 @@
             "David",
             "Eve",
             "Frank"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xC3a17a8C0777ff541b09340dA3E83481292A44AB",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9548,
@@ -429,12 +430,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x2f2Eb5985095b3b4076e4B9dAb504cc2d6E76f9c",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -475,12 +476,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x4662CF123438824955bf6184375fA053e4725c80",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9565,
@@ -528,12 +529,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xaF504747BbeaC588Ca6ff9c030e6a7549035F5aE",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -574,12 +575,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xd5e49eb3B200c4d267Bb39d73cE8830e142aA3d2",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9549,
@@ -627,12 +628,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x8B8f6d94A19232C6feE07eA75B2C16E2A00876dE",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -673,12 +674,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x7e36995B032b655f245d29dD7726c59f0Ab8F357",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9568,
@@ -726,12 +727,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x0d7D38B83F1b9A81dDE825E37949282bF5A02875",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -772,12 +773,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x3992C9ED35F3ED4f531f08e16125Af66B59f88a9",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9512,
@@ -825,12 +826,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xEecA31E36B8Aa422655A782285648c6696A2f008",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -871,12 +872,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x21BE559cE1F000Edca3e537de39590aF9be8f106",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9464,
@@ -924,12 +925,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xA69790c73cc09F28cAd59DeC3C82aaEA36A8a49F",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -970,12 +971,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xe2035f7eE5A2C28AE82c373a49ce9cdfDcbfED39",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9476,
@@ -1023,12 +1024,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x120FD69Ca05F0768CA8a74940064e1bBe2AcA139",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -1069,12 +1070,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xbC1D815d4F7BCc532056F90F3b6Ff4d9652AfD90",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9474,
@@ -1122,12 +1123,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x00F9C994f562e7Bd9542eD6a1af2fDCAFf30E76d",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -1168,12 +1169,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x609FB63cC060d8a0b0F3E175aE3BE8bAA8A19850",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9489,
@@ -1221,12 +1222,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xd3cEbb5992272F0F30dc78cE204EECfD96C9eC00",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -1267,12 +1268,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x14512CC2F135561b0823e65454C5278098bD3eA1",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.916,
@@ -1312,12 +1313,12 @@
         ],
         "unique_digits": [
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xd3E7E073B253DD2cf5dEf091B3e2c493167a11D9",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -1350,12 +1351,12 @@
         ],
         "unique_digits": [
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x3E9a9963Bf37B646616Be02C68EC6b3cce730b3B",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.8915,
@@ -1397,12 +1398,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x274da9243e2956E71d83A8396A8694Fef0Aa39D5",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -1437,12 +1438,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x9911aD41a35d10F9AA73e7f557c9a766bAc22421",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.8923,
@@ -1486,12 +1487,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x51389031b84beb6CcD3812Bcff01FdC3b1bC4D5d",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -1528,12 +1529,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x863f2d62E26B7E284bC59aBb768E627e2f76F7F2",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.8407,
@@ -1579,12 +1580,12 @@
         ],
         "unique_digits": [
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x82574649108e47EFb0970E4568FF2D07658Daa73",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -1623,12 +1624,12 @@
         ],
         "unique_digits": [
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x52Ad186A86b863822f62b3C86a13Ad0fEb302cA1",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.6679,
@@ -1678,12 +1679,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xB7fba3fD1b83998971BB33Fa377589D5dBe327c5",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -1726,12 +1727,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xec54d33f7d2A1d53038481bCcF444ba4C0da6fAF",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.963,
@@ -1768,12 +1769,12 @@
         "trainers": [
             "Bob",
             "Carol"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x5a4C1D686CEdf047308a4747dc918A2163f002C4",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -1803,12 +1804,12 @@
         "trainers": [
             "Bob",
             "Carol"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xdB37E886dc6Bf845afA38e023A2daE960Dd897B7",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9506,
@@ -1851,12 +1852,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xA77B8a34D95164d4D7c842A6940D99946FF6BBD8",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -1892,12 +1893,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x9423Fd7883799c6b68806D17b601b8AEd9281aB4",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9397,
@@ -1946,12 +1947,12 @@
             "Carol",
             "David",
             "Eve"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x8a53807104DB268C166a5B6d84f1f846ee7A5aF6",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -1993,12 +1994,12 @@
             "Carol",
             "David",
             "Eve"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x281DF032742B3F599190F4ef2B804B7E66A57298",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9292,
@@ -2053,12 +2054,12 @@
             "David",
             "Eve",
             "Frank"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xbfe612fbCA089061B41D1C65a1B8884dF5D4151c",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -2106,12 +2107,12 @@
             "David",
             "Eve",
             "Frank"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x8aD48F5AcDf7eB9f7F016d62aB0906662580d125",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9492,
@@ -2159,12 +2160,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xbC3c516202656A35A6f1b12D2933Bc9963db08D4",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -2205,12 +2206,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xD3956E6870e7866Cd2b3e903559189D1C8817775",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9511,
@@ -2258,12 +2259,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xbCd69dE962764a9dD52d8A5eD002eeB7FAb21Af6",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -2304,12 +2305,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x7FC9Fe94436B2Dd4D22aeEAbcF12aA6b06558309",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9494,
@@ -2357,12 +2358,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xebb7c9c7759201b714324FA2Ea2be5faA4a6061B",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -2403,12 +2404,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x61cab92084EA705619D10F5AA92749b121685Ef2",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9492,
@@ -2456,12 +2457,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x7a7041951D29D633b65591Bf062069d58C041829",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -2502,12 +2503,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x8ce1C7B4E630868836cB356bAF99323C974Fc8c7",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9521,
@@ -2555,12 +2556,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xeb3807CDBDcc785B9749f7AfBdB71F89910B33f2",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -2601,12 +2602,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x089760810eEB20CaC8D0e0FDD6562A072809F4BC",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.951,
@@ -2654,12 +2655,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xcA72271e157F42f5Ad56116225add8323e149A61",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -2700,12 +2701,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xeA3188A5D8662FEB0C5A806E14315A7ec10994Ad",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9505,
@@ -2753,12 +2754,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x87d0c63F66c939DC133FF65130F3E3982550C00a",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -2799,12 +2800,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x8805180c36a36e6e1853b32405eA3D127598f50F",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9429,
@@ -2852,12 +2853,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x88Bf23e7C4a47717F9A865410AbC9D6347CA135B",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -2898,12 +2899,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x6e355C3ae7Ff1D00224050DA6A83DBb361AD27d3",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9428,
@@ -2951,12 +2952,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xaFe51B13af22c6519762f9eA95BDA9B6B39B28b5",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -2997,12 +2998,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x4C051C683A29404964F34751c0fbc5439E976C72",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9356,
@@ -3042,12 +3043,12 @@
         ],
         "unique_digits": [
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x8456a8C730529B261bf0cD0839B4124469f2b873",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -3080,12 +3081,12 @@
         ],
         "unique_digits": [
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x96945492693962e48170bDb53A400e682AbC043D",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.8799,
@@ -3127,12 +3128,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xF3e93df68ec5a364e4f8576Ad444789b81aBf97D",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -3167,12 +3168,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xD44958BD891253ec1CE24416b02E987eC52029CC",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.8967,
@@ -3216,12 +3217,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x5C01b27F00203428C0Ecd846Ec3FED5C5d43A5C8",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -3258,12 +3259,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x6bDFAC22DB8C566b906bA46bc344d24Ca74dbE4b",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.865,
@@ -3309,12 +3310,12 @@
         ],
         "unique_digits": [
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xDe4F64f6AAc95F8F3d83874C1A6288dA19D92Bd0",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -3353,12 +3354,12 @@
         ],
         "unique_digits": [
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xfcE6a3cCB7543f0ea009Ccc085f1552293203a80",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.6726,
@@ -3408,12 +3409,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xB59b47e5f78FCB7dE24d1f51B73309FB8e5Ec81a",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -3456,12 +3457,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x4FCb1Ec452b9185f57fbc2962c487B40ed0E3918",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9686,
@@ -3498,12 +3499,12 @@
         "trainers": [
             "Bob",
             "Carol"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x3bF3890b21D26a7b767400Fb400D08e0Fded7a85",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -3533,12 +3534,12 @@
         "trainers": [
             "Bob",
             "Carol"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x08DB6b187497143D79E3EEC243b6Fe399b4686fc",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9559,
@@ -3581,12 +3582,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x128df990E46B2B279BcF0ed202F843aFF840b586",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -3622,12 +3623,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x4FC43654062f88446a62573380B333cA9dB6af47",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9428,
@@ -3676,12 +3677,12 @@
             "Carol",
             "David",
             "Eve"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x79Ab3C10742BE9947F36fF9c9601C4e5CD0920b5",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -3723,12 +3724,12 @@
             "Carol",
             "David",
             "Eve"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x6CEf3df7cF17f94860A4FeEbf8EcD3D3a6955824",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9318,
@@ -3783,12 +3784,12 @@
             "David",
             "Eve",
             "Frank"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x090de86708105f73A670f521aCDC8Fb6F1c84296",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -3836,12 +3837,12 @@
             "David",
             "Eve",
             "Frank"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xaA759791B16C2AA2ABCF6DD8eaB1583F681d26C7",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9541,
@@ -3889,12 +3890,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x2a6fC757a9374d41fc58d9c3D722067353ce1030",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -3935,12 +3936,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x1Ef29A279663F391Ee8BE092d12137Df8Bb4B309",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9536,
@@ -3988,12 +3989,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xe143De2d7ED63c7e9bF5435DBC4ADB7607a16a6a",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -4034,12 +4035,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xE948f6dD37f3C1c200442AADC8fbb20aBa232D4E",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9522,
@@ -4087,12 +4088,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x331cB1fAd794749a2Fb36Fe8E821f488BD8604cb",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -4133,12 +4134,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x30EcFDaA2fC2854D82fBFDB10F74449ED0C6b3Cf",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9546,
@@ -4186,12 +4187,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xAca6D4DA0AE2891d752F30796a64EB409C1845c7",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -4232,12 +4233,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xFbf284eBA3C5A0bE158CA4e024E60cEacdcb893a",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9536,
@@ -4285,12 +4286,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x2D24f164E91377E589eff6490C9bB653C44B4Fac",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -4331,12 +4332,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xEbC5caD96cAFb379B37E23E7db8683a0552eAebE",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9524,
@@ -4384,12 +4385,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xfde53EbF12347ca709a40461135B932d96562cB4",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -4430,12 +4431,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x9363C6567286fb0D6336BC9aDeC3edc9f7C15117",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9461,
@@ -4483,12 +4484,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xB258C52628F4337A8EAB9C6b7C394787a24236C6",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -4529,12 +4530,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xaF4EBF9E23f1Dd10F708d33ea76Fa353CD4baaD4",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9408,
@@ -4582,12 +4583,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x630fC9e1BA81a59D348e2f984F8234154b02680f",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -4628,12 +4629,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x2D162A563b63d598316D68B53731C616886ddC7A",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.9496,
@@ -4681,12 +4682,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x1BdDfbeaA7350DB672f0c77Eb7F469E0230F69E2",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -4727,12 +4728,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x8ED056576527d41fB8B94e0F1278F2C06E656214",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.934,
@@ -4772,12 +4773,12 @@
         ],
         "unique_digits": [
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x0710F15890F29644a888a17A74f7F8B5B3FC4376",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -4810,12 +4811,12 @@
         ],
         "unique_digits": [
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x0808887Fe6661b9777911dDDA9c8814ffc2cD358",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.8907,
@@ -4857,12 +4858,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xA67bd768c3e372Bc5272e1f76e698d59F2e6e028",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -4897,12 +4898,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x4581D8EDA6d6ee3Df47010dEeeFb2e7A2BEc664A",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.8804,
@@ -4946,12 +4947,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x2576d4d68a3adf7d095CbdC6e794DE3e8Eeb87bD",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -4988,12 +4989,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x3D1139df7d808D7269741d7594D6971BD9339d0b",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.8613,
@@ -5039,12 +5040,12 @@
         ],
         "unique_digits": [
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x087279ea3fd220DEEA27d98a35C9c1ffA51A51bc",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -5083,12 +5084,12 @@
         ],
         "unique_digits": [
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x6c443efA6Da584dFfd68356aF89B9e0840d41A2C",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_global_accuracy": 0.646,
@@ -5138,12 +5139,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x836Bd3361187C9EFBf67008c6f8fCFE540D5abDf",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "shapley",
         "final_round_num": 3,
@@ -5186,12 +5187,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xd31Eb7f43F32A2eCa6FD71dA5dcE0fAe6Ea80e21",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9686,
@@ -5228,12 +5229,12 @@
         "trainers": [
             "Bob",
             "Carol"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x54e52e90666E7E636DF20EC3C3A34020D1F89F55",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -5263,12 +5264,12 @@
         "trainers": [
             "Bob",
             "Carol"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x5D429c0F7420641b6598D95D9cc36364e26E2aa2",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9559,
@@ -5311,12 +5312,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x92321F90A2A1a1a0Bf515e1de7Faf50Cb4DbD170",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -5352,12 +5353,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x5797FC463FEDA3Fe104eb19D119857F3180839f1",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9427,
@@ -5406,12 +5407,12 @@
             "Carol",
             "David",
             "Eve"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x19195c14e95D3bf32fAcb7e1453513468E5b51FC",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -5453,12 +5454,12 @@
             "Carol",
             "David",
             "Eve"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xD5D31C292e784f54246728ECEEc69C0fB96A7EE3",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9318,
@@ -5513,12 +5514,12 @@
             "David",
             "Eve",
             "Frank"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x30c9de64029D68Ca5b851cd74afAbBe42549A9C1",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -5566,12 +5567,12 @@
             "David",
             "Eve",
             "Frank"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x4cd34982AA793bB31a78eD5d3b70764778cb2dEB",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9541,
@@ -5619,12 +5620,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x3E1FDDDb6d8B985375eC5fE54Ce42E0c6E6f89dd",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -5665,12 +5666,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x08629502a01D0B8A30D9b1cFFb55106471789442",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9533,
@@ -5718,12 +5719,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xAB3922EDa0C82D1037D907579a92ba7AAF709260",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -5764,12 +5765,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x89c529F24c90b1962F500C2e11826A83fB5486E9",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9523,
@@ -5817,12 +5818,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x60b16cEb6b302603B5df1F1f6FEee1786F59BEe4",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -5863,12 +5864,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x3f4c54F8Bda15c79b5C8d98923fDef4d4d3b8776",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9546,
@@ -5916,12 +5917,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xB189F9E6f550deb3c4c8E822EB8F18C8D1178742",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -5962,12 +5963,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x6d30cA8F51f940C24c34E5784B30D9f60706191b",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9537,
@@ -6015,12 +6016,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x1742737Fbb735dBA0E92404e7d1a31f005bAa427",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -6061,12 +6062,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xf02123d74973501aE773A9aE4E73224222336013",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9524,
@@ -6114,12 +6115,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xDE5646F7f9D0FD3aB479fB200654321901905F34",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -6160,12 +6161,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xc58Df74977fa17413A704B067f70CC50162D05c3",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.946,
@@ -6213,12 +6214,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xfe2dDd6F9e99C721E5aFcC6f74b456CBaCCc8917",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -6259,12 +6260,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x11FafcCFB958FeEE0930feDF592d0ED26C2A885F",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9407,
@@ -6312,12 +6313,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x980DB96B8e783e942Ceb2d0d74F989C213A0D095",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -6358,12 +6359,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x5b71544a2953043145b9937Bd6f55378CE47dCB7",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9492,
@@ -6411,12 +6412,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x28aee3621303Cc1CCd58F390C9D56b69a569C741",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -6457,12 +6458,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xcA92334eCfedaEeE1587630211837f441a8a7b42",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.934,
@@ -6502,12 +6503,12 @@
         ],
         "unique_digits": [
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x8ecffB25a4191192f1d2533650D52293eDf16aeC",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -6540,12 +6541,12 @@
         ],
         "unique_digits": [
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xF9883DfD756Cd1cD6a43d9b4B5947A05E47EF51f",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.8907,
@@ -6587,12 +6588,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x2e870B2C118bE234944948DA507617A11ae6e3c1",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -6627,12 +6628,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x1476337c65b0251C6b6aA26Ef93521df31B8C573",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.8804,
@@ -6676,12 +6677,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xba5bD356aAA8297A02Db2ba6137B788841003bCe",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -6718,12 +6719,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xE41f58d1F45a491188dF7E8B7152B26242E91f30",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.8614,
@@ -6769,12 +6770,12 @@
         ],
         "unique_digits": [
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xB5F8517a9E6788c5739Ff50A12d88a0e84E61852",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -6813,12 +6814,12 @@
         ],
         "unique_digits": [
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xA1574b2E91e3aea6CFbbc29f09D7c55BfF83B9C1",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.649,
@@ -6868,12 +6869,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x19cB699DB3634335F70642f738b4244BD4676C69",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -6916,12 +6917,12 @@
             7,
             8,
             9
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x9dF3F50Bb6C1C8450aB4F43e0a2D395084052372",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9192,
@@ -6982,12 +6983,12 @@
             "Eve",
             "Frank",
             "Georgia"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xd2BED2f48bf8C4a50Eef17DfC24eB0cf4729922F",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -7041,12 +7042,12 @@
             "Eve",
             "Frank",
             "Georgia"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xAbf19e525C216580361041e2f108B6ABA5F5F4E3",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9127,
@@ -7113,12 +7114,12 @@
             "Frank",
             "Georgia",
             "Henry"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xCb3831d44f84Ea52021Bc4a4092702F4F5528e79",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -7178,12 +7179,12 @@
             "Frank",
             "Georgia",
             "Henry"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xfC1d2D76C7bf7CcA261de4898F1872aD23Dbc467",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.898,
@@ -7256,12 +7257,12 @@
             "Georgia",
             "Henry",
             "Isabel"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x5961c00ee072bAC9D1Bc197dd5560ccaC2Da8B25",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9434,
@@ -7309,12 +7310,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x63d22247BeffB8b3e91C248d4aA3e3BcF5a29D6b",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -7355,12 +7356,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x4320B3EE9F919D8e120014875B4EF55d9a155ab8",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9498,
@@ -7408,12 +7409,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x9553Ed7cC6CF6311834dD6fe767357E6afce8e98",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -7454,12 +7455,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xb48B6b603bD812cBCBEeaA39E2e9DAF0E85256E4",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9369,
@@ -7507,12 +7508,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xe6e3C2E75ef7474AeE5931dB92Ddf0B09De3742F",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -7553,12 +7554,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x987Ec5895b88612F8122B8dA727B03872ade2B17",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9453,
@@ -7606,12 +7607,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xAb497b9eB0eFd68B311dD6b392b06703fCA122eB",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -7652,12 +7653,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x71Ca6e3C174A13a94E6Cc97dc7aBef98BEaD5818",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9335,
@@ -7705,12 +7706,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x2aD448e9b7061092B4fb3DC3Bf2A7FF281B99B50",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 3,
@@ -7751,12 +7752,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xFB2703c64c2D8149E15E66a0307b88C5BE39EB10",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9752,
@@ -7801,12 +7802,12 @@
         "trainers": [
             "Bob",
             "Carol"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xce28cB5eB4915574E121FfE0E60aDf039f9AF526",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -7842,12 +7843,12 @@
         "trainers": [
             "Bob",
             "Carol"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xb5148E85FebdE3dC44AB076Bb805dd0d3528c78d",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9682,
@@ -7900,12 +7901,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x2dF84861485176b0c9A55A582916968010707C6c",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -7949,12 +7950,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x364a5Bd0A2F79cD44d4BDA6F4e55D40CA834e9E0",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9564,
@@ -8015,12 +8016,12 @@
             "Carol",
             "David",
             "Eve"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xF3e3DD1B408930f5A1fb2cC6A07064A7618F84DE",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -8072,12 +8073,12 @@
             "Carol",
             "David",
             "Eve"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x87071fAC6565Bc4E8DE8eebDDEcFC5ab556a1D84",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.945,
@@ -8146,12 +8147,12 @@
             "David",
             "Eve",
             "Frank"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xDd5CD6A143C5981bcAe3F84CC81fD729C0701CF5",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -8211,12 +8212,12 @@
             "David",
             "Eve",
             "Frank"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x974419014E686164ef95525635bff2DF4E1412D2",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9366,
@@ -8293,12 +8294,12 @@
             "Eve",
             "Frank",
             "Georgia"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x519f4f4a2A2ae05695AB00a22EA8E1a649142d9F",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -8366,12 +8367,12 @@
             "Eve",
             "Frank",
             "Georgia"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x0abC306F4018B1Dc05B9C09700B169483B3533e5",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9264,
@@ -8456,12 +8457,12 @@
             "Frank",
             "Georgia",
             "Henry"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x1b37701859E75CB6d4E394Ff137fa93E949E2608",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -8537,12 +8538,12 @@
             "Frank",
             "Georgia",
             "Henry"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x8bB6BEA48daf23bbB55adb172F497b1c3bEa88eb",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9659,
@@ -8600,12 +8601,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x1BC8DbF2707b20897754CF1F3002ba227c6da8D0",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -8654,12 +8655,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x17078D07dD10402041c2cA73eccff563A40CF0aD",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9682,
@@ -8717,12 +8718,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xF886ba41F98983B96d57fBbD89Ec8720fCCCD7c6",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -8771,12 +8772,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xd66710019D7e72eCee8FD4660A43F467e99671F0",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9677,
@@ -8834,12 +8835,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xc4B4Eebe58968442aFf5F188052c1F18411fbD89",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -8888,12 +8889,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xf7f3069566421EB87aB6f140349EBF2D730540b7",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9696,
@@ -8951,12 +8952,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x970D73cd46235ed8b059437646a576a546530Eda",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -9005,12 +9006,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xE9d75b575D17BE21C085e235813abF788f0b5892",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9672,
@@ -9068,12 +9069,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x8Ece46CA45FdF038a5809E88B606015FCFA14151",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -9122,12 +9123,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xDA0AA597ABde10fA50927831e09A26f4dDAF7148",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9655,
@@ -9185,12 +9186,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xF271A076DD1fBCE9dA111d43457279E171c4cBF0",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -9239,12 +9240,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xcFf2Bb94D890ceAf0A51C872C1e2C8F00D030631",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9671,
@@ -9302,12 +9303,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x0e3F395593392103947BEC075124d2A4d342db56",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -9356,12 +9357,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x8bFd603B934fA9F78c5a4D336859fD810dEe874f",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9656,
@@ -9419,12 +9420,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x2377bd2273f2fB6dF4aEc56aD5dbACA2eD083862",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -9473,12 +9474,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x83329ea89D5A5187Bb6923eFE4F1bC0bB65747A3",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.962,
@@ -9536,12 +9537,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x6dAF2c164B3Bd7aeA4cAA81F278dBfC0C0e15c88",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -9590,12 +9591,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x3ad5002259Cf277001F851F7a4A6F2D48F8E33f2",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9596,
@@ -9653,12 +9654,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x298591cB476C688AFcf4c1df42c853a818D8A659",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -9707,12 +9708,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x23842AAacb82A444E61a02A376cd8A0982E87d6E",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9594,
@@ -9770,12 +9771,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xDD00174B2D85F67426d2a565efdFE47AdAAb24d3",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -9824,12 +9825,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xf2CF66c0583aa60276D1BB2830A45FaA1cdf9d6F",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9591,
@@ -9887,12 +9888,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x3c5119E81f4c48e97DdD0c3f1eA02B66f6Ffe507",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -9941,12 +9942,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x63880a1be5053BD2bB1aFbBc22451436970B5A2d",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9552,
@@ -10004,12 +10005,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x729f534cB3516399cE2d55C1e1b3984B4DCe5a59",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -10058,12 +10059,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x86FB2C7603cb457efa0551317C09E58d8F553f3a",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9528,
@@ -10121,12 +10122,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x39768dE56f7312bbB6f99Fa0BA1438F6f9ABe224",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -10175,12 +10176,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x49C35f2AFEd72C3e0529bf4B505974B8bAF550b1",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9467,
@@ -10256,12 +10257,12 @@
             "David",
             "Eve",
             "Frank"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xa8f805215Ca9C8f839E5AB0f616AD7Fb7107E417",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -10328,12 +10329,12 @@
             "David",
             "Eve",
             "Frank"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x2312EFEf16dFF2991a5DABB93E4EAC5Acb16d004",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9386,
@@ -10409,12 +10410,12 @@
             "David",
             "Eve",
             "Frank"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x953C22e47F958b658d2d3363A3FC1E3D22C40F19",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -10481,12 +10482,12 @@
             "David",
             "Eve",
             "Frank"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x820D8ef8295ee53fCb59b2ED3c446ba522647E35",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9237,
@@ -10579,12 +10580,12 @@
             "Georgia",
             "Henry",
             "Isabel"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xDeAc0138C7B1a7E9667eCb6C580DE90FE1dfc18C",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9283,
@@ -10660,12 +10661,12 @@
             "David",
             "Eve",
             "Frank"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x56892206C520321B4638E370a240b3F660EcbAde",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -10732,12 +10733,12 @@
             "David",
             "Eve",
             "Frank"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xED64821CC75A91A7bc3195bB827e2C50E557c270",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9416,
@@ -10813,12 +10814,12 @@
             "David",
             "Eve",
             "Frank"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xa1f6766D2FA87D016218235de2e18F98e6e5b07a",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -10885,12 +10886,12 @@
             "David",
             "Eve",
             "Frank"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x468058FCFdaf16A06095e1C53Dbf4756cc797B87",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9328,
@@ -10975,12 +10976,12 @@
             "Eve",
             "Frank",
             "Georgia"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x4D4461639F05c75Ec75EEc06f6B684B654a87315",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -11056,12 +11057,12 @@
             "Eve",
             "Frank",
             "Georgia"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xcB711A0e5c053780710967CD4C99bA33CC5E5902",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_global_accuracy": 0.9386,
@@ -11146,12 +11147,12 @@
             "Eve",
             "Frank",
             "Georgia"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x772Fe7B6Ea33412D107D5fC56BCDD82737409154",
+        "dataset": "mnist",
         "epochs": 1,
         "eval_method": "step",
         "final_round_num": 5,
@@ -11227,12 +11228,12 @@
             "Eve",
             "Frank",
             "Georgia"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xB73829F56fa9EFd591C4b7e8F758cA4Fd27897fB",
+        "dataset": "mnist",
         "digit_counts": {
             "Bob": [
                 1975,
@@ -11324,12 +11325,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xe043C18b00C7Aea085eB45FD94139F872843c6A0",
+        "dataset": "mnist",
         "digit_counts": {
             "Bob": [
                 1975,
@@ -11412,12 +11413,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x9Dc044b083B215678BB386c3eC21154cAF4CF10d",
+        "dataset": "mnist",
         "digit_counts": {
             "Bob": [
                 2770,
@@ -11509,12 +11510,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x66f0409FfDFf51592Ce10d21ED995D1E35BC732E",
+        "dataset": "mnist",
         "digit_counts": {
             "Bob": [
                 2770,
@@ -11597,12 +11598,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x2f85C5072C4A7F0fc112F914e1424E1a6bD7D632",
+        "dataset": "mnist",
         "digit_counts": {
             "Bob": [
                 3502,
@@ -11694,12 +11695,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x261e9589aA2Ae92aD70B91954baB3E36CB7e91Cd",
+        "dataset": "mnist",
         "digit_counts": {
             "Bob": [
                 3502,
@@ -11782,12 +11783,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x242Cff24908eA560C25235C14f19a1BF3b7450aB",
+        "dataset": "mnist",
         "digit_counts": {
             "Bob": [
                 4329,
@@ -11879,12 +11880,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x111C28956601AF55Ad9496783C62E494D62a2845",
+        "dataset": "mnist",
         "digit_counts": {
             "Bob": [
                 4329,
@@ -11967,12 +11968,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xb2491EA03a98608de60A97418Ef1ACd0F1eb4aBf",
+        "dataset": "mnist",
         "digit_counts": {
             "Bob": [
                 5160,
@@ -12064,12 +12065,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xf5CbCC63B2DF98d80653B2eB954C0B0eF050E225",
+        "dataset": "mnist",
         "digit_counts": {
             "Bob": [
                 5160,
@@ -12152,12 +12153,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0xa71FdEac420B9233D470605A70e527a8840623bc",
+        "dataset": "mnist",
         "digit_counts": {
             "Bob": [
                 5923,
@@ -12249,12 +12250,12 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
         "contract_address": "0x1664874209D43dfCE3cfeff06DBe48f6AAb39d7B",
+        "dataset": "mnist",
         "digit_counts": {
             "Bob": [
                 5923,
@@ -12337,8 +12338,7 @@
             "Bob",
             "Carol",
             "David"
-        ],
-        "dataset": "mnist"
+        ]
     },
     {
         "batch_size": 32,
@@ -13593,6 +13593,838 @@
             "Carol",
             "David",
             "Eve"
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x982114D779FD99786061F15de160516CA6d3aEE0",
+        "dataset": "mnist",
+        "delta": 1e-05,
+        "digit_counts": {
+            "Bob": [
+                1490,
+                1672,
+                1514,
+                1507,
+                1471,
+                1344,
+                1487,
+                1556,
+                1440,
+                1519
+            ],
+            "Carol": [
+                1503,
+                1706,
+                1486,
+                1498,
+                1440,
+                1369,
+                1508,
+                1588,
+                1472,
+                1430
+            ],
+            "David": [
+                1476,
+                1698,
+                1452,
+                1575,
+                1484,
+                1336,
+                1460,
+                1577,
+                1470,
+                1472
+            ],
+            "Eve": [
+                1454,
+                1666,
+                1506,
+                1551,
+                1447,
+                1372,
+                1463,
+                1544,
+                1469,
+                1528
+            ]
+        },
+        "disjointness": 0,
+        "epochs": 1,
+        "epsilon": [
+            0.8832685871472444,
+            0.8832685871472444,
+            0.8832685871472444,
+            0.8832685871472444
+        ],
+        "eval_method": "step",
+        "final_global_accuracy": 0.8378,
+        "final_round_num": 5,
+        "gas_used": {
+            "Alice": 2292214,
+            "Bob": 595250,
+            "Carol": 595250,
+            "David": 592595,
+            "Eve": 613496
+        },
+        "global_loss": [
+            2.3040690422058105,
+            1.8320287466049194,
+            0.9717023372650146,
+            0.6433339715003967,
+            0.5278970003128052,
+            0.5033592581748962
+        ],
+        "l2_norm_clip": 1.0,
+        "learning_rate": 0.01,
+        "noise_multiplier": 1.1,
+        "num_trainers": 4,
+        "protocol": "crowdsource",
+        "quick_run": false,
+        "seed": 89,
+        "split_type": "dp",
+        "token_counts": {
+            "Bob": [
+                1232609391212463360,
+                2392348170280456448,
+                2781333982944488448,
+                2913006663322448656,
+                2913006663322448656
+            ],
+            "Carol": [
+                1205626606941223168,
+                2323499143123626752,
+                2714694619178772032,
+                2814416527748107968,
+                2837996125221252500
+            ],
+            "David": [
+                1183581233024597248,
+                2316843688488006656,
+                2709666252136230528,
+                2796010017395019584,
+                2811909198760986380
+            ],
+            "Eve": [
+                1282314181327819776,
+                2405295193195342976,
+                2774095535278320256,
+                2829446971416473336,
+                2860369712114334052
+            ]
+        },
+        "total_token_counts": [
+            4904131412506103552,
+            9437986195087432832,
+            10979790389537811264,
+            11352880179882049544,
+            11423281699419021588
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David",
+            "Eve"
+        ],
+        "using_dp": [
+            true,
+            true,
+            true,
+            true
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x58568C5476b8F37f79064C9b135E94b97A25C132",
+        "dataset": "mnist",
+        "delta": 1e-05,
+        "digit_counts": {
+            "Bob": [
+                1490,
+                1672,
+                1514,
+                1507,
+                1471,
+                1344,
+                1487,
+                1556,
+                1440,
+                1519
+            ],
+            "Carol": [
+                1503,
+                1706,
+                1486,
+                1498,
+                1440,
+                1369,
+                1508,
+                1588,
+                1472,
+                1430
+            ],
+            "David": [
+                1476,
+                1698,
+                1452,
+                1575,
+                1484,
+                1336,
+                1460,
+                1577,
+                1470,
+                1472
+            ],
+            "Eve": [
+                1454,
+                1666,
+                1506,
+                1551,
+                1447,
+                1372,
+                1463,
+                1544,
+                1469,
+                1528
+            ]
+        },
+        "disjointness": 0,
+        "dp_params": {
+            "delta": 1e-05,
+            "l2_norm_clip": 1.0,
+            "noise_multiplier": 1.1
+        },
+        "epochs": 1,
+        "epsilon": [
+            0.8832685871472444,
+            0.8832685871472444,
+            0.8832685871472444,
+            0.8832685871472444
+        ],
+        "eval_method": "step",
+        "final_round_num": 5,
+        "gas_used": {
+            "Alice": 6430515,
+            "Bob": 3365753,
+            "Carol": 3412286,
+            "David": 3392507,
+            "Eve": 3393653
+        },
+        "l2_norm_clip": 1.0,
+        "learning_rate": 0.01,
+        "noise_multiplier": 1.1,
+        "num_trainers": 4,
+        "protocol": "consortium",
+        "quick_run": false,
+        "seed": 89,
+        "split_type": "dp",
+        "token_counts": {
+            "Bob": [
+                3447780847549438464,
+                6945124328136444160,
+                7722579121589660704,
+                7923510730266571098,
+                8182349711656570490
+            ],
+            "Carol": [
+                3310314893722534144,
+                6644847095012664704,
+                7365846931934356576,
+                7659335732460021872,
+                7734844982624053854
+            ],
+            "David": [
+                3662930130958556928,
+                6956230998039245440,
+                7657852292060851936,
+                7918773591518401972,
+                7925983488559722772
+            ],
+            "Eve": [
+                3480584740638733056,
+                6885588109493255808,
+                7619790434837341472,
+                7870810329914093184,
+                8023067355155944989
+            ]
+        },
+        "total_token_counts": [
+            13901610612869262592,
+            27431790530681610112,
+            30366068780422210688,
+            31372430384159088126,
+            31866245537996292105
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David",
+            "Eve"
+        ],
+        "using_dp": [
+            true,
+            true,
+            true,
+            true
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0x9842F0bC2764695F709c755A46681975068Ae401",
+        "dataset": "mnist",
+        "delta": 1e-05,
+        "digit_counts": {
+            "Bob": [
+                1490,
+                1672,
+                1514,
+                1507,
+                1471,
+                1344,
+                1487,
+                1556,
+                1440,
+                1519
+            ],
+            "Carol": [
+                1503,
+                1706,
+                1486,
+                1498,
+                1440,
+                1369,
+                1508,
+                1588,
+                1472,
+                1430
+            ],
+            "David": [
+                1476,
+                1698,
+                1452,
+                1575,
+                1484,
+                1336,
+                1460,
+                1577,
+                1470,
+                1472
+            ],
+            "Eve": [
+                1454,
+                1666,
+                1506,
+                1551,
+                1447,
+                1372,
+                1463,
+                1544,
+                1469,
+                1528
+            ]
+        },
+        "disjointness": 0,
+        "dp_params": {
+            "delta": 1e-05,
+            "l2_norm_clip": 1.0,
+            "noise_multiplier": 1.1
+        },
+        "epochs": 1,
+        "epsilon": [
+            0.8832685871472444,
+            0.8832685871472444,
+            0.8832685871472444,
+            0.8832685871472444
+        ],
+        "eval_method": "step",
+        "final_global_accuracy": 0.8369,
+        "final_round_num": 5,
+        "gas_used": {
+            "Alice": 2272918,
+            "Bob": 619373,
+            "Carol": 604373,
+            "David": 574373,
+            "Eve": 598484
+        },
+        "global_loss": [
+            2.3040690422058105,
+            1.856203317642212,
+            0.8447911143302917,
+            0.5719788074493408,
+            0.499498575925827,
+            0.4836007356643677
+        ],
+        "l2_norm_clip": 1.0,
+        "learning_rate": 0.01,
+        "noise_multiplier": 1.1,
+        "num_trainers": 4,
+        "protocol": "crowdsource",
+        "quick_run": false,
+        "seed": 89,
+        "split_type": "dp",
+        "token_counts": {
+            "Bob": [
+                1247848391532898048,
+                2431389868259430144,
+                2705962121486664032,
+                2754113018512726040,
+                2776455551385879728
+            ],
+            "Carol": [
+                1157941222190856960,
+                2302057266235351552,
+                2565070807933807360,
+                2631391704082489000,
+                2678457856178283680
+            ],
+            "David": [
+                1263182759284973056,
+                2450225114822387712,
+                2654458284378051776,
+                2657892763614654559,
+                2657892763614654559
+            ],
+            "Eve": [
+                1211419343948364288,
+                2350445866584777856,
+                2612864077091217056,
+                2612864077091217056,
+                2665167182683944720
+            ]
+        },
+        "total_token_counts": [
+            4880391716957092352,
+            9534118115901947264,
+            10538355290889740224,
+            10656261563301086655,
+            10777973353862762687
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David",
+            "Eve"
+        ],
+        "using_dp": [
+            false,
+            true,
+            true,
+            true
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0xFB3a3992f425775EdBEB49f2D08018aCF8b0D970",
+        "dataset": "mnist",
+        "delta": 1e-05,
+        "digit_counts": {
+            "Bob": [
+                1490,
+                1672,
+                1514,
+                1507,
+                1471,
+                1344,
+                1487,
+                1556,
+                1440,
+                1519
+            ],
+            "Carol": [
+                1503,
+                1706,
+                1486,
+                1498,
+                1440,
+                1369,
+                1508,
+                1588,
+                1472,
+                1430
+            ],
+            "David": [
+                1476,
+                1698,
+                1452,
+                1575,
+                1484,
+                1336,
+                1460,
+                1577,
+                1470,
+                1472
+            ],
+            "Eve": [
+                1454,
+                1666,
+                1506,
+                1551,
+                1447,
+                1372,
+                1463,
+                1544,
+                1469,
+                1528
+            ]
+        },
+        "disjointness": 0,
+        "dp_params": {
+            "delta": 1e-05,
+            "l2_norm_clip": 1.0,
+            "noise_multiplier": 1.1
+        },
+        "epochs": 1,
+        "epsilon": [
+            0.8832685871472444,
+            0.8832685871472444,
+            0.8832685871472444,
+            0.8832685871472444
+        ],
+        "eval_method": "step",
+        "final_round_num": 5,
+        "gas_used": {
+            "Alice": 6430503,
+            "Bob": 3350657,
+            "Carol": 3435323,
+            "David": 3389840,
+            "Eve": 3407435
+        },
+        "l2_norm_clip": 1.0,
+        "learning_rate": 0.01,
+        "noise_multiplier": 1.1,
+        "num_trainers": 4,
+        "protocol": "consortium",
+        "quick_run": false,
+        "seed": 89,
+        "split_type": "dp",
+        "token_counts": {
+            "Bob": [
+                3500742912292480512,
+                6889096617698669568,
+                7583735764026641984,
+                7893676519393921040,
+                8089135766029358064
+            ],
+            "Carol": [
+                3557291388511657856,
+                6789397060871124352,
+                7609491109848022560,
+                7911187887191772544,
+                8130564868450164880
+            ],
+            "David": [
+                3720999002456665088,
+                6945870518684387328,
+                7708431541919708384,
+                7884975016117096076,
+                8022871911525726444
+            ],
+            "Eve": [
+                3499893069267272832,
+                6880594193935394304,
+                7705854356288909920,
+                7985067307949066176,
+                8202701926231384299
+            ]
+        },
+        "total_token_counts": [
+            14278926372528076288,
+            27504958391189575552,
+            30607512772083282848,
+            31674906730651855836,
+            32445274472236633687
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David",
+            "Eve"
+        ],
+        "using_dp": [
+            false,
+            true,
+            true,
+            true
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0xC6264BC42b0ACD9B229e68c8b7E45a2E0d998124",
+        "dataset": "mnist",
+        "delta": 1e-05,
+        "digit_counts": {
+            "Bob": [
+                1490,
+                1672,
+                1514,
+                1507,
+                1471,
+                1344,
+                1487,
+                1556,
+                1440,
+                1519
+            ],
+            "Carol": [
+                1503,
+                1706,
+                1486,
+                1498,
+                1440,
+                1369,
+                1508,
+                1588,
+                1472,
+                1430
+            ],
+            "David": [
+                1476,
+                1698,
+                1452,
+                1575,
+                1484,
+                1336,
+                1460,
+                1577,
+                1470,
+                1472
+            ],
+            "Eve": [
+                1454,
+                1666,
+                1506,
+                1551,
+                1447,
+                1372,
+                1463,
+                1544,
+                1469,
+                1528
+            ]
+        },
+        "disjointness": 0,
+        "dp_params": {
+            "delta": 1e-05,
+            "l2_norm_clip": 1.0,
+            "noise_multiplier": 1.1
+        },
+        "epochs": 1,
+        "epsilon": [
+            0.8832685871472444,
+            0.8832685871472444,
+            0.8832685871472444,
+            0.8832685871472444
+        ],
+        "eval_method": "step",
+        "final_global_accuracy": 0.8468,
+        "final_round_num": 5,
+        "gas_used": {
+            "Alice": 2292202,
+            "Bob": 613496,
+            "Carol": 589361,
+            "David": 565250,
+            "Eve": 628496
+        },
+        "global_loss": [
+            2.3040690422058105,
+            1.8154737949371338,
+            0.8970282077789307,
+            0.6167507171630859,
+            0.5349028706550598,
+            0.4693499505519867
+        ],
+        "l2_norm_clip": 1.0,
+        "learning_rate": 0.01,
+        "noise_multiplier": 1.1,
+        "num_trainers": 4,
+        "protocol": "crowdsource",
+        "quick_run": false,
+        "seed": 89,
+        "split_type": "dp",
+        "token_counts": {
+            "Bob": [
+                1212733149528503296,
+                2293699383735656576,
+                2638518333435058432,
+                2706875324249267416,
+                2752919465303420856
+            ],
+            "Carol": [
+                1113302826881408640,
+                2189663410186767488,
+                2510335326194763072,
+                2618929624557495008,
+                2682050377130508312
+            ],
+            "David": [
+                1308230578899383552,
+                2422210991382598912,
+                2701314270496368448,
+                2722195565700531044,
+                2722195565700531044
+            ],
+            "Eve": [
+                1192824840545654272,
+                2289375185966491648,
+                2583233058452606144,
+                2620550394058227480,
+                2636775672435760438
+            ]
+        },
+        "total_token_counts": [
+            4827091395854949760,
+            9194948971271514624,
+            10433400988578796096,
+            10668550908565520948,
+            10793941080570220650
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David",
+            "Eve"
+        ],
+        "using_dp": [
+            true,
+            false,
+            false,
+            false
+        ]
+    },
+    {
+        "batch_size": 32,
+        "contract_address": "0xACa121fbEA6D3fd8aFd5570B679aDfc16A3dc8F4",
+        "dataset": "mnist",
+        "delta": 1e-05,
+        "digit_counts": {
+            "Bob": [
+                1490,
+                1672,
+                1514,
+                1507,
+                1471,
+                1344,
+                1487,
+                1556,
+                1440,
+                1519
+            ],
+            "Carol": [
+                1503,
+                1706,
+                1486,
+                1498,
+                1440,
+                1369,
+                1508,
+                1588,
+                1472,
+                1430
+            ],
+            "David": [
+                1476,
+                1698,
+                1452,
+                1575,
+                1484,
+                1336,
+                1460,
+                1577,
+                1470,
+                1472
+            ],
+            "Eve": [
+                1454,
+                1666,
+                1506,
+                1551,
+                1447,
+                1372,
+                1463,
+                1544,
+                1469,
+                1528
+            ]
+        },
+        "disjointness": 0,
+        "dp_params": {
+            "delta": 1e-05,
+            "l2_norm_clip": 1.0,
+            "noise_multiplier": 1.1
+        },
+        "epochs": 1,
+        "epsilon": [
+            0.8832685871472444,
+            0.8832685871472444,
+            0.8832685871472444,
+            0.8832685871472444
+        ],
+        "eval_method": "step",
+        "final_round_num": 5,
+        "gas_used": {
+            "Alice": 6430515,
+            "Bob": 3368360,
+            "Carol": 3382925,
+            "David": 3404840,
+            "Eve": 3446570
+        },
+        "l2_norm_clip": 1.0,
+        "learning_rate": 0.01,
+        "noise_multiplier": 1.1,
+        "num_trainers": 4,
+        "protocol": "consortium",
+        "quick_run": false,
+        "seed": 89,
+        "split_type": "dp",
+        "token_counts": {
+            "Bob": [
+                3635742425918578944,
+                6989612519741058048,
+                7797406494617461856,
+                8070006251335143728,
+                8217328846454620044
+            ],
+            "Carol": [
+                3569039940834045568,
+                6917599737644195840,
+                7783487617969513216,
+                8076863855123520176,
+                8261711686849594392
+            ],
+            "David": [
+                3577924489974975744,
+                6832135677337646592,
+                7623528778553009152,
+                7826196968555450548,
+                7888343334197998153
+            ],
+            "Eve": [
+                3384039163589477504,
+                6892487883567810048,
+                7684044599533081056,
+                7885054111480712888,
+                8014601260423660274
+            ]
+        },
+        "total_token_counts": [
+            14166746020317077760,
+            27631835818290710528,
+            30888467490673065280,
+            31858121186494827340,
+            32381985127925872863
+        ],
+        "trainers": [
+            "Bob",
+            "Carol",
+            "David",
+            "Eve"
+        ],
+        "using_dp": [
+            true,
+            false,
+            false,
+            false
         ]
     }
 ]
