@@ -55,7 +55,12 @@ def counts(results, percent=True):
         if r['split_type'] == 'noniid':
             details = [f" (disj={r['disjointness']})"] * len(names)
         if r['split_type'] == 'dp':
-            details = [f" (eps={eps})" for eps in r['epsilon']]
+            details = [f" (w/out DP)"] * len(names)
+            for i in range(len(names)):
+                if r['using_dp'][i]:
+                    eps = r['epsilon'][i]
+                    delta = r['delta']
+                    details[i] = f" (w/ DP, eps={eps:.2f}, delta={delta})"
             
         for name, detail in zip(names, details):
             counts = np.array(r['token_counts'][name])
@@ -101,7 +106,11 @@ def make_filepath(r, plot_type):
         path += f"{r['disjointness']}"
     if r['split_type'] == 'dp':
         path += "-dp-"
-        raise NotImplementedError()
+        for dp in r['using_dp']:
+            if dp:
+                path += "t"
+            else:
+                path += "f"
     path += ".png"
     return path
 
@@ -110,7 +119,7 @@ if __name__ == "__main__":
     try:
         r = load_results({
             'seed': 89,
-            'dataset': 'covid',
+            'dataset': 'mnist',
         })
         counts(r)
 
