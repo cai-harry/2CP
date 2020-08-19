@@ -1,7 +1,6 @@
 import json
 
 import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
 import numpy as np
 
 RESULTS_FILE = {
@@ -26,12 +25,18 @@ def load_results(filters):
     return results
 
 def scatter(results, trainers):
+    dataset = results[0]['dataset']
+    assert all([r['dataset'] == dataset for r in results])
+    protocol = results[0]['protocol']
+    assert all([r['protocol'] == protocol for r in results])
+    num_rounds = results[0]['final_round_num']
+    assert all([r['final_round_num'] == num_rounds for r in results])
     if not trainers:
         names_to_plot = NAMES[:1]
-        filename = "gas-alice.png"
+        filename = f"gas-{protocol}-alice.png"
     else:
         names_to_plot = NAMES[1:]
-        filename = "gas-trainers.png"
+        filename = f"gas-{protocol}-trainers.png"
     for name in names_to_plot:
         x = []
         y = []
@@ -42,23 +47,44 @@ def scatter(results, trainers):
             y.append(r['gas_used'][name])
         plt.scatter(x, y, label=name)
     plt.legend()
-    plt.title(r['protocol'].capitalize())
+    plt.title(f"{dataset.upper()}, {protocol.capitalize()}, {num_rounds} rounds")
     plt.xlabel("Number of trainers")
-    plt.gca().xaxis.set_major_locator(mticker.MultipleLocator(1))
+    plt.xticks(range(max([r['num_trainers'] for r in results])))  # x axis in integers from 0 to max number of trainers in results
     plt.ylabel("Gas used")
-    filepath = PLOTS_DIR[r['dataset']] + filename
+    filepath = PLOTS_DIR[dataset] + filename
     plt.savefig(filepath)
     plt.clf()
 
 if __name__ == "__main__":
-    results = load_results({
-        'seed': 89,
-        'dataset': 'covid',
-        'protocol': 'crowdsource',
-        'final_round_num': 16,
-    })
-    for r in results:
-        if 'gas_used' in r:
-            print(r['gas_used'])
-    scatter(results, False)
-    scatter(results, True)
+
+    for protocol in ['crowdsource', 'consortium']:
+        print(f"MNIST, {protocol}")
+
+        results = load_results({
+            'seed': 89,
+            'dataset': 'mnist',
+            'protocol': protocol,
+            'final_round_num': 5
+        })
+        for r in results:
+            if 'gas_used' in r:
+                print(r['gas_used'])
+        scatter(results, False)
+        scatter(results, True)
+
+
+    for protocol in ['crowdsource', 'consortium']:
+        print(f"COVID, {protocol}")
+
+        results = load_results({
+            'seed': 89,
+            'dataset': 'covid',
+            'protocol': protocol,
+            'final_round_num': 16
+        })
+        for r in results:
+            if 'gas_used' in r:
+                print(r['gas_used'])
+        scatter(results, False)
+        scatter(results, True)
+    
