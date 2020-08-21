@@ -80,6 +80,7 @@ if __name__ == "__main__":
             'seed': 89,
             'dataset': 'covid',
             'protocol': protocol,
+            'split_type': 'equal',
             'final_round_num': 16
         })
         for r in results:
