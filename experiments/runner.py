@@ -237,8 +237,9 @@ class ExperimentRunner:
         results['disjointness'] = disjointness
         if dp_params is not None:
             results.update(dp_params)
-        if using_dp is not None:
-            results['using_dp'] = using_dp
+        if using_dp is None:
+            using_dp = [False] * num_trainers
+        results['using_dp'] = using_dp
         if unique_digits is not None:
             results['unique_digits'] = unique_digits
 
@@ -314,6 +315,7 @@ class ExperimentRunner:
         results['total_token_counts'] = [alice.get_total_token_count(i)
                                          for i in range(1, self.TRAINING_ITERATIONS+1)]
         results['gas_used'] = self._gas_used(alice, trainers)
+        results['gas_history'] = self._gas_history(alice, trainers)
 
         self._save_results(results)
 
@@ -498,6 +500,13 @@ class ExperimentRunner:
         for trainer in trainers:
             gas_used_by_name[trainer.name] = trainer.get_gas_used()
         return gas_used_by_name
+
+    def _gas_history(self, alice, trainers):
+        gas_history_by_name = {}
+        gas_history_by_name[alice.name] = alice.get_gas_history()
+        for trainer in trainers:
+            gas_history_by_name[trainer.name] = trainer.get_gas_history()
+        return gas_history_by_name
 
     def _save_results(self, results):
         dataset = results['dataset']

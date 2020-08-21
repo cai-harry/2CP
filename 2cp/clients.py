@@ -112,6 +112,8 @@ class CrowdsourceClient(_GenesisClient):
             batch_size=len(data)
         )
         # train loader is defined each time training is run
+        
+        self._gas_history = {}
 
     def train_until(self, final_round_num, batch_size, epochs, learning_rate, dp_params=None):
         start_round = self._contract.currentRound()
@@ -125,14 +127,17 @@ class CrowdsourceClient(_GenesisClient):
                 dp_params
             )
             self.wait_for_txs([tx])
+            self._gas_history[r] = self.get_gas_used()
         self._print(f"Done training. Gas used: {self.get_gas_used()}")
 
     def evaluate_until(self, final_round_num, method):
+        self._gas_history[1] = self.get_gas_used()
         for r in range(1, final_round_num+1):
             self.wait_for_round(r + 1)
             scores = self._evaluate_single_round(r, method)
             txs = self._set_tokens(scores)
             self.wait_for_txs(txs)
+            self._gas_history[r+1] = self.get_gas_used()
         self._print(f"Done evaluating. Gas used: {self.get_gas_used()}")
 
     def is_evaluator(self):
@@ -179,6 +184,9 @@ class CrowdsourceClient(_GenesisClient):
         while(self._contract.currentRound() < n):
             time.sleep(self.CURRENT_ROUND_POLL_INTERVAL)
         self._print(f"Round {n} started")
+
+    def get_gas_history(self):
+        return self._gas_history
 
     @methodtools.lru_cache()
     def _get_global_model(self, training_round):
@@ -361,6 +369,11 @@ class ConsortiumSetupClient(_GenesisClient):
             )
         self.wait_for_txs(txs)
 
+    def get_gas_history(self):
+        return {
+            '1': self.get_gas_used()
+        }
+
 
 class ConsortiumClient(_BaseClient):
     """
@@ -433,6 +446,22 @@ class ConsortiumClient(_BaseClient):
         for aux in self._get_aux_clients():
             gas_used += aux.get_gas_used()
         return gas_used
+
+    def get_gas_history(self):
+        # has a bug
+        # total_gas_history = self._main_client.get_gas_history()
+        # for aux in self._get_aux_clients():
+        #     aux_gas_history = aux.get_gas_history()
+        #     for r in aux_gas_history.keys():
+        #         if r not in total_gas_history:
+        #             total_gas_history[r] = total_gas_history[r-1]
+        #         total_gas_history[r] += aux_gas_history[r]
+        # return total_gas_history
+        gas_histories = {}
+        gas_histories[self._main_client.name] = self._main_client.get_gas_history()
+        for aux in self._get_aux_clients():
+            gas_histories[aux.name] = aux.get_gas_history()
+        return gas_histories
 
     def _get_aux_clients(self):
         """

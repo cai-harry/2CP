@@ -40,27 +40,14 @@ if __name__ == "__main__":
 
     if QUICK_RUN:
         experiments = [
-            {
-                'dataset': 'covid',
-                'split_type': 'dp',
-                'num_trainers': 4,
-                'dp_params': DP_PARAMS,
-                'using_dp': [True, True, True, True]
-            },
-            {
-                'dataset': 'covid',
-                'split_type': 'dp',
-                'num_trainers': 4,
-                'dp_params': DP_PARAMS,
-                'using_dp': [False, True, True, True]
-            },
-            {
-                'dataset': 'covid',
-                'split_type': 'dp',
-                'num_trainers': 4,
-                'dp_params': DP_PARAMS,
-                'using_dp': [True, False, False, False]
-            },
+            # {
+            #     'dataset': 'covid',
+            #     'split_type': 'dp',
+            #     'num_trainers': 4,
+            #     'dp_params': DP_PARAMS,
+            #     'using_dp': [True, True, True, True]
+            # },
+            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 2},
         ]
         method = 'step'
         seed = 88
@@ -70,27 +57,11 @@ if __name__ == "__main__":
                                       eval_method=method, seed=seed, **exp)
     else:
         experiments = [
-            {
-                'dataset': 'covid',
-                'split_type': 'dp',
-                'num_trainers': 4,
-                'dp_params': DP_PARAMS,
-                'using_dp': [True, True, True, True]
-            },
-            {
-                'dataset': 'covid',
-                'split_type': 'dp',
-                'num_trainers': 4,
-                'dp_params': DP_PARAMS,
-                'using_dp': [False, True, True, True]
-            },
-            {
-                'dataset': 'covid',
-                'split_type': 'dp',
-                'num_trainers': 4,
-                'dp_params': DP_PARAMS,
-                'using_dp': [True, False, False, False]
-            },
+            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 2},
+            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 3},
+            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 4},
+            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 5},
+            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 6},
         ]
         method = 'step'
         seed = 89
