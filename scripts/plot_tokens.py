@@ -97,19 +97,9 @@ def gas_history(results):
             if protocol == 'crowdsource':
                 y = [d[str(i)] for i in x]
             if protocol == 'consortium':
-                y = []
-                for i in x:
-                    round_total = sum([
+                y = [sum([
                         d[k][str(i)] for k in d.keys()
-                    ])
-                    y.append(round_total)
-                final_eval_round = num_rounds + 1
-                x.append(final_eval_round)
-                for k in d.keys():
-                    if str(final_eval_round) in d[k]:
-                        final_round_total = d[k][str(final_eval_round)]
-                        break
-                y.append(y[-1] + final_round_total)
+                    ]) for i in x]
             plt.plot(x, y, label=name, marker='.')
         plt.title(protocol.capitalize())
         plt.legend()
