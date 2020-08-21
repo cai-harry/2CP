@@ -61,10 +61,11 @@ def counts(results, percent=True):
                     eps = r['epsilon'][i]
                     delta = r['delta']
                     details[i] = f" (w/ DP, eps={eps:.2f}, delta={delta})"
-            
+
         for name, detail in zip(names, details):
             counts = np.array(r['token_counts'][name])
-            counts = np.insert(counts, 0, 0)  # insert a 0 at the start of counts, as all trainers start with 0 tokens
+            # insert a 0 at the start of counts, as all trainers start with 0 tokens
+            counts = np.insert(counts, 0, 0)
             if percent and total_count > 0:
                 counts = 100 * (counts / total_count)
             plt.plot(
@@ -82,7 +83,39 @@ def counts(results, percent=True):
         plt.legend()
         plt.savefig(make_filepath(r, 'counts'))
         plt.clf()
-        
+
+
+def gas_history(results):
+    for r in results:
+        if 'gas_history' not in r:
+            continue
+        protocol = r['protocol']
+        num_rounds = r['final_round_num']
+        for name in r['trainers']:
+            d = r['gas_history'][name]
+            x = list(range(1, num_rounds+1))
+            if protocol == 'crowdsource':
+                y = [d[str(i)] for i in x]
+            if protocol == 'consortium':
+                y = []
+                for i in x:
+                    round_total = sum([
+                        d[k][str(i)] for k in d.keys()
+                    ])
+                    y.append(round_total)
+                final_eval_round = num_rounds + 1
+                x.append(final_eval_round)
+                for k in d.keys():
+                    if str(final_eval_round) in d[k]:
+                        final_round_total = d[k][str(final_eval_round)]
+                        break
+                y.append(y[-1] + final_round_total)
+            plt.plot(x, y, label=name, marker='.')
+        plt.title(protocol.capitalize())
+        plt.legend()
+        plt.savefig(make_filepath(r, 'gas'))
+        plt.clf()
+
 
 def make_filepath(r, plot_type):
     path = PLOTS_DIR[r['dataset']]
@@ -119,10 +152,9 @@ if __name__ == "__main__":
     try:
         r = load_results({
             'seed': 89,
-            'dataset': 'mnist',
+            'dataset': 'covid',
         })
-        counts(r)
-
+        gas_history(r)
 
     except KeyboardInterrupt:
         print("KeyboardInterrupt")
