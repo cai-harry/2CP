@@ -91,16 +91,24 @@ def gas_history(results):
             continue
         protocol = r['protocol']
         num_rounds = r['final_round_num']
-        for name in r['trainers']:
+        for name in ["Alice", *r['trainers']]:
+            x = range(1, num_rounds+1)
             d = r['gas_history'][name]
-            x = list(range(1, num_rounds+1))
             if protocol == 'crowdsource':
                 y = [d[str(i)] for i in x]
             if protocol == 'consortium':
-                y = [sum([
+                if name == "Alice":
+                    y = [d['1']]*len(x)
+                else:
+                    y = [sum([
                         d[k][str(i)] for k in d.keys()
                     ]) for i in x]
-            plt.plot(x, y, label=name, marker='.')
+            y.insert(0, 0)
+            plt.plot(y, label=name, marker='+')
+        plt.xlabel("Training round")
+        plt.xticks(x)
+        plt.ylabel("Gas used")
+        plt.ylim(0, 2e7)
         plt.title(protocol.capitalize())
         plt.legend()
         plt.savefig(make_filepath(r, 'gas'))
