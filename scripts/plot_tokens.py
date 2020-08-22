@@ -72,7 +72,9 @@ def counts(results, percent=True):
                 round_idxs,
                 counts,
                 label=name + detail,
-                marker='.')
+                marker='.',
+                color=_PLOT_COLOUR(name)
+            )
         plt.xticks(round_idxs)
         plt.xlabel("Training round")
         if percent:
@@ -104,7 +106,7 @@ def gas_history(results):
                         d[k][str(i)] for k in d.keys()
                     ]) for i in x]
             y.insert(0, 0)
-            plt.plot(y, label=name, marker='+')
+            plt.plot(y, label=name, marker='+', color=_PLOT_COLOUR(name))
         plt.xlabel("Training round")
         plt.xticks(x)
         plt.ylabel("Gas used")
@@ -144,6 +146,13 @@ def make_filepath(r, plot_type):
                 path += "f"
     path += ".png"
     return path
+
+def _PLOT_COLOUR(name):
+    if name=="Alice":
+        return 'black'
+    else:
+        idx = NAMES.index(name)
+        return f"C{idx}"
 
 
 if __name__ == "__main__":
