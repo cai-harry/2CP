@@ -161,6 +161,7 @@ if __name__ == "__main__":
             'seed': 89,
             'dataset': 'covid',
         })
+        counts(r)
         gas_history(r)
 
     except KeyboardInterrupt:
