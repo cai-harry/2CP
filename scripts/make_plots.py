@@ -2,6 +2,7 @@ import json
 
 import matplotlib.pyplot as plt
 import numpy as np
+import scipy.stats
 
 RESULTS_FILE = {
     'mnist': "experiments/mnist/results/all.json",
@@ -54,6 +55,10 @@ def distributions(results, split_type=None):
         width = 0.8 / len(names)
         for i, name in enumerate(names):
             lc = np.array(lcs[name])
+            legend_label = name
+            if r['protocol'] == 'crowdsource':
+                ent = scipy.stats.entropy(lcs["Alice"], lc)
+                legend_label += f" (entropy={ent:.3f})"
             distribution = 100 * lc / sum(lc)
             classes = np.arange(len(lc))
             plt.bar(
@@ -61,7 +66,7 @@ def distributions(results, split_type=None):
                 distribution,
                 width,
                 color=_PLOT_COLOUR(name),
-                label=f"{name}"
+                label=legend_label
             )
         plt.title(f"Class distributions with disj={r['disjointness']}")
         plt.xlabel('Class label')
@@ -78,17 +83,15 @@ def counts(results, percent=True):
         names = NAMES[:n]
         round_idxs = range(0, r['final_round_num']+1)
         total_count = r['total_token_counts'][-1]
-        if r['split_type'] == 'equal':
+        if r['split_type'] in {'equal', 'noniid'}:
             details = [''] * len(names)
         if r['split_type'] == 'size':
             details = [f" (size={ratio})" for ratio in r['ratios']]
         if r['split_type'] == 'flip':
             details = [f" (flip={prob})" for prob in r['flip_probs']]
         if r['split_type'] == 'unique_digits':
-            details = [f" (others)"] * len(names)
+            details = [" (others)"] * len(names)
             details[0] = [f" ({','.join(r['unique_digits'])})"]
-        if r['split_type'] == 'noniid':
-            details = [f" (disj={r['disjointness']})"] * len(names)
         if r['split_type'] == 'dp':
             details = [f" (w/out DP)"] * len(names)
             for i in range(len(names)):
