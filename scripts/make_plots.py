@@ -48,7 +48,9 @@ def distributions(results, split_type=None):
         if key not in r:
             continue
         lcs = r[key]
-        names = ["Alice"] + r['trainers']
+        names = r['trainers']
+        if r['protocol'] == 'crowdsource':
+            names.insert(0, "Alice")
         width = 0.8 / len(names)
         for i, name in enumerate(names):
             lc = np.array(lcs[name])
