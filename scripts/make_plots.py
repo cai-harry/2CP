@@ -37,6 +37,39 @@ def pie(results):
         plt.clf()
 
 
+def distributions(results, split_type=None):
+    for r in results:
+        if split_type is not None and r['split_type'] != split_type:
+            continue
+        if r['dataset'] == 'mnist':
+            key = 'digit_counts'
+        if r['dataset'] == 'covid':
+            key = 'label_counts'
+        if key not in r:
+            continue
+        lcs = r[key]
+        names = ["Alice"] + r['trainers']
+        width = 0.8 / len(names)
+        for i, name in enumerate(names):
+            lc = np.array(lcs[name])
+            distribution = 100 * lc / sum(lc)
+            classes = np.arange(len(lc))
+            plt.bar(
+                classes + (i-1)*width,
+                distribution,
+                width,
+                color=_PLOT_COLOUR(name),
+                label=f"{name}"
+            )
+        plt.title(f"Class distributions with disj={r['disjointness']}")
+        plt.xlabel('Class label')
+        plt.ylabel('Examples (%)')
+        plt.xticks(classes + width/2, classes)
+        plt.legend()
+        plt.savefig(make_filepath(r, 'distr'))
+        plt.clf()
+
+
 def counts(results, percent=True):
     for r in results:
         n = r['num_trainers']
@@ -147,8 +180,9 @@ def make_filepath(r, plot_type):
     path += ".png"
     return path
 
+
 def _PLOT_COLOUR(name):
-    if name=="Alice":
+    if name == "Alice":
         return 'black'
     else:
         idx = NAMES.index(name)
@@ -157,12 +191,14 @@ def _PLOT_COLOUR(name):
 
 if __name__ == "__main__":
     try:
-        r = load_results({
-            'seed': 89,
-            'dataset': 'covid',
-        })
-        counts(r)
-        gas_history(r)
+        for dataset in ['mnist', 'covid']:
+            r = load_results({
+                'seed': 89,
+                'dataset': dataset,
+            })
+            # counts(r)
+            # gas_history(r)
+            distributions(r, 'noniid')
 
     except KeyboardInterrupt:
         print("KeyboardInterrupt")
