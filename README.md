@@ -2,10 +2,22 @@
 
 My MSc Individual Project for Summer 2020.
 
-This repository contains `2CP`, the software framework which implements the _Crowdsource Protocol_ and the _Consortium Protocol_.
-
 ## Project paper
-[Blockchains for shared ownership and governance of Federated Learning models](https://1drv.ms/b/s!Ag6l4RY3j8vthYUVJIWq1XYcFK2D-g?e=B80G7n)
+[2CP: Decentralized protocols to transparently evaluate contributivity in Blockchain Federated Learning environments](https://www.overleaf.com/project/5e7f295512360300014df284)
+
+## What's in this repo?
+
+`2cp/`: This repository contains `2CP`, the software framework which implements the _Crowdsource Protocol_ and the _Consortium Protocol_.
+
+`contracts/`: The solidity source code for `2CP` smart contracts.
+
+`experiments/`: It also contains the code used to run the experiments described in the project paper, and the corresponding results.
+
+`migrations/`: Deployment scripts used by Truffle.
+
+`scripts/`: Miscellaneous scripts to tidy up results files, produce plots, etc.
+
+`tests/`: Unit tests for `2CP`.
 
 ## Development
 
