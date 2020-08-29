@@ -1,6 +1,6 @@
 # 2CP
 
-My MSc Individual Project for Summer 2020.
+This is my dissertation for my MSc in Computing (Artificial Intelligence & Machine Learning) at Imperial College London (2019-20).
 
 ## Project paper
 [2CP: Decentralized protocols to transparently evaluate contributivity in Blockchain Federated Learning environments](https://www.overleaf.com/project/5e7f295512360300014df284)
