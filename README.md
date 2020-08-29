@@ -9,13 +9,11 @@ This is my dissertation for my MSc in Computing (Artificial Intelligence & Machi
 
 `2cp/`: This repository contains `2CP`, the software framework which implements the _Crowdsource Protocol_ and the _Consortium Protocol_.
 
-`build/`: The compiled contracts. Remember to update these when you make changes to the smart contracts.
-
 `contracts/`: The solidity source code for `2CP` smart contracts.
 
 `experiments/`: It also contains the code used to run the experiments described in the project paper, and the corresponding results.
 
-`migrations/`: Deployment scripts used by Truffle.
+`migrations/`: Deployment scripts used by Truffle. Not currently needed as 2CP automatically deploys contracts without using Truffle.
 
 `scripts/`: Miscellaneous scripts to tidy up results files, produce plots, etc.
 
@@ -90,3 +88,8 @@ Best option if not using Windows. Requires only [Docker](https://www.docker.com/
   - COVID experiments: `python experiments/covid/covid.py --full`
 
 Choose which experiments to run by defining changing the `experiments` dictionary in the `mnist.py` or `covid.py` scripts.
+
+### Producing plots
+```
+python scripts/make_plots.py
+```

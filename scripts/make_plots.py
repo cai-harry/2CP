@@ -17,6 +17,9 @@ NAMES = ["Bob", "Carol", "David", "Eve",
 
 
 def load_results(filters):
+    """
+    Load all results whose parameters match those given in filters.
+    """
     assert 'dataset' in filters, "Must specify dataset"
     with open(RESULTS_FILE[filters['dataset']]) as f:
         results = json.load(f)
@@ -26,6 +29,9 @@ def load_results(filters):
 
 
 def pie(results):
+    """
+    Make pie charts for all given results.
+    """
     for r in results:
         n = r['num_trainers']
         names = NAMES[:n]
@@ -34,11 +40,14 @@ def pie(results):
             for name in names
         ]
         plt.pie(tokens, labels=names, autopct='%1.1f%%')
-        plt.savefig(make_filepath(r, 'pie'))
+        plt.savefig(_make_filepath(r, 'pie'))
         plt.clf()
 
 
 def distributions(results, split_type=None):
+    """
+    Make plots of class distributions for given results, with the given split_type. (None=>all)
+    """
     for r in results:
         if split_type is not None and r['split_type'] != split_type:
             continue
@@ -73,11 +82,14 @@ def distributions(results, split_type=None):
         plt.ylabel('Examples (%)')
         plt.xticks(classes + width/2, classes)
         plt.legend()
-        plt.savefig(make_filepath(r, 'distr'))
+        plt.savefig(_make_filepath(r, 'distr'))
         plt.clf()
 
 
 def counts(results, percent=True):
+    """
+    Make plots of token counts for all given results. Plot as percentages of total if percent=True
+    """
     for r in results:
         n = r['num_trainers']
         names = NAMES[:n]
@@ -121,11 +133,14 @@ def counts(results, percent=True):
             plt.ylabel("Tokens")
         plt.title(r['protocol'].capitalize())
         plt.legend()
-        plt.savefig(make_filepath(r, 'counts'))
+        plt.savefig(_make_filepath(r, 'counts'))
         plt.clf()
 
 
 def gas_history(results):
+    """
+    Plot gas use in all given results, where available.
+    """
     for r in results:
         if 'gas_history' not in r:
             continue
@@ -151,11 +166,11 @@ def gas_history(results):
         plt.ylim(0, 2e7)
         plt.title(protocol.capitalize())
         plt.legend()
-        plt.savefig(make_filepath(r, 'gas'))
+        plt.savefig(_make_filepath(r, 'gas'))
         plt.clf()
 
 
-def make_filepath(r, plot_type):
+def _make_filepath(r, plot_type):
     path = PLOTS_DIR[r['dataset']]
     path += f"{plot_type}-"
     path += r['protocol']
@@ -201,8 +216,8 @@ if __name__ == "__main__":
                 'seed': 89,
                 'dataset': dataset,
             })
-            # counts(r)
-            # gas_history(r)
+            counts(r)
+            gas_history(r)
             distributions(r, 'noniid')
 
     except KeyboardInterrupt:

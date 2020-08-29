@@ -39,29 +39,7 @@ if __name__ == "__main__":
     )
 
     if QUICK_RUN:
-        experiments = [
-            {
-                'dataset': 'mnist',
-                'split_type': 'dp',
-                'num_trainers': 4,
-                'dp_params': DP_PARAMS,
-                'using_dp': [True, True, True, True]
-            },
-            {
-                'dataset': 'mnist',
-                'split_type': 'dp',
-                'num_trainers': 4,
-                'dp_params': DP_PARAMS,
-                'using_dp': [False, True, True, True]
-            },
-            {
-                'dataset': 'mnist',
-                'split_type': 'dp',
-                'num_trainers': 4,
-                'dp_params': DP_PARAMS,
-                'using_dp': [True, False, False, False]
-            },
-        ]
+        experiments = []
         method = 'step'
         seed = 88
         for exp in experiments:
@@ -70,6 +48,26 @@ if __name__ == "__main__":
                                eval_method=method, seed=seed, **exp)
     else:
         experiments = [
+            # Test A
+            {'dataset': 'mnist', 'split_type': 'equal', 'num_trainers': 2},
+            {'dataset': 'mnist', 'split_type': 'equal', 'num_trainers': 3},
+            {'dataset': 'mnist', 'split_type': 'equal', 'num_trainers': 4},
+            {'dataset': 'mnist', 'split_type': 'equal', 'num_trainers': 5},
+            {'dataset': 'mnist', 'split_type': 'equal', 'num_trainers': 6},
+
+            # Test B
+            {'dataset': 'mnist', 'split_type': 'size', 'num_trainers': 4, 'ratios': [1,2,3,4]},
+
+            # Test C
+            {'dataset': 'mnist', 'split_type': 'flip', 'num_trainers': 4, 'ratios': [0,0.1,0.2,0.3]},
+
+            # Test D
+            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.2},
+            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.4},
+            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.6},
+            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.8},
+
+            # Test E
             {
                 'dataset': 'mnist',
                 'split_type': 'dp',

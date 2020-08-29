@@ -39,16 +39,7 @@ if __name__ == "__main__":
     )
 
     if QUICK_RUN:
-        experiments = [
-            # {
-            #     'dataset': 'covid',
-            #     'split_type': 'dp',
-            #     'num_trainers': 4,
-            #     'dp_params': DP_PARAMS,
-            #     'using_dp': [True, True, True, True]
-            # },
-            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 2},
-        ]
+        experiments = []
         method = 'step'
         seed = 88
         for exp in experiments:
@@ -57,11 +48,24 @@ if __name__ == "__main__":
                                       eval_method=method, seed=seed, **exp)
     else:
         experiments = [
-            # {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 2},
+            # Test A
+            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 2},
             {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 3},
-            # {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 4},
-            # {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 5},
-            # {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 6},
+            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 4},
+            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 5},
+            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 6},
+
+            # Test B
+            {'dataset': 'covid', 'split_type': 'size', 'num_trainers': 4, 'ratios': [1,2,3,4]},
+
+            # Test C
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'ratios': [0,0.1,0.2,0.3]},
+
+            # Test D
+            {'dataset': 'covid', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.2},
+            {'dataset': 'covid', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.4},
+            {'dataset': 'covid', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.6},
+            {'dataset': 'covid', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.8},
         ]
         method = 'step'
         seed = 89

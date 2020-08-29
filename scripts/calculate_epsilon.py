@@ -1,3 +1,10 @@
+"""
+A convenience script that uses pyvacy.analysis to print epsilon value for the given parameters.
+
+Used to pick parameters for experiments.
+"""
+
+
 import pyvacy
 from pyvacy.analysis import moments_accountant as epsilon
 
