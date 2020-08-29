@@ -64,13 +64,27 @@ Requirements
 - [Truffle](https://www.trufflesuite.com/truffle)
 - [Ganache](https://www.trufflesuite.com/ganache)
 
-#### Setting up simulated blockchain
+### Setting up simulated blockchain
 1. Open the Ganache app.
 2. Quick start or set up a new workspace.
 3. (Optional, to create a more realistic blockchain) In settings, under Server, turn off automine and set mining block time to 15 seconds (or set to 3 or 4 to make unit tests run more quickly). Need to do this to test behaviour when transactions aren't mined instantaneously.
 
-### Running the unit tests
+### Alternative: Docker
+
+Best option if not using Windows. Requires only [Docker](https://www.docker.com/get-started)
+
+1. Build the docker image: (in repo root) `docker build -t 2cp .`
+2. Launch the image in interactive mode: `docker run -it 2cp` 
+3. Start the ipfs daemon: `ipfs daemon`
+4. Start the blockchain: `ganache-cli --port=7545`
+
+### Running unit tests or experiments
 1. Spin up a blockchain as above.
 2. Start up an IPFS node by opening the IPFS desktop app.
 3. Compile the contracts: `truffle compile` (no need to deploy, the unit test does this automatically)
-4. From repo root: `pytest -s` (the `-s` flag displays print statements.)
+4. Run one of these commands:
+  - Unit tests: `pytest -s` (the `-s` flag displays print statements.)
+  - MNIST experiments: `python experiments/mnist/mnist.py --full` (without the `--full` flag, will just run a quick version for debugging purposes.) 
+  - COVID experiments: `python experiments/covid/covid.py --full`
+
+Choose which experiments to run by defining changing the `experiments` dictionary in the `mnist.py` or `covid.py` scripts.
