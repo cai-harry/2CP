@@ -13,7 +13,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-# build/  # need this to build Dockerfile without truffle installed on local machine
+build/
 develop-eggs/
 dist/
 downloads/

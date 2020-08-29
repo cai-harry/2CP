@@ -9,6 +9,8 @@ My MSc Individual Project for Summer 2020.
 
 `2cp/`: This repository contains `2CP`, the software framework which implements the _Crowdsource Protocol_ and the _Consortium Protocol_.
 
+`build/`: The compiled contracts. Remember to update these when you make changes to the smart contracts.
+
 `contracts/`: The solidity source code for `2CP` smart contracts.
 
 `experiments/`: It also contains the code used to run the experiments described in the project paper, and the corresponding results.
@@ -75,13 +77,13 @@ Best option if not using Windows. Requires only [Docker](https://www.docker.com/
 
 1. Build the docker image: (in repo root) `docker build -t 2cp .`
 2. Launch the image in interactive mode: `docker run -it 2cp` 
-3. Start the ipfs daemon: `ipfs daemon`
-4. Start the blockchain: `ganache-cli --port=7545`
+3. Start the ipfs daemon in the background: `ipfs daemon &`
+4. Start the blockchain in the background: `ganache-cli --port=7545 &`
 
 ### Running unit tests or experiments
-1. Spin up a blockchain as above.
-2. Start up an IPFS node by opening the IPFS desktop app.
-3. Compile the contracts: `truffle compile` (no need to deploy, the unit test does this automatically)
+1. Compile the contracts: `truffle compile` (2CP deploys them automatically when it runs)
+2. Spin up a blockchain as above.
+3. Start up an IPFS node by opening the IPFS desktop app.
 4. Run one of these commands:
   - Unit tests: `pytest -s` (the `-s` flag displays print statements.)
   - MNIST experiments: `python experiments/mnist/mnist.py --full` (without the `--full` flag, will just run a quick version for debugging purposes.) 
