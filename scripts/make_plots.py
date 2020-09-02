@@ -197,6 +197,7 @@ def _make_filepath(r, plot_type):
                 path += "t"
             else:
                 path += "f"
+    path += f"-seed-{r['seed']}"
     path += ".png"
     return path
 
@@ -211,10 +212,10 @@ def _PLOT_COLOUR(name):
 
 if __name__ == "__main__":
     try:
-        for dataset in ['mnist', 'covid']:
+        for seed in [11, 32, 67, 80]:
             r = load_results({
-                'seed': 89,
-                'dataset': dataset,
+                'seed': seed,
+                'dataset': 'covid',
             })
             counts(r)
             gas_history(r)
