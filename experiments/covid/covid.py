@@ -49,17 +49,16 @@ if __name__ == "__main__":
     else:
         experiments = [
             # Test A
-            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 2},
-            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 3},
-            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 4},
-            {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 5},
             {'dataset': 'covid', 'split_type': 'equal', 'num_trainers': 6},
 
             # Test B
-            {'dataset': 'covid', 'split_type': 'size', 'num_trainers': 4, 'ratios': [1,2,3,4]},
+            {'dataset': 'covid', 'split_type': 'size', 'num_trainers': 6, 'ratios': [1,2,3,4,5,6]},
 
             # Test C
-            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'ratios': [0,0.1,0.2,0.3]},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.2]},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.3]},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.4]},
+            {'dataset': 'covid', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0,0,0.5]},
 
             # Test D
             {'dataset': 'covid', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.2},
@@ -68,9 +67,9 @@ if __name__ == "__main__":
             {'dataset': 'covid', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.8},
         ]
         method = 'step'
-        seed = 89
+        protocol = 'crowdsource'
         for exp in experiments:
-            for protocol in ['crowdsource', 'consortium']:
+            for seed in [11, 32, 67, 80]:
                 print(f"Starting experiment with args: {exp}")
                 runner.run_experiment(protocol=protocol,
                                       eval_method=method, seed=seed, **exp)
