@@ -67,9 +67,9 @@ if __name__ == "__main__":
             {'dataset': 'covid', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.8},
         ]
         method = 'step'
-        protocol = 'crowdsource'
+        seed = 89
         for exp in experiments:
-            for seed in [11, 32, 67, 80]:
+            for protocol in ['crowdsource', 'consortium']:
                 print(f"Starting experiment with args: {exp}")
                 runner.run_experiment(protocol=protocol,
                                       eval_method=method, seed=seed, **exp)
