@@ -197,7 +197,10 @@ def _make_filepath(r, plot_type):
                 path += "t"
             else:
                 path += "f"
-    path += f"-seed-{r['seed']}"
+        if r['noise_multiplier'] != 1.1:  # experiments from before first draft used only this value
+            path += f"-{r['noise_multiplier']}"
+    if r['seed'] != 89:  # 89 is default seed for single runs
+        path += f"-seed-{r['seed']}"
     path += ".png"
     return path
 
@@ -212,14 +215,14 @@ def _PLOT_COLOUR(name):
 
 if __name__ == "__main__":
     try:
-        for seed in [11, 32, 67, 80]:
+        for dataset in ['mnist', 'covid']:
             r = load_results({
-                'seed': seed,
-                'dataset': 'covid',
+                'seed': 89,
+                'dataset': dataset,
             })
             counts(r)
-            gas_history(r)
-            distributions(r, 'noniid')
+            # gas_history(r)
+            # distributions(r, 'noniid')
 
     except KeyboardInterrupt:
         print("KeyboardInterrupt")

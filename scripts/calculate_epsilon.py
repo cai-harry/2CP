@@ -16,12 +16,12 @@ TRAINING_HYPERPARAMS = {
     'learning_rate': 1e-2
 }
 DP_PARAMS = {
-    'l2_norm_clip': 0.7,
-    'noise_multiplier': 2.0,
+    'l2_norm_clip': 1.0,
+    'noise_multiplier': 1.5,
     'delta': 1e-5
 }
 
-DATA_LENGTH = 140
+DATA_LENGTH = 15000
 
 eps = epsilon(
     N=DATA_LENGTH,
