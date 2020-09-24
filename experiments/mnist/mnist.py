@@ -70,77 +70,25 @@ if __name__ == "__main__":
             # {'dataset': 'mnist', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0.1,0.2,0.3]},
 
             # Test D
-            # {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.6},
+            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.2},
+            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.4},
+            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.6},
+            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.8},
 
             # Test E
-            {
-                'dataset': 'mnist',
-                'split_type': 'dp',
-                'num_trainers': 4,
-                'dp_params': DP_PARAMS[0],
-                'using_dp': [True, True, True, True]
-            },
-            {
-                'dataset': 'mnist',
-                'split_type': 'dp',
-                'num_trainers': 4,
-                'dp_params': DP_PARAMS[0],
-                'using_dp': [False, True, True, True]
-            },
-            {
-                'dataset': 'mnist',
-                'split_type': 'dp',
-                'num_trainers': 4,
-                'dp_params': DP_PARAMS[0],
-                'using_dp': [True, False, False, False]
-            },
-            {
-                'dataset': 'mnist',
-                'split_type': 'dp',
-                'num_trainers': 4,
-                'dp_params': DP_PARAMS[1],
-                'using_dp': [True, True, True, True]
-            },
-            {
-                'dataset': 'mnist',
-                'split_type': 'dp',
-                'num_trainers': 4,
-                'dp_params': DP_PARAMS[1],
-                'using_dp': [False, True, True, True]
-            },
-            {
-                'dataset': 'mnist',
-                'split_type': 'dp',
-                'num_trainers': 4,
-                'dp_params': DP_PARAMS[1],
-                'using_dp': [True, False, False, False]
-            },
-            {
-                'dataset': 'mnist',
-                'split_type': 'dp',
-                'num_trainers': 4,
-                'dp_params': DP_PARAMS[2],
-                'using_dp': [True, True, True, True]
-            },
-            {
-                'dataset': 'mnist',
-                'split_type': 'dp',
-                'num_trainers': 4,
-                'dp_params': DP_PARAMS[2],
-                'using_dp': [False, True, True, True]
-            },
-            {
-                'dataset': 'mnist',
-                'split_type': 'dp',
-                'num_trainers': 4,
-                'dp_params': DP_PARAMS[2],
-                'using_dp': [True, False, False, False]
-            },
+            # {
+            #     'dataset': 'mnist',
+            #     'split_type': 'dp',
+            #     'num_trainers': 4,
+            #     'dp_params': DP_PARAMS[0],
+            #     'using_dp': [True, True, True, True]
+            # },
         ]
         method = 'step'
-        seed = 89
-        for exp in experiments:
-            for protocol in ['crowdsource', 'consortium']:
-                print(f"Starting experiment with args: {exp}")
-                runner.run_experiment(protocol=protocol,
-                               eval_method=method, seed=seed, **exp)
+        seeds = [11, 32, 67, 80]
+        for seed in seeds:
+            for exp in experiments:
+                for protocol in ['crowdsource', 'consortium']:
+                    print(f"Starting experiment with args: {exp}")
+                    runner.run_experiment(protocol=protocol,
+                                eval_method=method, seed=seed, **exp)
