@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.stats
 
+FONT_SIZE = 14
+plt.rcParams.update({'font.size': FONT_SIZE})
+
 RESULTS_FILE = {
     'mnist': "experiments/mnist/results/all.json",
     'covid': "experiments/covid/results/all.json",
