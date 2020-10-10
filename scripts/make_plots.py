@@ -192,6 +192,7 @@ def _make_filepath(r, plot_type):
         path += '-'.join([str(k) for k in r['unique_digits']])
     if r['split_type'] == 'noniid':
         path += "-noniid-"
+        path += f"{r['num_trainers']}-trainers-"
         path += f"{r['disjointness']}"
     if r['split_type'] == 'dp':
         path += "-dp-"
@@ -225,7 +226,7 @@ if __name__ == "__main__":
             })
             counts(r)
             # gas_history(r)
-            # distributions(r, 'noniid')
+            distributions(r, 'noniid')
 
     except KeyboardInterrupt:
         print("KeyboardInterrupt")

@@ -1,7 +1,7 @@
 import json
 
-# DATASET = 'mnist'
-DATASET = 'covid'
+DATASET = 'mnist'
+# DATASET = 'covid'
 
 RESULTS_FILE = {
     'mnist': "experiments/mnist/results/all.json",

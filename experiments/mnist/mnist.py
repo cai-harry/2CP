@@ -70,10 +70,11 @@ if __name__ == "__main__":
             # {'dataset': 'mnist', 'split_type': 'flip', 'num_trainers': 4, 'flip_probs': [0,0.1,0.2,0.3]},
 
             # Test D
-            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.2},
-            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.4},
-            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.6},
-            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 4, 'disjointness': 0.8},
+            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 5, 'disjointness': 0.2},
+            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 5, 'disjointness': 0.4},
+            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 5, 'disjointness': 0.6},
+            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 5, 'disjointness': 0.8},
+            {'dataset': 'mnist', 'split_type': 'noniid', 'num_trainers': 5, 'disjointness': 1.0},
 
             # Test E
             # {
@@ -85,10 +86,9 @@ if __name__ == "__main__":
             # },
         ]
         method = 'step'
-        seeds = [11, 32, 67, 80]
-        for seed in seeds:
-            for exp in experiments:
-                for protocol in ['crowdsource', 'consortium']:
-                    print(f"Starting experiment with args: {exp}")
-                    runner.run_experiment(protocol=protocol,
-                                eval_method=method, seed=seed, **exp)
+        seed = 89
+        for exp in experiments:
+            for protocol in ['crowdsource', 'consortium']:
+                print(f"Starting experiment with args: {exp}")
+                runner.run_experiment(protocol=protocol,
+                            eval_method=method, seed=seed, **exp)
